@@ -7,13 +7,16 @@ namespace Script.Dragon
     public class S_Dragon_Movement : State<DragonController>
     {
         private readonly int m_MovementFloatHash = Animator.StringToHash("Move");
-        private readonly float m_DisToCondition = Mathf.Pow(5, 2);
-        private float m_ViewAngle = 130f;
+        private readonly float m_ViewAngle = 130f;
+        private float m_DisToCondition;
+        private float m_StopDis;
         private Transform m_Dragon;
 
         public override void Init()
         {
             m_Dragon = owner.GetComponent<Transform>();
+            m_StopDis = owner.nav.stoppingDistance;
+            m_DisToCondition = Mathf.Pow(m_StopDis, 2);
         }
 
         public override void OnStateEnter()
@@ -22,16 +25,22 @@ namespace Script.Dragon
 
         public override void OnStateUpdate()
         {
-            var playerPos = owner.player.position;
+            var _playerPos = owner.player.position;
 
+            
+            // if (m_StopDis > _dis.magnitude)
+            // {
+            //     machine.animator.SetFloat(m_MovementFloatHash,-1f,owner.dragonStat.moveAnimDamp,Time.deltaTime);
+            //     return;
+            // }
             machine.animator.SetFloat(m_MovementFloatHash, owner.nav.desiredVelocity.magnitude,
                 owner.dragonStat.moveAnimDamp, Time.deltaTime);
-            owner.nav.SetDestination(playerPos);
-
+            owner.nav.SetDestination(_playerPos);
+            
             if (CheckDis() == false)
                 return;
-            var player = Quaternion.LookRotation((playerPos - owner.transform.position).normalized);
-            owner.transform.rotation = Quaternion.Slerp(owner.transform.rotation, player,
+            var _player = Quaternion.LookRotation((_playerPos - owner.transform.position).normalized);
+            owner.transform.rotation = Quaternion.Slerp(owner.transform.rotation, _player,
                 owner.dragonStat.rotSpeed * Time.deltaTime);
         }
 
@@ -47,59 +56,42 @@ namespace Script.Dragon
             {
             }
 
-            if (owner.nav.velocity == Vector3.zero && CheckDis())
+            if (CheckDis())
             {
-                if (PlayerIsBehind())
+                if (PlayerIsBehind() && owner.bReadyTail)
                 {
                     machine.ChangeState<G_Dragon_Tail>();
                 }
-                else
+                else if(owner.bReadyAttack)
                 {
-                    if (Find())
-                    {
-                        machine.ChangeState<G_Dragon_Attack>();
-                    }
+                    machine.ChangeState<G_Dragon_Attack>();
                 }
             }
         }
 
-        private bool Find()
-        {
-            var results = new Collider[10];
-            var size = Physics.OverlapSphereNonAlloc(owner.transform.position, 5, results, owner.playerMask);
-            for (int i = 0; i < size; i++)
-            {
-                var dragonTr = owner.transform;
-                var tr = results[i].transform;
-                var dir = (tr.position - dragonTr.position).normalized;
-                if (Vector3.Angle(dragonTr.forward, dir) < m_ViewAngle * 0.5f)
-                {
-                    var dis = Vector3.Distance(owner.transform.position, tr.position);
-                    if (Physics.Raycast(owner.transform.position, dir, dis, owner.playerMask))
-                    {
-                        Debug.Log("Hit");
-                        return true;
-                    }
-                }
-            }
+        // private bool Find()
+        // {
+        //     var _results = new Collider[70];
+        //     var _size = Physics.OverlapSphereNonAlloc(owner.transform.position, 5, _results, owner.playerMask);
+        //     for (var i = 0; i < _size; i++)
+        //     {
+        //         var _dragonTr = owner.transform;
+        //         var _tr = _results[i].transform;
+        //         var _dir = (_tr.position - _dragonTr.position).normalized;
+        //         if (Vector3.Angle(_dragonTr.forward, _dir) < m_ViewAngle * 0.5f)
+        //         {
+        //             var _dis = Vector3.Distance(owner.transform.position, _tr.position);
+        //             if (Physics.Raycast(owner.transform.position, _dir, _dis, owner.playerMask))
+        //             {
+        //                 return true;
+        //             }
+        //         }
+        //     }
+        //     return false;
+        // }
 
-            Debug.Log("No Hit");
+        private bool PlayerIsBehind() => Vector3.Dot(m_Dragon.forward, owner.player.position - m_Dragon.position) <= 0;
 
-            return false;
-        }
-
-        private bool PlayerIsBehind()
-        {
-            var dragonPos = m_Dragon.position;
-            var playerPos = owner.player.position;
-            var dot = Vector3.Dot(m_Dragon.forward, playerPos - dragonPos);
-            return dot <= 0;
-        }
-
-        private bool CheckDis()
-        {
-            var dis = (owner.player.position - owner.transform.position).sqrMagnitude;
-            return dis <= m_DisToCondition;
-        }
+        private bool CheckDis() => (owner.player.position - owner.transform.position).sqrMagnitude <= m_DisToCondition;
     }
 }

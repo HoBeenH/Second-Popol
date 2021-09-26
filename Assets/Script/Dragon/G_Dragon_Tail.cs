@@ -7,9 +7,10 @@ namespace Script.Dragon
     {
         private readonly int m_AttackLAnimHash = Animator.StringToHash("Base Layer.Tail_Idle.Attack L");
         private readonly int m_IdleAnimHash = Animator.StringToHash("Base Layer.Move");
+        private readonly int m_TailHash = Animator.StringToHash("Tail");
+        private readonly WaitForSeconds m_TailCoolTIme = new WaitForSeconds(12.0f);
         private WaitUntil m_CurrentAnimIsAttack;
         private WaitUntil m_CurrentAnimIsIdle;
-        private readonly int m_TailHash = Animator.StringToHash("Tail");
 
         public override void Init()
         {
@@ -21,9 +22,11 @@ namespace Script.Dragon
 
         public override void OnStateEnter()
         {
+            owner.StopAnim += HitParry;
+            owner.bReadyTail = false;
             machine.animator.SetTrigger(m_TailHash);
             owner.StartCoroutine(WaitForAnim());
-            owner.AttackWaitCoru += HitParry;
+            owner.StartCoroutine(CoolTime());
         }
 
         private void HitParry()
@@ -31,12 +34,18 @@ namespace Script.Dragon
             owner.StopCoroutine(WaitForAnim());
         }
 
+        private IEnumerator CoolTime()
+        {
+            yield return m_TailCoolTIme;
+            owner.bReadyAttack = true;
+        }
+
         private IEnumerator WaitForAnim()
         {
             yield return m_CurrentAnimIsAttack;
             yield return m_CurrentAnimIsIdle;
             machine.ChangeState<S_Dragon_Movement>();
-            owner.AttackWaitCoru -= HitParry;
+            owner.StopAnim -= HitParry;
         }
     }
 }

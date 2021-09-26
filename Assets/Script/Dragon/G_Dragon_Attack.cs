@@ -6,11 +6,11 @@ namespace Script.Dragon
     public class G_Dragon_Attack : State<DragonController>
     {
         private readonly int m_AttackTriggerHash = Animator.StringToHash("Attack");
-        private WaitUntil m_CurrentAnimIsAttack;
-        private WaitUntil m_CurrentAnimIsIdle;
         private readonly int m_AttackAnimHash = Animator.StringToHash("Base Layer.Attack_Idle.Attack 1");
         private readonly int m_IdleAnimHash = Animator.StringToHash("Base Layer.Move");
-
+        private readonly WaitForSeconds m_AttackCoolTime = new WaitForSeconds(12.0f);
+        private WaitUntil m_CurrentAnimIsAttack;
+        private WaitUntil m_CurrentAnimIsIdle;
         public override void Init()
         {
             m_CurrentAnimIsAttack = new WaitUntil(() =>
@@ -21,10 +21,11 @@ namespace Script.Dragon
 
         public override void OnStateEnter()
         {
-            owner.transform.LookAt(owner.player);
-            owner.AttackWaitCoru += HitParry;
+            owner.bReadyAttack = false;
+            owner.StopAnim += HitParry;
             machine.animator.SetTrigger(m_AttackTriggerHash);
             owner.StartCoroutine(WaitForAnim());
+            owner.StartCoroutine(CoolTime());
         }
 
         private void HitParry()
@@ -32,11 +33,17 @@ namespace Script.Dragon
             owner.StopCoroutine(WaitForAnim());
         }
 
+        private IEnumerator CoolTime()
+        {
+            yield return m_AttackCoolTime;
+            owner.bReadyAttack = true;
+        }
+
         private IEnumerator WaitForAnim()
         {
             yield return m_CurrentAnimIsAttack;
             yield return m_CurrentAnimIsIdle;
-            owner.AttackWaitCoru -= HitParry;
+            owner.StopAnim -= HitParry;
             machine.ChangeState<S_Dragon_Movement>();
         }
     }

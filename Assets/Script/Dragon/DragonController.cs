@@ -23,10 +23,12 @@ namespace Script.Dragon
         public NavMeshAgent nav;
         public DragonStatus dragonStat;
         public Transform player;
+        [HideInInspector] public bool bReadyAttack = true;
+        [HideInInspector] public bool bReadyTail = true;
 
         public delegate void StopWaitAnim();
+        public StopWaitAnim StopAnim;
 
-        public StopWaitAnim AttackWaitCoru;
 
         private void Awake()
         {
@@ -47,6 +49,7 @@ namespace Script.Dragon
 
         private void Update()
         {
+            Debug.Log(bReadyAttack);
             m_DragonStateMachine?.Update();
         }
 
@@ -62,7 +65,7 @@ namespace Script.Dragon
 
         public void Stun()
         {
-            AttackWaitCoru.Invoke();
+            StopAnim.Invoke();
             // stun
         }
     }

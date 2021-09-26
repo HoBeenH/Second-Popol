@@ -64,7 +64,7 @@ namespace Script
 
         public DragonStatus()
         {
-            this.rotSpeed = 5f;
+            this.rotSpeed = 2f;
             this.moveAnimDamp = 0.1f;
             this.maxHealth = 200;
             this.skillDamage = 5;
