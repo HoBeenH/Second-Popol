@@ -1,8 +1,0 @@
-#ifndef EXPANSE_AERIAL_PERSPECTIVE_GLOBALS_INCLUDED
-#define EXPANSE_AERIAL_PERSPECTIVE_GLOBALS_INCLUDED
-
-#include "AerialPerspectiveRenderSettings.cs.hlsl"
-
-StructuredBuffer<AerialPerspectiveRenderSettings> _ExpanseAerialPerspectiveSettings;
-
-#endif // EXPANSE_AERIAL_PERSPECTIVE_GLOBALS_INCLUDED
