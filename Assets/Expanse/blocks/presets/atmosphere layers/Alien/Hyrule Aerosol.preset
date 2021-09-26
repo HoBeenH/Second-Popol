@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hyrule Aerosol
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 1e9e52b22e544554da2c35c40c099cc0, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_name
+    value: Aerosols
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_volume
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_densityDistribution
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_density
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_height
+    value: 25000
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_thickness
+    value: 1200
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_extinctionCoefficients.r
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_extinctionCoefficients.g
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_extinctionCoefficients.b
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_extinctionCoefficients.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_scatteringCoefficients.r
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_scatteringCoefficients.g
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_scatteringCoefficients.b
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_scatteringCoefficients.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_phaseFunction
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_anisotropy
+    value: 0.8
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_tint.r
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_tint.g
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_tint.b
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_tint.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_multipleScatteringMultiplier
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_geometryShadows
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_cloudShadows
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_maxOcclusion
+    value: 0.98
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []

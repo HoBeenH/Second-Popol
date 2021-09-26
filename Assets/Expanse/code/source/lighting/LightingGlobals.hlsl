@@ -1,0 +1,17 @@
+#ifndef EXPANSE_LIGHTING_GLOBALS_INCLUDED
+#define EXPANSE_LIGHTING_GLOBALS_INCLUDED
+
+#include "LightingRenderSettings.cs.hlsl"
+
+StructuredBuffer<DirectionalLightRenderSettings> _ExpanseAtmosphereDirectionalLights;
+StructuredBuffer<DirectionalLightRenderSettings> _ExpanseCloudDirectionalLights;
+StructuredBuffer<DirectionalLightRenderSettings> _ExpanseCloudShadowDirectionalLights;
+StructuredBuffer<PointLightRenderSettings> _ExpanseFogPointLights;
+StructuredBuffer<PointLightRenderSettings> _ExpanseCloudPointLights;
+int _ExpanseNumAtmosphereDirectionalLights;
+int _ExpanseNumCloudDirectionalLights;
+int _ExpanseNumCloudShadowDirectionalLights;
+int _ExpanseNumFogPointLights;
+int _ExpanseNumCloudPointLights;
+
+#endif // EXPANSE_LIGHTING_GLOBALS_INCLUDED

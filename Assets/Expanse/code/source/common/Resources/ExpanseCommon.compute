@@ -1,0 +1,64 @@
+#pragma only_renderers d3d11 ps4 xboxone vulkan metal switch
+
+#pragma kernel LERP2D main=LERP2D
+#pragma kernel LERP2D_AMORTIZED main=LERP2D_AMORTIZED
+#pragma kernel LERP3D main=LERP3D
+#pragma kernel LERP3D_AMORTIZED main=LERP3D_AMORTIZED
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Sky/SkyUtils.hlsl"
+#include "../../clouds/Clouds.hlsl"
+
+// Targets.
+RW_TEXTURE2D(float3, _Target2D);
+RW_TEXTURE3D(float3, _Target3D); // testing!
+
+// Parameters.
+float _lerpAmount;
+float _tileA;
+float _tileB;
+int _frameCount;
+float4 _targetRes;
+TEXTURE2D(_inA2D);
+TEXTURE2D(_inB2D);
+TEXTURE3D(_inA3D);
+TEXTURE3D(_inB3D);
+
+[numthreads(4, 4, 1)]
+void LERP2D(uint3 id : SV_DispatchThreadID) {
+    float2 uv = (id.xy + 0.5) / _targetRes.xy;
+    float2 uv_A = frac((((2 * uv - 1) * _tileA) + 1) * 0.5);
+    float2 uv_B = frac((((2 * uv - 1) * _tileB) + 1) * 0.5);
+    _Target2D[id.xy] = lerp(SAMPLE_TEXTURE2D_LOD(_inA2D, s_linear_repeat_sampler, uv_A, 0), 
+        SAMPLE_TEXTURE2D_LOD(_inB2D, s_linear_repeat_sampler, uv_B, 0), _lerpAmount).xyz;
+}
+
+[numthreads(4, 4, 1)]
+void LERP2D_AMORTIZED(uint3 id : SV_DispatchThreadID) {
+    uint2 pixel = id.xy * 2 + Clouds::getCurrentSubpixel(_frameCount, 2);
+    float2 uv = (pixel + 0.5) / _targetRes.xy;
+    float2 uv_A = frac((((2 * uv - 1) * _tileA) + 1) * 0.5);
+    float2 uv_B = frac((((2 * uv - 1) * _tileB) + 1) * 0.5);
+    _Target2D[pixel.xy] = lerp(SAMPLE_TEXTURE2D_LOD(_inA2D, s_linear_repeat_sampler, uv_A, 0), 
+        SAMPLE_TEXTURE2D_LOD(_inB2D, s_linear_repeat_sampler, uv_B, 0), _lerpAmount).xyz;
+}
+
+[numthreads(4, 4, 4)]
+void LERP3D(uint3 id : SV_DispatchThreadID) {
+    float3 uv = (id + 0.5) / _targetRes.xyz; 
+    float3 uv_A = frac((((2 * uv - 1) * _tileA) + 1) * 0.5);
+    float3 uv_B = frac((((2 * uv - 1) * _tileB) + 1) * 0.5);
+    _Target3D[id] = lerp(SAMPLE_TEXTURE3D_LOD(_inA3D, s_linear_repeat_sampler, uv_A, 0), 
+        SAMPLE_TEXTURE3D_LOD(_inB3D, s_linear_repeat_sampler, uv_B, 0), _lerpAmount).xyz;
+}
+
+[numthreads(4, 4, 4)]
+void LERP3D_AMORTIZED(uint3 id : SV_DispatchThreadID) {
+    uint3 pixel = uint3(id.xy * 2 + Clouds::getCurrentSubpixel(_frameCount, 2), id.z);
+    float3 uv = (pixel + 0.5) / _targetRes.xyz; 
+    float3 uv_A = frac((((2 * uv - 1) * _tileA) + 1) * 0.5);
+    float3 uv_B = frac((((2 * uv - 1) * _tileB) + 1) * 0.5);
+    _Target3D[pixel] = lerp(SAMPLE_TEXTURE3D_LOD(_inA3D, s_linear_repeat_sampler, uv_A, 0), 
+        SAMPLE_TEXTURE3D_LOD(_inB3D, s_linear_repeat_sampler, uv_B, 0), _lerpAmount).xyz;
+}

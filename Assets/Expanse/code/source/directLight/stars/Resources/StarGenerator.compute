@@ -1,0 +1,90 @@
+#pragma only_renderers d3d11 ps4 xboxone vulkan metal switch
+
+#pragma kernel STAR main=STAR
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "../../../common/Random.hlsl"
+#include "../../../common/Noise.hlsl"
+#include "../../../common/Mapping.hlsl"
+#include "../../../common/Utilities.hlsl"
+#include "../StarGlobals.hlsl"
+
+RW_TEXTURE2D_ARRAY(float4, _Star_RW);
+float4 _resolution;
+
+/**
+ * @brief: biases a value toward zero or 1.
+ * */
+float bias0To1(float val, float bias, float multiplier) {
+  bias = saturate(bias);
+  float power = (1 + abs(bias - 0.5) * multiplier);
+  if (bias < 0.5) {
+    return 1 - pow(1-val, power);
+  } else {
+    return pow(val, power);
+  }
+}
+
+/**
+ * @brief: according to noise, coordinate, and settings, renders a star.
+ * */
+float3 renderStar(NoiseResult3D noise, StarRenderSettings settings,
+  float nebulaDensityModifier) {
+  /* Do we render this star? */
+  float densityRandomBig = Random::random_3_1_seeded(noise.coordinate,
+    settings.densitySeed) * nebulaDensityModifier;
+  bool renderBig = densityRandomBig > (1 - settings.density);
+  float3 color = float3(0, 0, 0);
+  if (renderBig) {
+    /* Transform the worley noise to look more like stars. */
+    float sizeRandom = Random::random_3_1_seeded(noise.coordinate, settings.sizeSeed);
+    float3 stars = float3(0, 0, 0);
+    sizeRandom = saturate(bias0To1(sizeRandom, settings.sizeBias, 50));
+    float sizeMinExponent = 5 + pow(abs(1 - settings.sizeRange.y), 1) * 50;
+    float sizeMaxExponent = 5 + pow(abs(1 - settings.sizeRange.x), 1) * 50;
+    stars = pow(abs(noise.value), sizeMinExponent + (sizeMaxExponent - sizeMinExponent) * sizeRandom);//sizeMinExponent + max(0, sizeMaxExponent - sizeMinExponent) * sizeRandom);
+
+    /* Random intensity multiplier. */
+    float intensityRandom = 1-bias0To1(Random::random_3_1_seeded(noise.coordinate, settings.intensitySeed), settings.intensityBias, 100);
+    float intensity = settings.intensityRange.x + (settings.intensityRange.y - settings.intensityRange.x) * intensityRandom;
+
+    /* Blackbody color based on seed. */
+    float temperatureRandom = 1-bias0To1(Random::random_3_1_seeded(noise.coordinate, settings.temperatureSeed.xyz), settings.temperatureBias, 100);
+    float randomTemperature = settings.temperatureRange.x + (settings.temperatureRange.y - settings.temperatureRange.x) * temperatureRandom;
+    float3 blackBodyColor = Utilities::blackbodyTempToColor(randomTemperature);
+
+    color = saturate(stars) * intensity * blackBodyColor;
+  }
+  return color;
+}
+
+[numthreads(4,4,6)]
+void STAR(uint3 id : SV_DispatchThreadID) {
+  StarRenderSettings renderSettings = _ExpanseStars[0];
+
+  float3 d = Mapping::tex2DArrayCubemapUVToDirection(float3(id.xy / _resolution.xy, id.z));
+  float3 uvw = (d + 1.0) / 2.0;
+
+  const int kSmallScale = 768;
+  const int kBigScale = 512;
+
+  /* Create our noise generator. */
+  InverseWorleyNoise noise;
+
+  /* Sample the nebula to modify star density. TODO */
+  float nebulaDensityModifier = 1;
+
+  /* Render the big stars. */
+  NoiseResult3D bigNoise = noise.Generate3D(uvw, kBigScale);
+  /* Make sure we cache a random value for the twinkle effect. */
+  float starRandom = Random::random_3_1(bigNoise.coordinate);
+  float3 color = renderStar(bigNoise, renderSettings, nebulaDensityModifier);
+
+  /* If using high density mode, render the small stars. */
+  if (renderSettings.highDensityMode) {
+    NoiseResult3D smallNoise = noise.Generate3D(uvw, kSmallScale);
+    color += renderStar(smallNoise, renderSettings, nebulaDensityModifier);
+  }
+
+  _Star_RW[id] = float4(color, starRandom);
+}

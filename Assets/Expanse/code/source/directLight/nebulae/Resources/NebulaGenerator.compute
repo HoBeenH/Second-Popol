@@ -1,0 +1,154 @@
+#pragma only_renderers d3d11 ps4 xboxone vulkan metal switch
+
+#pragma kernel NEBULA main=NEBULA
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "../../../common/Random.hlsl"
+#include "../../../common/Noise.hlsl"
+#include "../../../common/Mapping.hlsl"
+#include "../../../common/Utilities.hlsl"
+#include "../../../common/Datatypes.cs.hlsl"
+#include "../NebulaGlobals.hlsl"
+#include "../NebulaDatatypes.cs.hlsl"
+
+RW_TEXTURE2D_ARRAY(float4, _Nebula_RW);
+float4 _res;
+
+/**
+ * Helper for generating particular kind of layered noise.
+ * */
+NoiseResult3D generateLayeredNoise(int noiseType, float3 uvw, float scale,
+  float octaveScale, float octaveMultiplier, int octaves, NoiseSeed seed) {
+  NoiseResult3D noise;
+  switch (noiseType) {
+    case NOISETYPE_CONSTANT: {
+      noise.value = float3(0.5, 0.5, 0.5);
+      noise.coordinate = uvw;
+      break;
+    }
+    case NOISETYPE_VALUE: {
+      ValueNoise generator;
+      noise = generator.Generate3DLayeredSeeded(uvw, scale, octaveScale,
+        octaveMultiplier, octaves, seed);
+      break;
+    }
+    case NOISETYPE_PERLIN: {
+      PerlinNoise generator;
+      noise = generator.Generate3DLayeredSeeded(uvw, scale, octaveScale,
+        octaveMultiplier, octaves, seed);
+      break;
+    }
+    case NOISETYPE_WORLEY: {
+      WorleyNoise generator;
+      noise = generator.Generate3DLayeredSeeded(uvw, scale, octaveScale,
+        octaveMultiplier, octaves, seed);
+      break;
+    }
+    case NOISETYPE_INVERSE_WORLEY: {
+      InverseWorleyNoise generator;
+      noise = generator.Generate3DLayeredSeeded(uvw, scale, octaveScale,
+        octaveMultiplier, octaves, seed);
+      break;
+    }
+    case NOISETYPE_PERLIN_WORLEY: {
+      WorleyNoise worleyGenerator;
+      PerlinNoise perlinGenerator;
+      float worley = worleyGenerator.Generate3DLayeredSeeded(uvw, scale, octaveScale,
+        octaveMultiplier, octaves, seed).value.x;
+      float perlin = perlinGenerator.Generate3DLayeredSeeded(uvw, scale, octaveScale,
+        octaveMultiplier, octaves, seed).value.x;
+      noise.value = NoiseUtilities::remap(perlin, worley*0.25, 1, 0, 1);
+      noise.coordinate = uvw;
+      break;
+    }
+    case NOISETYPE_CURL: {
+      CurlNoise generator;
+      noise = generator.Generate3DLayeredSeeded(uvw, scale, octaveScale,
+        octaveMultiplier, octaves, seed);
+      break;
+    }
+    default: {
+      noise.value = float3(0.5, 0.5, 0.5);
+      noise.coordinate = uvw;
+      break;
+    }
+  }
+  return noise;
+}
+
+[numthreads(4,4,6)]
+void NEBULA(uint3 id : SV_DispatchThreadID) {
+  NebulaRenderSettings settings = _ExpanseNebula[0];
+
+  float3 d = Mapping::tex2DArrayCubemapUVToDirection(float3((id.xy + 0.5) / _res.xy, id.z));
+  float3 uvw = (d + 1.0) / 2.0;
+
+  /* Final color. */
+  float3 color = float3(0, 0, 0);
+
+  /*
+   * Our nebula model requires many layers of noise.
+   *  1. 4 base noises that form the overall look of the nebula.
+   *  2. 4 corresponding curl noises that warp each base noise, to give the
+   *  appearance of fluid motion.
+   *  3. A layered value noise used to remap the other noises for sky coverage.
+   *  4. A layered perlin noise to modulate the nebula alpha value to give
+   *  the impression of varying star transmittance.
+   *
+   * Naturally, this can't be very efficient to generate. Fortunately, we
+   * make the assumption that the generation happens only once, so for
+   * all intents and purposes it happens "offline".
+   * */
+
+  /* Generate the coverage noise. */
+  const float kCoverageOctaveScale = 2;
+  const float kCoverageOctaveMultiplier = 0.5;
+  const int kCoverageOctaves = 3;
+  NoiseSeed coverageSeed = NoiseSeed::MakeNoiseSeed(settings.coverageSeed);
+  float coverage = generateLayeredNoise(NOISETYPE_VALUE, uvw, settings.coverageScale,
+    kCoverageOctaveScale, kCoverageOctaveMultiplier, kCoverageOctaves, coverageSeed).value.x;
+
+  for (int i = 0; i < MAX_NEBULA_LAYERS; i++) {
+    NebulaGeneratorLayerSettings layerSettings = _ExpanseNebulaLayers[i];
+
+    if (layerSettings.intensity == 0.0) {
+      continue;
+    }
+
+    /* Generate the warped uv for this layer. */
+    const float kWarpMax = 0.08;
+    NoiseSeed warpSeed = NoiseSeed::MakeNoiseSeed(layerSettings.warpSeedX, layerSettings.warpSeedY, layerSettings.warpSeedZ);
+    const float kWarpOctaveScale = 2;
+    const float kWarpOctaveMultiplier = 0.5;
+    const int kWarpOctaves = 3;
+    float3 warp = generateLayeredNoise(NOISETYPE_CURL, uvw,
+      layerSettings.warpScale, kWarpOctaveScale, kWarpOctaveMultiplier,
+      kWarpOctaves, warpSeed).value;
+    float3 warpedUVW = (normalize(d - warp * kWarpMax * layerSettings.warpIntensity) + 1) / 2;
+
+    /* Generate the base noise for this layer. */
+    NoiseSeed baseSeed = NoiseSeed::MakeNoiseSeed(layerSettings.baseSeedX, layerSettings.baseSeedY, layerSettings.baseSeedZ);
+    float3 noise = generateLayeredNoise(layerSettings.noise, warpedUVW,
+      layerSettings.scale, layerSettings.octaveScale, layerSettings.octaveMultiplier,
+      layerSettings.octaves, baseSeed).value;
+    /* Apply all of the "post-processing" to it, including coverage remapping. */
+    noise = max(0, noise + layerSettings.bias);
+    /* Now THIS is an expression!! */
+    noise = max(0, NoiseUtilities::remap(pow(abs(noise), layerSettings.definition) * layerSettings.strength * layerSettings.definition, saturate((5 * layerSettings.coverage) * pow(abs(coverage), layerSettings.spread)), 1, 0, 1));
+    color += noise * layerSettings.intensity * layerSettings.color.xyz;
+  }
+
+  /* Generate the transmittance noise. Yeah, technically this is "alpha",
+   * since 1 corresponds to full opacity but... whatever. Transmittance
+   * sounds B) _cooler_ B) */
+  const float kTransmittanceOctaveScale = 2;
+  const float kTransmittanceOctaveMultiplier = 0.5;
+  const int kTransmittanceOctaves = 3;
+  NoiseSeed transmittanceSeed = NoiseSeed::MakeNoiseSeed(settings.transmittanceSeedX, settings.transmittanceSeedY, settings.transmittanceSeedZ);
+  float transmittance = generateLayeredNoise(NOISETYPE_PERLIN, uvw, settings.transmittanceScale,
+    kTransmittanceOctaveScale, kTransmittanceOctaveMultiplier, kTransmittanceOctaves, transmittanceSeed).value.x;
+  transmittance = settings.transmittanceRange.x
+      + (settings.transmittanceRange.y - settings.transmittanceRange.x) * transmittance;
+
+  _Nebula_RW[id] = float4(color, transmittance);
+}

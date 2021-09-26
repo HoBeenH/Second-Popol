@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Earth
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: a6132c8b81c4b674aae8af4445fb8b0b, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_volume
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_atmosphereThickness
+    value: 40000
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_radius
+    value: 6360000
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_originOffset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_originOffset.y
+    value: -100
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_originOffset.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_groundAlbedoTexture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_groundTint.r
+    value: 0.199
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_groundTint.g
+    value: 0.07498326
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_groundTint.b
+    value: 0.011342997
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_groundTint.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_groundEmissionTexture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_groundEmissionMultiplier
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_rotation.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_rotation.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_rotation.z
+    value: 0
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []

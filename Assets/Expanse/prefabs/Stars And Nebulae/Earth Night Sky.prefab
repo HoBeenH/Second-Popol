@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2131809999988204078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2131809999988204079}
+  - component: {fileID: 2131809999988204073}
+  - component: {fileID: 2131809999988204072}
+  m_Layer: 0
+  m_Name: Earth Night Sky
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2131809999988204079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131809999988204078}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2131809999988204073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131809999988204078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61bab7bdbe56ef84db3f88c491595086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_intensity: 50
+  m_tint: {r: 1, g: 1, b: 1, a: 1}
+  m_rotation: {x: 0, y: 0, z: 0}
+  m_quality: 2
+  m_showSeeds: 0
+  m_highDensityMode: 1
+  m_density: 0.45
+  m_densitySeed: {x: 3.473, y: 5.253, z: 0.532}
+  m_sizeRange: {x: 0, y: 1}
+  m_sizeBias: 0.25
+  m_sizeSeed: {x: 6.3234, y: 1.253, z: 0.3209}
+  m_intensityRange: {x: 0, y: 14}
+  m_intensityBias: 0.06
+  m_intensitySeed: {x: 9.9532, y: 7.7345, z: 2.0532}
+  m_temperatureRange: {x: 2000, y: 20000}
+  m_temperatureBias: 0.5
+  m_temperatureSeed: {x: 0.2352, y: 1.582, z: 8.823}
+  m_twinkle: 1
+  m_twinkleThreshold: 0.001
+  m_twinkleFrequencyRange: {x: 5, y: 8}
+  m_twinkleBias: 0.5
+  m_twinkleSmoothAmplitude: 0.5
+  m_twinkleChaoticAmplitude: 0
+--- !u!114 &2131809999988204072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131809999988204078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 205911db2e785bc4c819079e831b97f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_rotation: {x: 0, y: 0, z: 0}
+  m_intensity: 1
+  m_tint: {r: 1, g: 1, b: 1, a: 1}
+  m_lightPollutionIntensity: 0
+  m_lightPollutionTint: {r: 255, g: 140, b: 66, a: 1}
+  m_scatterIntensity: 10
+  m_scatterTint: {r: 0.43867922, g: 0.6330302, b: 1, a: 1}
+  m_ambientMultiplier: 1

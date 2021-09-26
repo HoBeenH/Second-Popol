@@ -1,0 +1,766 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2723713211085320615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2723713211085320614}
+  - component: {fileID: 2723713211085320283}
+  - component: {fileID: 2723713211085320613}
+  - component: {fileID: 2723713211085320612}
+  m_Layer: 0
+  m_Name: Base Noise
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2723713211085320614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211085320615}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2723713211618136596}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2723713211085320283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211085320615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb2d277038195d48820d511a713ccc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_textureA: {fileID: 2723713211085320613}
+  m_textureB: {fileID: 2723713211085320612}
+  m_blend: 0.4020424
+  m_tileA: 1
+  m_tileB: 1
+  m_amortize: 1
+--- !u!114 &2723713211085320613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211085320615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Expanse Generated Texture
+  m_dimension: 0
+  m_res2D: {x: 1024, y: 1024}
+  m_res3D: {x: 128, y: 128, z: 128}
+  m_noiseType: 3
+  m_scale: {x: 6, y: 12}
+  m_octaves: 7
+  m_octaveScale: 2
+  m_octaveMultiplier: 0.65
+--- !u!114 &2723713211085320612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211085320615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Expanse Generated Texture
+  m_dimension: 0
+  m_res2D: {x: 1024, y: 1024}
+  m_res3D: {x: 128, y: 128, z: 128}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!1 &2723713211540043248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2723713211540043255}
+  - component: {fileID: 2723713211540043252}
+  - component: {fileID: 2723713211540043254}
+  - component: {fileID: 2723713211540043253}
+  m_Layer: 0
+  m_Name: Coverage Noise
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2723713211540043255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211540043248}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2723713211618136596}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2723713211540043252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211540043248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb2d277038195d48820d511a713ccc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_textureA: {fileID: 2723713211540043254}
+  m_textureB: {fileID: 2723713211540043253}
+  m_blend: 0.4020424
+  m_tileA: 1
+  m_tileB: 1
+  m_amortize: 1
+--- !u!114 &2723713211540043254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211540043248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Coverage A
+  m_dimension: 0
+  m_res2D: {x: 1024, y: 1024}
+  m_res3D: {x: 1, y: 1, z: 1}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!114 &2723713211540043253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211540043248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Coverage B
+  m_dimension: 0
+  m_res2D: {x: 1024, y: 1024}
+  m_res3D: {x: 1, y: 1, z: 1}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!1 &2723713211618136597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2723713211618136596}
+  - component: {fileID: 2723713211618136587}
+  m_Layer: 0
+  m_Name: Interpolable Cloud Plane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2723713211618136596
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211618136597}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 12, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2723713212849697389}
+  - {fileID: 2723713211540043255}
+  - {fileID: 2723713211085320614}
+  - {fileID: 2723713211854411872}
+  - {fileID: 2723713212040839973}
+  - {fileID: 2723713212631851433}
+  - {fileID: 2723713211625201275}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2723713211618136587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211618136597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46aa92a482ac704d9001d0d53824209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_transitionTime: 5
+  m_bypassOffset: 1
+  m_interpolationAmount: 0
+  m_currentPresetName: None
+  m_targetPresetName: None
+  m_cloudLayer: {fileID: 2723713212849697393}
+  m_coverageInterpolated: {fileID: 2723713211540043252}
+  m_coverageCurrent: {fileID: 2723713211540043254}
+  m_coverageTarget: {fileID: 2723713211540043253}
+  m_baseInterpolated: {fileID: 2723713211085320283}
+  m_baseCurrent: {fileID: 2723713211085320613}
+  m_baseTarget: {fileID: 2723713211085320612}
+  m_structureInterpolated: {fileID: 2723713211854411877}
+  m_structureCurrent: {fileID: 2723713211854411878}
+  m_structureTarget: {fileID: 2723713211854411879}
+  m_detailInterpolated: {fileID: 2723713212040840154}
+  m_detailCurrent: {fileID: 2723713212040840155}
+  m_detailTarget: {fileID: 2723713212040839972}
+  m_baseWarpInterpolated: {fileID: 2723713212631851438}
+  m_baseWarpCurrent: {fileID: 2723713212631851439}
+  m_baseWarpTarget: {fileID: 2723713212631851432}
+  m_detailWarpInterpolated: {fileID: 2723713211625201272}
+  m_detailWarpCurrent: {fileID: 2723713211625201273}
+  m_detailWarpTarget: {fileID: 2723713211625201274}
+--- !u!1 &2723713211625201220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2723713211625201275}
+  - component: {fileID: 2723713211625201272}
+  - component: {fileID: 2723713211625201273}
+  - component: {fileID: 2723713211625201274}
+  m_Layer: 0
+  m_Name: Detail Warp Noise
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2723713211625201275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211625201220}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2723713211618136596}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2723713211625201272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211625201220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb2d277038195d48820d511a713ccc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_textureA: {fileID: 2723713211625201273}
+  m_textureB: {fileID: 2723713211625201274}
+  m_blend: 0.4020424
+  m_tileA: 1
+  m_tileB: 1
+  m_amortize: 1
+--- !u!114 &2723713211625201273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211625201220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Expanse Generated Texture
+  m_dimension: 0
+  m_res2D: {x: 256, y: 256}
+  m_res3D: {x: 64, y: 64, z: 64}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!114 &2723713211625201274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211625201220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Expanse Generated Texture
+  m_dimension: 0
+  m_res2D: {x: 256, y: 256}
+  m_res3D: {x: 64, y: 64, z: 64}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!1 &2723713211854411873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2723713211854411872}
+  - component: {fileID: 2723713211854411877}
+  - component: {fileID: 2723713211854411878}
+  - component: {fileID: 2723713211854411879}
+  m_Layer: 0
+  m_Name: Structure Noise
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2723713211854411872
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211854411873}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2723713211618136596}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2723713211854411877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211854411873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb2d277038195d48820d511a713ccc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_textureA: {fileID: 2723713211854411878}
+  m_textureB: {fileID: 2723713211854411879}
+  m_blend: 0.4020424
+  m_tileA: 1
+  m_tileB: 1
+  m_amortize: 1
+--- !u!114 &2723713211854411878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211854411873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Expanse Generated Texture
+  m_dimension: 0
+  m_res2D: {x: 512, y: 512}
+  m_res3D: {x: 64, y: 64, z: 64}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!114 &2723713211854411879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713211854411873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Expanse Generated Texture
+  m_dimension: 0
+  m_res2D: {x: 512, y: 512}
+  m_res3D: {x: 64, y: 64, z: 64}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!1 &2723713212040839974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2723713212040839973}
+  - component: {fileID: 2723713212040840154}
+  - component: {fileID: 2723713212040840155}
+  - component: {fileID: 2723713212040839972}
+  m_Layer: 0
+  m_Name: Detail Noise
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2723713212040839973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713212040839974}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2723713211618136596}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2723713212040840154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713212040839974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb2d277038195d48820d511a713ccc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_textureA: {fileID: 2723713212040840155}
+  m_textureB: {fileID: 2723713212040839972}
+  m_blend: 0.4020424
+  m_tileA: 1
+  m_tileB: 1
+  m_amortize: 1
+--- !u!114 &2723713212040840155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713212040839974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Expanse Generated Texture
+  m_dimension: 0
+  m_res2D: {x: 256, y: 256}
+  m_res3D: {x: 64, y: 64, z: 64}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!114 &2723713212040839972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713212040839974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Expanse Generated Texture
+  m_dimension: 0
+  m_res2D: {x: 256, y: 256}
+  m_res3D: {x: 64, y: 64, z: 64}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!1 &2723713212631851434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2723713212631851433}
+  - component: {fileID: 2723713212631851438}
+  - component: {fileID: 2723713212631851439}
+  - component: {fileID: 2723713212631851432}
+  m_Layer: 0
+  m_Name: Base Warp Noise
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2723713212631851433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713212631851434}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2723713211618136596}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2723713212631851438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713212631851434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb2d277038195d48820d511a713ccc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_textureA: {fileID: 2723713212631851439}
+  m_textureB: {fileID: 2723713212631851432}
+  m_blend: 0.4020424
+  m_tileA: 1
+  m_tileB: 1
+  m_amortize: 1
+--- !u!114 &2723713212631851439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713212631851434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Expanse Generated Texture
+  m_dimension: 0
+  m_res2D: {x: 512, y: 512}
+  m_res3D: {x: 64, y: 64, z: 64}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!114 &2723713212631851432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713212631851434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572d37586f895d458f993ee45d90b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Expanse Generated Texture
+  m_dimension: 0
+  m_res2D: {x: 512, y: 512}
+  m_res3D: {x: 64, y: 64, z: 64}
+  m_noiseType: 0
+  m_scale: {x: 0, y: 0}
+  m_octaves: 0
+  m_octaveScale: 0
+  m_octaveMultiplier: 0
+--- !u!1 &2723713212849697390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2723713212849697389}
+  - component: {fileID: 2723713212849697393}
+  m_Layer: 0
+  m_Name: Cloud Plane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2723713212849697389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713212849697390}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2723713211618136596}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2723713212849697393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723713212849697390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68188bfe86957cc448e3e99edcc04a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: Cloud Plane
+  m_curved: 0
+  m_geometryXExtent: {x: -100000, y: 100000}
+  m_geometryZExtent: {x: -100000, y: 100000}
+  m_geometryHeight: 12000
+  m_attenuationDistance: 25000
+  m_attenuationBias: 25000
+  m_rampUp: {x: 0, y: 0}
+  m_noiseTextureQuality: 2
+  m_coverageIntensity: 1
+  m_structureIntensity: 0
+  m_structureMultiply: 0
+  m_detailIntensity: 0
+  m_detailMultiply: 0
+  m_baseWarpIntensity: 0
+  m_detailWarpIntensity: 0
+  m_noiseLayers:
+  - procedural: 0
+    texture: {fileID: 0}
+    noiseType: 2
+    scale: {x: 16, y: 16}
+    octaves: 4
+    octaveScale: 2
+    octaveMultiplier: 0.5
+    tile: 1
+  - procedural: 0
+    texture: {fileID: 0}
+    noiseType: 2
+    scale: {x: 16, y: 16}
+    octaves: 4
+    octaveScale: 2
+    octaveMultiplier: 0.5
+    tile: 1
+  - procedural: 0
+    texture: {fileID: 0}
+    noiseType: 2
+    scale: {x: 16, y: 16}
+    octaves: 4
+    octaveScale: 2
+    octaveMultiplier: 0.5
+    tile: 1
+  - procedural: 0
+    texture: {fileID: 0}
+    noiseType: 2
+    scale: {x: 16, y: 16}
+    octaves: 4
+    octaveScale: 2
+    octaveMultiplier: 0.5
+    tile: 1
+  - procedural: 0
+    texture: {fileID: 0}
+    noiseType: 2
+    scale: {x: 16, y: 16}
+    octaves: 4
+    octaveScale: 2
+    octaveMultiplier: 0.5
+    tile: 1
+  - procedural: 0
+    texture: {fileID: 0}
+    noiseType: 2
+    scale: {x: 16, y: 16}
+    octaves: 4
+    octaveScale: 2
+    octaveMultiplier: 0.5
+    tile: 1
+  m_density: 250
+  m_apparentThickness: 250
+  m_extinctionCoefficients: {r: 0.000004, g: 0.000004, b: 0.000004, a: 1}
+  m_scatteringCoefficients: {r: 0.000004, g: 0.000004, b: 0.000004, a: 1}
+  m_anisotropy: 0.6
+  m_silverIntensity: 0
+  m_silverSpread: 0.5
+  m_ambient: 1
+  m_selfShadowing: 0
+  m_multipleScatteringAmount: 0.7
+  m_multipleScatteringBias: 0.25
+  m_multipleScatteringRampDown: 0
+  m_multipleScatteringRampDownShape: 7
+  m_lightPollutionDimmer: 1
+  m_celShade: 0
+  m_celShadeColorBands: 1500
+  m_celShadeTransmittanceBands: 0.5
+  m_castShadows: 0
+  m_maxShadowIntensity: 0.95
+  m_useOffset: 0
+  m_velocity: {x: 0.0001, y: -0.0001}
+  m_samplingOffset: {x: 0.012499474, y: -0.012499474}
+  m_reprojectionFrames: 2
+  m_layerSelect: 1

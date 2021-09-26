@@ -1,0 +1,683 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mottle
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 105a569b51eb6cf47960a2dd3c47ddb9, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_volume
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_name
+    value: Cloud Volume
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_curved
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_origin.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_origin.y
+    value: 6000
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_origin.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_XExtent
+    value: 200000
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_YExtent
+    value: 500
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ZExtent
+    value: 200000
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_attenuationDistance
+    value: 17000
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_attenuationBias
+    value: 10000
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_rampUp.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_rampUp.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseTextureQuality
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_coverageIntensity
+    value: 0.928
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_structureIntensity
+    value: 0.591
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailIntensity
+    value: 0.074
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_baseWarpIntensity
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailWarpIntensity
+    value: 0.362
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_rounding
+    value: 5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_roundingShape
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_heightGradientBottom.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_heightGradientBottom.y
+    value: 0.13
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_heightGradientTop.x
+    value: 0.82
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_heightGradientTop.y
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_windSkew.x
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_windSkew.y
+    value: -0.25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.size
+    value: 6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[0].procedural
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[0].texture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[0].noiseType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[0].scale.x
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[0].scale.y
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[0].octaves
+    value: 6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[0].octaveScale
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[0].octaveMultiplier
+    value: 0.25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[0].tile
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[1].procedural
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[1].texture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[1].noiseType
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[1].scale.x
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[1].scale.y
+    value: 6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[1].octaves
+    value: 6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[1].octaveScale
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[1].octaveMultiplier
+    value: 0.25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[1].tile
+    value: 24
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[2].procedural
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[2].texture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[2].noiseType
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[2].scale.x
+    value: 9
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[2].scale.y
+    value: 8
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[2].octaves
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[2].octaveScale
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[2].octaveMultiplier
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[2].tile
+    value: 56
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[3].procedural
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[3].texture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[3].noiseType
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[3].scale.x
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[3].scale.y
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[3].octaves
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[3].octaveScale
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[3].octaveMultiplier
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[3].tile
+    value: 256
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[4].procedural
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[4].texture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[4].noiseType
+    value: 6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[4].scale.x
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[4].scale.y
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[4].octaves
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[4].octaveScale
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[4].octaveMultiplier
+    value: 0.15
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[4].tile
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[5].procedural
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[5].texture
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[5].noiseType
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[5].scale.x
+    value: 8
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[5].scale.y
+    value: 8
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[5].octaves
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[5].octaveScale
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[5].octaveMultiplier
+    value: 0.3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_noiseLayers.Array.data[5].tile
+    value: 128
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_density
+    value: 2500
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_extinctionCoefficients.r
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_extinctionCoefficients.g
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_extinctionCoefficients.b
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_extinctionCoefficients.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_scatteringCoefficients.r
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_scatteringCoefficients.g
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_scatteringCoefficients.b
+    value: 0.000004
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_scatteringCoefficients.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_anisotropy
+    value: 0.646
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_silverIntensity
+    value: 0.785
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_silverSpread
+    value: 0.149
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ambientHeightRange.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ambientHeightRange.y
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ambientStrengthRange.x
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ambientStrengthRange.y
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_verticalProbabilityHeightRange.x
+    value: 0.05
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_verticalProbabilityHeightRange.y
+    value: 0.75
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_verticalProbabilityStrength
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_depthProbabilityHeightRange.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_depthProbabilityHeightRange.y
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_depthProbabilityStrengthRange.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_depthProbabilityStrengthRange.y
+    value: 1.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_depthProbabilityDensityMultiplier
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_depthProbabilityBias
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_depthProbabilityHighDetail
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_selfShadowing
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_maxSelfShadowDistance
+    value: 6924
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_multipleScatteringAmount
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_multipleScatteringBias
+    value: 0.456
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_multipleScatteringRampDown
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_multipleScatteringRampDownShape
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_lightPollutionDimmer
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_celShade
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_celShadeColorBands
+    value: 0.6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_celShadeTransmittanceBands
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_castShadows
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_maxShadowIntensity
+    value: 0.95
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_useOffset
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_coverageVelocity.x
+    value: 0.01
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_coverageVelocity.y
+    value: 0.002
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_baseVelocity.x
+    value: 0.01
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_baseVelocity.y
+    value: 0.002
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_structureVelocity.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_structureVelocity.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailVelocity.x
+    value: 0.1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailVelocity.y
+    value: 0.02
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_baseWarpVelocity.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_baseWarpVelocity.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailWarpVelocity.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailWarpVelocity.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_coverageOffset.x
+    value: 5.8864217
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_coverageOffset.y
+    value: 2.4232936
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_baseOffset.x
+    value: 35.051014
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_baseOffset.y
+    value: 5.813636
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_structureOffset.x
+    value: 17.93343
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_structureOffset.y
+    value: 2.984449
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailOffset.x
+    value: 83.57663
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailOffset.y
+    value: 9.59008
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_baseWarpOffset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_baseWarpOffset.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailWarpOffset.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailWarpOffset.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_reprojectionFrames
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_coarseStepRange.x
+    value: 32
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_coarseStepRange.y
+    value: 64
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailStepRange.x
+    value: 64
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_detailStepRange.y
+    value: 96
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_stepDistanceRange.x
+    value: 125
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_stepDistanceRange.y
+    value: 15000
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_flythroughStepRange.x
+    value: 8
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_flythroughStepRange.y
+    value: 512
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_flythroughStepDistanceRange.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_flythroughStepDistanceRange.y
+    value: 50000
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_mediaZeroThreshold
+    value: 0.0001
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_transmittanceZeroThreshold
+    value: 0.0001
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_maxConsecutiveZeroSamples
+    value: 8
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_useTemporalDenoising
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_denoisingHistoryFrames
+    value: 8
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_optimizeForFlythrough
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_flythroughThreshold
+    value: 0.95
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_layerSelect
+    value: 2
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []

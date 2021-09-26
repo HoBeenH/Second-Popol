@@ -1,0 +1,267 @@
+{
+    "noiseTextureQuality": 1,
+    "noiseLayers": [
+        {
+            "renderSettings": {
+                "noiseType": 3,
+                "scale": {
+                    "x": 22.0,
+                    "y": 28.0
+                },
+                "octaves": 1,
+                "octaveScale": 2.0,
+                "octaveMultiplier": 0.25,
+                "tile": 1
+            },
+            "procedural": true,
+            "noiseTexture": {
+                "instanceID": 0
+            }
+        },
+        {
+            "renderSettings": {
+                "noiseType": 6,
+                "scale": {
+                    "x": 8.0,
+                    "y": 8.0
+                },
+                "octaves": 8,
+                "octaveScale": 2.0,
+                "octaveMultiplier": 0.5,
+                "tile": 25
+            },
+            "procedural": true,
+            "noiseTexture": {
+                "instanceID": 0
+            }
+        },
+        {
+            "renderSettings": {
+                "noiseType": 3,
+                "scale": {
+                    "x": 8.0,
+                    "y": 8.0
+                },
+                "octaves": 3,
+                "octaveScale": 2.0,
+                "octaveMultiplier": 0.5,
+                "tile": 48
+            },
+            "procedural": true,
+            "noiseTexture": {
+                "instanceID": 0
+            }
+        },
+        {
+            "renderSettings": {
+                "noiseType": 4,
+                "scale": {
+                    "x": 8.0,
+                    "y": 8.0
+                },
+                "octaves": 4,
+                "octaveScale": 2.0,
+                "octaveMultiplier": 0.8999999761581421,
+                "tile": 196
+            },
+            "procedural": true,
+            "noiseTexture": {
+                "instanceID": 0
+            }
+        },
+        {
+            "renderSettings": {
+                "noiseType": 2,
+                "scale": {
+                    "x": 16.0,
+                    "y": 16.0
+                },
+                "octaves": 4,
+                "octaveScale": 2.0,
+                "octaveMultiplier": 0.5,
+                "tile": 1
+            },
+            "procedural": true,
+            "noiseTexture": {
+                "instanceID": 0
+            }
+        },
+        {
+            "renderSettings": {
+                "noiseType": 7,
+                "scale": {
+                    "x": 8.0,
+                    "y": 8.0
+                },
+                "octaves": 3,
+                "octaveScale": 2.0,
+                "octaveMultiplier": 0.30000001192092898,
+                "tile": 128
+            },
+            "procedural": true,
+            "noiseTexture": {
+                "instanceID": 0
+            }
+        }
+    ],
+    "renderSettings": {
+        "geometryType": 3,
+        "geometryXExtent": {
+            "x": -100000.0,
+            "y": 100000.0
+        },
+        "geometryYExtent": {
+            "x": 2075.0,
+            "y": 4325.0
+        },
+        "geometryZExtent": {
+            "x": -100000.0,
+            "y": 100000.0
+        },
+        "geometryHeight": 0.0,
+        "coverageIntensity": 0.7749999761581421,
+        "structureIntensity": 0.07699999958276749,
+        "structureMultiply": 0.0,
+        "detailIntensity": 0.2070000022649765,
+        "detailMultiply": 0.0,
+        "baseWarpIntensity": 0.0,
+        "detailWarpIntensity": 0.20000000298023225,
+        "heightGradientBottom": {
+            "x": 0.0,
+            "y": 0.14000000059604646
+        },
+        "heightGradientTop": {
+            "x": 0.8199999928474426,
+            "y": 1.0
+        },
+        "rounding": 7.829999923706055,
+        "roundingShape": 4.630000114440918,
+        "windSkew": {
+            "x": 0.20000000298023225,
+            "y": 1.0
+        },
+        "coverageTile": 1,
+        "baseTile": 25,
+        "structureTile": 48,
+        "detailTile": 196,
+        "baseWarpTile": 1,
+        "detailWarpTile": 128,
+        "coverageOffset": {
+            "x": -0.09000000357627869,
+            "y": 0.0,
+            "z": -0.07000000029802323
+        },
+        "baseOffset": {
+            "x": 7.237486839294434,
+            "y": 0.0,
+            "z": -0.09865684807300568
+        },
+        "structureOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "detailOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "baseWarpOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "detailWarpOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "density": 2000.0,
+        "attenuationDistance": 10000.0,
+        "attenuationBias": 30000.0,
+        "rampUp": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "extinctionCoefficients": {
+            "x": 0.000003999999989900971,
+            "y": 0.000003999999989900971,
+            "z": 0.000003999999989900971
+        },
+        "scatteringCoefficients": {
+            "x": 0.000003999998170911567,
+            "y": 0.000003774381411858485,
+            "z": 0.000003687998514578794
+        },
+        "multipleScatteringAmount": 0.4020000100135803,
+        "multipleScatteringBias": 0.210999995470047,
+        "multipleScatteringRampDown": 0.4000000059604645,
+        "multipleScatteringRampDownShape": 15.0,
+        "silverSpread": 0.20600000023841859,
+        "silverIntensity": 0.734000027179718,
+        "anisotropy": 0.4350000023841858,
+        "ambient": 0.0,
+        "ambientHeightRange": {
+            "x": 0.0,
+            "y": 1.0
+        },
+        "ambientStrengthRange": {
+            "x": 0.5,
+            "y": 1.5
+        },
+        "selfShadowing": 1,
+        "highQualityShadows": 0,
+        "maxSelfShadowDistance": 5510.0,
+        "lightPollutionDimmer": 1.0,
+        "celShade": 0,
+        "celShadeLightingBands": 0.6000000238418579,
+        "celShadeTransmittanceBands": 1.0,
+        "castShadows": 1,
+        "apparentThickness": 0.0,
+        "verticalProbabilityHeightRange": {
+            "x": 0.0,
+            "y": 0.4000000059604645
+        },
+        "verticalProbabilityStrength": 0.699999988079071,
+        "depthProbabilityHeightRange": {
+            "x": 0.20000000298023225,
+            "y": 1.0
+        },
+        "depthProbabilityStrengthRange": {
+            "x": 0.5,
+            "y": 2.0
+        },
+        "depthProbabilityDensityMultiplier": 4.0,
+        "depthProbabilityBias": 0.453000009059906,
+        "depthProbabilityDetailIndex": 0,
+        "maxShadowIntensity": 0.9746794104576111,
+        "reprojectionFrames": 2,
+        "useTemporalDenoising": 1,
+        "temporalDenoisingRatio": 0.0625,
+        "coarseStepSize": 0.0,
+        "detailStepSize": 0.0,
+        "coarseStepRange": {
+            "x": 12.0,
+            "y": 24.0
+        },
+        "detailStepRange": {
+            "x": 18.0,
+            "y": 48.0
+        },
+        "stepDistanceRange": {
+            "x": 125.0,
+            "y": 15000.0
+        },
+        "flythroughStepRange": {
+            "x": 8.0,
+            "y": 512.0
+        },
+        "flythroughStepDistanceRange": {
+            "x": 0.0,
+            "y": 50000.0
+        },
+        "mediaZeroThreshold": 0.009999999776482582,
+        "transmittanceZeroThreshold": 0.009999999776482582,
+        "maxConsecutiveZeroSamples": 0
+    }
+}

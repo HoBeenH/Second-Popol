@@ -1,0 +1,343 @@
+#pragma only_renderers d3d11 ps4 xboxone vulkan metal switch
+
+#pragma kernel FULLSCREEN_0 main=FULLSCREEN_0
+#pragma kernel FULLSCREEN_1 main=FULLSCREEN_1
+#pragma kernel FULLSCREEN_2 main=FULLSCREEN_2
+#pragma kernel FULLSCREEN_N main=FULLSCREEN_N
+#pragma kernel FULLSCREEN_SORTED_N main=FULLSCREEN_SORTED_N
+#pragma kernel REFLECTION main=REFLECTION
+#pragma kernel SHADOWMAP main=SHADOWMAP
+#pragma kernel BLURHORIZONTAL main=BLURHORIZONTAL
+#pragma kernel BLURVERTICAL main=BLURVERTICAL
+#pragma kernel LIGHTATTENUATION main=LIGHTATTENUATION
+
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Sky/SkyUtils.hlsl"
+#include "../../common/Utilities.hlsl"
+#include "../Clouds.hlsl"
+#include "../CloudDatatypes.cs.hlsl"
+
+TEXTURE2D_ARRAY(_CloudLightingFramebuffers);
+TEXTURE2D_ARRAY(_CloudTransmittanceHitFramebuffers);
+TEXTURE2D_ARRAY(_CloudGBuffers);
+TEXTURE2D_ARRAY(_CloudReflectionFramebuffers);
+TEXTURE2D_ARRAY(_CloudReflectionTFramebuffers);
+RW_TEXTURE2D(float4, _LightingFramebuffer);
+RW_TEXTURE2D(float4, _TransmittanceAndHitFramebuffer);
+RW_TEXTURE2D(float4, _ShadowMapFramebuffer);
+RW_TEXTURE2D(float4, _ReflectionTFramebuffer);
+TEXTURE2D(_ShadowMapFramebufferToBlur);
+float4 _res;
+float4 _reflectionRes;
+int _layers;
+int _blurRadius;
+float _resolutionScaleFactor;
+float4 _WorldSpaceCameraPos1;
+
+/* For the sorted case. */
+StructuredBuffer<int> _SortedLayerIndexBuffer;
+
+/* For light attenuation */
+RW_TEXTURE2D(float4, _LightAttenuationFramebuffer);
+bool _hasShadowMap0;
+bool _hasShadowMap1;
+bool _hasShadowMap2;
+bool _hasShadowMap3;
+bool _hasShadowMap4;
+bool _hasShadowMap5;
+bool _hasShadowMap6;
+bool _hasShadowMap7;
+TEXTURE2D(_BodyShadowMap0);
+TEXTURE2D(_BodyShadowMap1);
+TEXTURE2D(_BodyShadowMap2);
+TEXTURE2D(_BodyShadowMap3);
+TEXTURE2D(_BodyShadowMap4);
+TEXTURE2D(_BodyShadowMap5);
+TEXTURE2D(_BodyShadowMap6);
+TEXTURE2D(_BodyShadowMap7);
+
+/* Special case no cloud layers. */
+[numthreads(8, 8, 1)]
+void FULLSCREEN_0(uint3 id : SV_DispatchThreadID) {
+  _LightingFramebuffer[id.xy] = float4(0, 0, 0, 0);
+  _TransmittanceAndHitFramebuffer[id.xy] = float4(1, 1, 1, 0);
+}
+
+/* Special case for one cloud layer. */
+[numthreads(8, 8, 1)]
+void FULLSCREEN_1(uint3 id : SV_DispatchThreadID) {
+  float2 uv = (id.xy + 0.5) / _res.xy;
+
+  /* Get a depth estimate to test the geo hit for each layer against. */
+  float depthEstimate = Geometry::sampleCameraDistance(uv, -GetSkyViewDirWS(id.xy + 0.5), -GetSkyViewDirWS((_res.xy/2.0) + 0.5));
+  float intersection = Clouds::unmapGBuffer(SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudGBuffers, s_linear_clamp_sampler, uv, 0, 0).xy).x;
+
+  float4 finalLighting = float4(0, 0, 0, 0);
+  float4 finalTransmittanceAndHit = float4(1, 1, 1, -1);
+
+  if (intersection > -0.01 && (depthEstimate < 0 || intersection < depthEstimate)) {
+    finalLighting = _LightingFramebuffer[id.xy] = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudLightingFramebuffers,
+      s_linear_clamp_sampler, uv, 0, 0);
+    finalTransmittanceAndHit = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudTransmittanceHitFramebuffers,
+      s_linear_clamp_sampler, uv, 0, 0);
+  }
+
+  _LightingFramebuffer[id.xy] = finalLighting;
+  _TransmittanceAndHitFramebuffer[id.xy] = finalTransmittanceAndHit;
+}
+
+/* Special case for two cloud layers. */
+[numthreads(8, 8, 1)]
+void FULLSCREEN_2(uint3 id : SV_DispatchThreadID) {
+  float2 uv = (id.xy + 0.5) / _res.xy;
+
+  /* Get a depth estimate to test the geo hit for each layer against. */
+  float depthEstimate = Geometry::sampleCameraDistance(uv, -GetSkyViewDirWS(id.xy + 0.5), -GetSkyViewDirWS((_res.xy/2.0) + 0.5));
+
+  /* Sample all the buffers. */
+  float intersection0 = Clouds::unmapGBuffer(SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudGBuffers, s_linear_clamp_sampler, uv, 0, 0).xy).x;
+  float intersection1 = Clouds::unmapGBuffer(SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudGBuffers, s_linear_clamp_sampler, uv, 1, 0).xy).x;
+  float4 transmittanceAndHit0 = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudTransmittanceHitFramebuffers,
+    s_linear_clamp_sampler, uv, 0, 0);
+  float4 transmittanceAndHit1 = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudTransmittanceHitFramebuffers,
+    s_linear_clamp_sampler, uv, 1, 0);
+  float4 lighting0 = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudLightingFramebuffers,
+    s_linear_clamp_sampler, uv, 0, 0);
+  float4 lighting1 = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudLightingFramebuffers,
+    s_linear_clamp_sampler, uv, 1, 0);
+
+  /* Swap based on intersection. */
+  if (transmittanceAndHit1.w < transmittanceAndHit0.w) {
+    float4 temp = transmittanceAndHit1;
+    transmittanceAndHit1 = transmittanceAndHit0;
+    transmittanceAndHit0 = temp;
+
+    temp = lighting1;
+    lighting1 = lighting0;
+    lighting0 = temp;
+
+    temp.w = intersection1;
+    intersection1 = intersection0;
+    intersection0 = temp.w;
+  }
+
+  /* Composite, with the guarantee that 0 is closer than 1. */
+  float4 finalLighting = float4(0, 0, 0, 0);
+  float4 finalTransmittanceAndHit = float4(1, 1, 1, 0);
+
+  if (intersection1 > -0.01 && (depthEstimate < 0 || (intersection1 < depthEstimate && transmittanceAndHit1.w < depthEstimate))) {
+    finalLighting = lighting1;
+    finalTransmittanceAndHit = transmittanceAndHit1;
+  }
+
+  if (intersection0 > -0.01 && (depthEstimate < 0 || (intersection0 < depthEstimate && transmittanceAndHit0.w < depthEstimate))) {
+    finalLighting.xyz = finalLighting.xyz * transmittanceAndHit0.xyz + lighting0.xyz;
+    finalTransmittanceAndHit.xyz *= transmittanceAndHit0.xyz;
+    float monochromeTransmittance = Utilities::average(transmittanceAndHit0.xyz);
+    finalTransmittanceAndHit.w *= monochromeTransmittance;
+    finalTransmittanceAndHit.w += transmittanceAndHit0.w * (1 - monochromeTransmittance);
+  }
+
+  _LightingFramebuffer[id.xy] = finalLighting;
+  _TransmittanceAndHitFramebuffer[id.xy] = finalTransmittanceAndHit;
+}
+
+/* Generic case for n cloud layers. */
+[numthreads(8, 8, 1)]
+void FULLSCREEN_N(uint3 id : SV_DispatchThreadID) {
+  int i, j;
+  float2 uv = (id.xy + 0.5) / _res.xy;
+
+  /* Sample all the layers. */
+  float4 lighting[MAX_CLOUD_LAYERS];
+  float4 transmittanceAndHit[MAX_CLOUD_LAYERS];
+  float layerIntersection[MAX_CLOUD_LAYERS];
+  for (i = 0; i < _layers; i++) {
+    lighting[i] = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudLightingFramebuffers,
+      s_linear_clamp_sampler, uv, i, 0);
+  }
+  for (i = 0; i < _layers; i++) {
+    transmittanceAndHit[i] = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudTransmittanceHitFramebuffers,
+      s_linear_clamp_sampler, uv, i, 0);
+  }
+  for (i = 0; i < _layers; i++) {
+    layerIntersection[i] = Clouds::unmapGBuffer(SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudGBuffers, s_linear_clamp_sampler, uv, i, 0).xy).x;
+  }
+
+  /* Sort the results by their hit points using bubble sort, which is fast
+   * since we only have at most 8 results to sort. */
+  for (i = 0; i < _layers - 1; i++) {
+    for (j = 0; j < _layers - i - 1; j++) {
+      if (transmittanceAndHit[j].w > transmittanceAndHit[j+1].w) {
+        float4 temp = lighting[j+1];
+        lighting[j+1] = lighting[j];
+        lighting[j] = temp;
+        temp = transmittanceAndHit[j+1];
+        transmittanceAndHit[j+1] = transmittanceAndHit[j];
+        transmittanceAndHit[j] = temp;
+        temp.w = layerIntersection[j+1];
+        layerIntersection[j+1] = layerIntersection[j];
+        layerIntersection[j] = temp.w;
+      }
+    }
+  }
+
+  /* Get a depth estimate to test the geo hit for each layer against. */
+  float depthEstimate = Geometry::sampleCameraDistance(uv, -GetSkyViewDirWS(id.xy + 0.5), -GetSkyViewDirWS((_res.xy/2.0) + 0.5));
+
+  /* Now, composite the results, alpha-blending in order, ensuring to start at
+   * numNoHit so we skip the layers where there was no intersection. */
+  float4 finalLighting = float4(0, 0, 0, 0);
+  float4 finalTransmittanceAndHit = float4(1, 1, 1, -1);
+  if (layerIntersection[_layers-1] > -0.01 && (depthEstimate < 0 || (layerIntersection[_layers-1] < depthEstimate))) {
+    finalLighting = lighting[_layers-1];
+    finalTransmittanceAndHit = transmittanceAndHit[_layers-1];
+  }
+  for (i = _layers-2; i > -1; i--) {
+    if (layerIntersection[i] > -0.01 && (depthEstimate < 0 || (layerIntersection[i] < depthEstimate && transmittanceAndHit[i].w < depthEstimate))) {
+      finalLighting.xyz = finalLighting.xyz * transmittanceAndHit[i].xyz + lighting[i].xyz;
+      finalTransmittanceAndHit.xyz *= transmittanceAndHit[i].xyz;
+      /* If we've already accumulated one t value, composite the other
+       * on top according to alpha blending. */
+      float monochromeTransmittance = Utilities::average(transmittanceAndHit[i].xyz);
+      finalTransmittanceAndHit.w *= monochromeTransmittance;
+      finalTransmittanceAndHit.w += transmittanceAndHit[i].w * (1 - monochromeTransmittance);
+    }
+  }
+
+  _LightingFramebuffer[id.xy] = finalLighting;
+  _TransmittanceAndHitFramebuffer[id.xy] = finalTransmittanceAndHit;
+}
+
+
+/* Generic case for n cloud layers, but where we have a sorting order 
+ * passed down to us. */
+[numthreads(8, 8, 1)]
+void FULLSCREEN_SORTED_N(uint3 id : SV_DispatchThreadID) {
+  float2 uv = (id.xy + 0.5) / _res.xy;
+
+  /* Get a depth estimate to test the geo hit for each layer against. */
+  float depthEstimate = Geometry::sampleCameraDistance(uv, -GetSkyViewDirWS(id.xy + 0.5), -GetSkyViewDirWS((_res.xy/2.0) + 0.5));
+
+  float4 finalLighting = float4(0, 0, 0, 0);
+  float4 finalTransmittanceAndHit = float4(1, 1, 1, -1);
+  float4 lighting = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudLightingFramebuffers,
+    s_linear_clamp_sampler, uv, _SortedLayerIndexBuffer[0], 0);
+  float4 transmittanceAndHit = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudTransmittanceHitFramebuffers,
+    s_linear_clamp_sampler, uv, _SortedLayerIndexBuffer[0], 0);
+  float layerIntersection = Clouds::unmapGBuffer(SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudGBuffers, s_linear_clamp_sampler, uv, _SortedLayerIndexBuffer[0], 0).xy).x;
+  if (layerIntersection > -0.01 && (depthEstimate < 0 || (layerIntersection < depthEstimate))) {
+    finalLighting = lighting;
+    finalTransmittanceAndHit = transmittanceAndHit;
+  }
+
+  for (int i = 1; i < _layers; i++) {
+    int index = _SortedLayerIndexBuffer[i];
+    float4 lighting = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudLightingFramebuffers,
+      s_linear_clamp_sampler, uv, index, 0);
+    float4 transmittanceAndHit = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudTransmittanceHitFramebuffers,
+      s_linear_clamp_sampler, uv, index, 0);
+    float layerIntersection = Clouds::unmapGBuffer(SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudGBuffers, s_linear_clamp_sampler, uv, index, 0).xy).x;
+    if (layerIntersection > -0.01 && (depthEstimate < 0 || (layerIntersection < depthEstimate && transmittanceAndHit.w < depthEstimate))) {
+      finalLighting.xyz = finalLighting.xyz * transmittanceAndHit.xyz + lighting.xyz;
+      finalTransmittanceAndHit.xyz *= transmittanceAndHit.xyz;
+      /* If we've already accumulated one t value, composite the other
+       * on top according to alpha blending. */
+      float monochromeTransmittance = Utilities::average(transmittanceAndHit.xyz);
+      finalTransmittanceAndHit.w *= monochromeTransmittance;
+      finalTransmittanceAndHit.w += transmittanceAndHit.w * (1 - monochromeTransmittance);
+    }
+  }
+
+  _LightingFramebuffer[id.xy] = finalLighting;
+  _TransmittanceAndHitFramebuffer[id.xy] = finalTransmittanceAndHit;
+}
+
+/* Special case for one cloud layer. */
+[numthreads(8, 8, 1)]
+void REFLECTION(uint3 id : SV_DispatchThreadID) {
+  float2 uv = (id.xy) / _reflectionRes.xy;
+  float3 totalLighting = 0;
+  float totalTransmittance = 1;
+  float t = 0;
+  for (int i = 0; i < _layers; i++) {
+    float4 lightingAndTransmittance = SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudReflectionFramebuffers, s_linear_clamp_sampler, uv, i, 0);
+    t += SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudReflectionTFramebuffers, s_linear_clamp_sampler, uv, i, 0).x;
+    totalLighting += lightingAndTransmittance.xyz;
+    totalTransmittance *= lightingAndTransmittance.w;
+  }
+  _LightingFramebuffer[id.xy] = float4(totalLighting, totalTransmittance);
+  _ReflectionTFramebuffer[id.xy] = t / float(_layers);
+}
+
+[numthreads(8, 8, 1)]
+void SHADOWMAP(uint3 id : SV_DispatchThreadID) {
+
+  /* Our compositing texture is 4x larger than our rendered shadowmap so that
+   * we can interpolate bicubically with smoothstep. */
+  float2 idFloor = floor(id.xy / _resolutionScaleFactor);
+  float2 idCeil = floor(id.xy / _resolutionScaleFactor) + 1;
+  float2 idLowRes = id.xy / _resolutionScaleFactor;
+  float2 step = smoothstep(float2(0, 0), float2(1, 1), (idLowRes - idFloor) / (idCeil - idFloor));
+  float2 idSmooth = idFloor + step * (idCeil - idFloor);
+  float2 uv = idSmooth / (_res.xy / _resolutionScaleFactor);
+
+  /* Since all we care about is compositing transmittance, we can multiply
+   * all the results together in any order. */
+  float3 totalTransmittance = 1;
+  for (int i = 0; i < _layers; i++) {
+    totalTransmittance *= SAMPLE_TEXTURE2D_ARRAY_LOD(_CloudLightingFramebuffers,
+      s_linear_clamp_sampler, uv, i, 0).xyz;
+  }
+
+  _ShadowMapFramebuffer[id.xy] = float4(saturate(totalTransmittance), 1);
+}
+
+/**
+ * @brief: this blur implementation makes use of hardware interpolation to
+ * cut the number of samples we have to take in half.
+ * Instead of sampling every pixel at its center, we sample pairs of pixels
+ * at their boundaries, and rely on the s_linear_repeat_sampler to interpolate
+ * between them.
+ * */
+[numthreads(8, 8, 1)]
+void BLURHORIZONTAL(uint3 id : SV_DispatchThreadID) {
+  int idLeft = max(0, id.x - _blurRadius);
+  int idRight = min(_res.x, id.x + _blurRadius + 1);
+  float4 result = 0;
+  for (int i = idLeft; i < idRight; i+=2) {
+    result += SAMPLE_TEXTURE2D_LOD(_ShadowMapFramebufferToBlur, s_linear_repeat_sampler, float2(i + 1, id.y) / _res.xy, 0);
+  }
+  result /= float(idRight - idLeft) * 0.5;
+  _ShadowMapFramebuffer[id.xy] = result;
+}
+
+[numthreads(8, 8, 1)]
+void BLURVERTICAL(uint3 id : SV_DispatchThreadID) {
+  int idLow = max(0, id.y - _blurRadius);
+  int idHigh = min(_res.y, id.y + _blurRadius + 1);
+  float4 result = 0;
+  for (int i = idLow; i < idHigh; i+=2) {
+    result += SAMPLE_TEXTURE2D_LOD(_ShadowMapFramebufferToBlur, s_linear_repeat_sampler, float2(id.x, i + 1) / _res.xy, 0);
+  }
+  result /= float(idHigh - idLow) * 0.5;
+  _ShadowMapFramebuffer[id.xy] = result;
+}
+
+/**
+ * @brief: fills all the light attenuation framebuffers in one thread, which avoids
+ * having to create a switch statement to decide which texture to sample.
+ * */
+[numthreads(1, 1, 1)]
+void LIGHTATTENUATION(uint3 id : SV_DispatchThreadID) {
+  // TODO: tweakable
+  _LightAttenuationFramebuffer[uint2(0, 0)] = _hasShadowMap0 ? max(0.0, pow(SAMPLE_TEXTURE2D_LOD(_BodyShadowMap0, s_linear_clamp_sampler, 0, 100), 0.5)) : 1;
+  _LightAttenuationFramebuffer[uint2(1, 0)] = _hasShadowMap1 ? max(0.0, pow(SAMPLE_TEXTURE2D_LOD(_BodyShadowMap1, s_linear_clamp_sampler, 0, 100), 0.5)) : 1;
+  _LightAttenuationFramebuffer[uint2(2, 0)] = _hasShadowMap2 ? max(0.0, pow(SAMPLE_TEXTURE2D_LOD(_BodyShadowMap2, s_linear_clamp_sampler, 0, 100), 0.5)) : 1;
+  _LightAttenuationFramebuffer[uint2(3, 0)] = _hasShadowMap3 ? max(0.0, pow(SAMPLE_TEXTURE2D_LOD(_BodyShadowMap3, s_linear_clamp_sampler, 0, 100), 0.5)) : 1;
+  _LightAttenuationFramebuffer[uint2(4, 0)] = _hasShadowMap4 ? max(0.0, pow(SAMPLE_TEXTURE2D_LOD(_BodyShadowMap4, s_linear_clamp_sampler, 0, 100), 0.5)) : 1;
+  _LightAttenuationFramebuffer[uint2(5, 0)] = _hasShadowMap5 ? max(0.0, pow(SAMPLE_TEXTURE2D_LOD(_BodyShadowMap5, s_linear_clamp_sampler, 0, 100), 0.5)) : 1;
+  _LightAttenuationFramebuffer[uint2(6, 0)] = _hasShadowMap6 ? max(0.0, pow(SAMPLE_TEXTURE2D_LOD(_BodyShadowMap6, s_linear_clamp_sampler, 0, 100), 0.5)) : 1;
+  _LightAttenuationFramebuffer[uint2(7, 0)] = _hasShadowMap7 ? max(0.0, pow(SAMPLE_TEXTURE2D_LOD(_BodyShadowMap7, s_linear_clamp_sampler, 0, 100), 0.5)) : 1;
+}
