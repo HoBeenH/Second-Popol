@@ -61,12 +61,12 @@ Material:
     - _CloudDensity: 1
     - _CloudSharpness: 0.8
     - _CloudSize: 1
-    - _ColorDiff: -0.87799996
+    - _ColorDiff: -1.04
     - _ColorDiffOffset: 0.3
-    - _Coverage: -0.74
+    - _Coverage: -0.62
     - _CoverageOffset: 0.46
     - _CullMode: 0
-    - _CutHeight: 139.78
+    - _CutHeight: 410
     - _CutHeight2: 1222
     - _Cutoff: 0.465
     - _Density: 0.0004
@@ -115,12 +115,13 @@ Material:
     - _LightingControl: {r: 1, g: 1, b: -1, a: 0}
     - _Shading: {r: 0.27681658, g: 0.29418916, b: 0.4705882, a: 0.172}
     - _ShadowColor: {r: 0.53475434, g: 0.53475434, b: 0.5754717, a: 0}
-    - _SunColor: {r: 0.6784888, g: 0.70205027, b: 0.745283, a: 50.77255}
+    - _SunColor: {r: 0.6171487, g: 0.58646315, b: 0.6509434, a: 16.192549}
     - _SunDir: {r: 0, g: 1, b: 0, a: 0}
-    - _Velocity1: {r: 10.010859, g: 0.0000011934222, b: 0, a: 0.07007885}
-    - _Velocity2: {r: 30.003506, g: 0.0000035766968, b: 0, a: 2}
+    - _Velocity1: {r: 10.010853, g: 0.0000011934216, b: 0, a: 0.070078805}
+    - _Velocity2: {r: 30.0035, g: 0.0000035766961, b: 0, a: 2}
     - _WindDirection: {r: 1, g: 0, b: 0, a: 0}
     - pointLightColor: {r: 1, g: 1, b: 1, a: 1}
     - pointLightPos: {r: -83.36164, g: -163.76266, b: -2106.1113, a: 0}
     - vortexControl: {r: 30, g: 1, b: 1, a: 1}
     - vortexPosRadius: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []

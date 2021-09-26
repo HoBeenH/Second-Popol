@@ -6,15 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Script.Dragon
 {
-    [System.Flags]
-    public enum EDragonPhaseFlag
-    {
-        Phase1 = 1 << 0,
-        Phase2 = 1 << 1,
-        Angry = 1 << 2,
-        Exhausted = 1 << 3,
-        Dead = 1 << 4
-    }
+
 
     [System.Flags]
     public enum EDragonStatUpFlag
@@ -30,7 +22,6 @@ namespace Script.Dragon
     public class DragonPhaseManager : MonoSingleton<DragonPhaseManager>
     {
         private EDragonStatUpFlag m_StatUpFlag = EDragonStatUpFlag.Default;
-        public EDragonPhaseFlag currentPhaseFlag = EDragonPhaseFlag.Phase1;
         private readonly WaitForSeconds m_ReadyForSecondPhase = new WaitForSeconds(30f);
         private readonly WaitForSeconds m_ExhaustedTime = new WaitForSeconds(5f);
         private readonly WaitForSeconds m_AngryTime = new WaitForSeconds(10f);
@@ -53,28 +44,28 @@ namespace Script.Dragon
             if (other.CompareTag("Player"))
             {
                 ++m_DragonAngry;
-                var _currentWeapon = PlayerController.Instance.currentWeaponFlag;
+                var currentWeapon = PlayerController.Instance.currentWeaponFlag;
 
                 if (m_StatUpFlag != EDragonStatUpFlag.End)
                 {
-                    HitCheck(_currentWeapon);
+                    HitCheck(currentWeapon);
                 }
 
                 if (m_DragonAngry >= m_DragonAngryMax)
                 {
                     m_DragonAngry = 0;
                     ++m_DragonAngryMax;
-                    currentPhaseFlag |= EDragonPhaseFlag.Angry;
+                    DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.Angry;
                 }
 
-                var _damage = _currentWeapon switch
+                var _damage = currentWeapon switch
                 {
                     ECurrentWeaponFlag.Magic => PlayerController.Instance.PlayerStat.skillDamage -
                                             DragonController.Instance.dragonStat.magicDefence,
                     ECurrentWeaponFlag.Sword => PlayerController.Instance.PlayerStat.damage -
                                             DragonController.Instance.dragonStat.defence,
                     // ECurrentWeaponFlag.Parry => Dragon Stun,
-                    _ => throw new Exception($"Unknown Type : {_currentWeapon.ToString()}")
+                    _ => throw new Exception($"Unknown Type : {currentWeapon.ToString()}")
                 };
                 if (_damage <= 0)
                     return;
@@ -139,13 +130,13 @@ namespace Script.Dragon
 
         private void PhaseChange()
         {
-            if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
+            if (DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
             {
-                currentPhaseFlag |= EDragonPhaseFlag.Phase2;
-                currentPhaseFlag &= ~EDragonPhaseFlag.Phase1;
+                DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.Phase2;
+                DragonController.Instance.currentPhaseFlag &= ~EDragonPhaseFlag.Phase1;
                 PhaseStatChange();
             }
-            else if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase2))
+            else if (DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase2))
             {
                 Debug.Log("Current Phase Is Phase 2");
             }
@@ -193,19 +184,19 @@ namespace Script.Dragon
 
         public IEnumerator DragonAngry()
         {
-            while (currentPhaseFlag != EDragonPhaseFlag.Dead)
+            while (DragonController.Instance.currentPhaseFlag != EDragonPhaseFlag.Dead)
             {
-                if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Angry))
+                if (DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Angry))
                 {
-                    this.currentPhaseFlag &= ~EDragonPhaseFlag.Angry;
+                    DragonController.Instance.currentPhaseFlag &= ~EDragonPhaseFlag.Angry;
                     DragonHasBuff(true);
                     yield return m_AngryTime;
 
-                    this.currentPhaseFlag |= EDragonPhaseFlag.Exhausted;
+                    DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.Exhausted;
                     DragonHasBuff(false);
                     yield return m_ExhaustedTime;
 
-                    this.currentPhaseFlag &= ~EDragonPhaseFlag.Exhausted;
+                    DragonController.Instance.currentPhaseFlag &= ~EDragonPhaseFlag.Exhausted;
                     DragonHasBuff(true);
                 }
 

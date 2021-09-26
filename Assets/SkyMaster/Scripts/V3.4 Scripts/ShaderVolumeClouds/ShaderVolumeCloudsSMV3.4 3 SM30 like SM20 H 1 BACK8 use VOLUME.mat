@@ -60,14 +60,15 @@ Material:
     - _CloudDensity: 1
     - _CloudSharpness: 0.8
     - _CloudSize: 1
-    - _ColorDiff: -0.61
+    - _ColorDiff: -0.55
     - _ColorDiffOffset: 0.02
-    - _Coverage: -0.06926409
+    - _Coverage: 0.03
     - _CoverageOffset: 0.08
+    - _CullMode: 2
     - _CutHeight: 191.46
     - _CutHeight2: 11111
     - _Cutoff: 0.038
-    - _Density: 0.00024230996
+    - _Density: 0.00024
     - _DepthBlendMul: 2.29
     - _DepthBlendMult: 2
     - _DepthColor: 0
@@ -79,7 +80,7 @@ Material:
     - _FogFactor: -2.9
     - _FogUnity: 1
     - _Forward: 0
-    - _HorizonFactor: 0.17530017
+    - _HorizonFactor: 0.081
     - _IndirectContribution: 1
     - _MipLevel: 0
     - _Mode: 0
@@ -104,17 +105,18 @@ Material:
     - _BaseColor: {r: 0.11784035, g: 0.11784035, b: 0.11784035, a: 0.8585514}
     - _CloudNormalsDirection: {r: 1, g: -1, b: 1, a: 0}
     - _CloudSpeed: {r: 0.001, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.043136243, g: 0.043136243, b: 0.043136243, a: 1}
+    - _Color: {r: 0.043137256, g: 0.043137256, b: 0.043137256, a: 1}
     - _Control: {r: 0.30882353, g: 0.24376704, b: 0.21345155, a: 1}
     - _EdgeFactors: {r: 0, g: 0.52, b: -1, a: 0}
     - _FogColor: {r: 0.76862746, g: 0.85882354, b: 0.91764706, a: 1}
     - _LightingControl: {r: 1, g: 1, b: -1, a: 0}
     - _Shading: {r: 0.27681658, g: 0.29418916, b: 0.4705882, a: 0.172}
-    - _ShadowColor: {r: 0.23921387, g: 0.23921387, b: 0.31764522, a: 0.27450982}
-    - _SunColor: {r: 0.9019608, g: 0.9019608, b: 0.9019608, a: 0.04216953}
+    - _ShadowColor: {r: 0.23921569, g: 0.23921569, b: 0.31764707, a: 0.27450982}
+    - _SunColor: {r: 0.9019608, g: 0.9019608, b: 0.9019608, a: 0.078431375}
     - _SunDir: {r: 0, g: 1, b: 0, a: 0}
-    - _Velocity1: {r: -1.4931542, g: 1.5432254, b: 0, a: 0.01697183}
-    - _Velocity2: {r: -4.7911243, g: 4.645881, b: 0, a: 2}
+    - _Velocity1: {r: -1.4486214, g: 1.5372459, b: 0, a: 0.017177299}
+    - _Velocity2: {r: -4.7308464, g: 4.631732, b: 0, a: 2}
     - _WindDirection: {r: 1, g: 0, b: 0, a: 0}
     - pointLightColor: {r: 0, g: 0, b: 0, a: 0}
     - pointLightPos: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []

@@ -60,10 +60,11 @@ Material:
     - _CloudDensity: 1
     - _CloudSharpness: 0.8
     - _CloudSize: 1
-    - _ColorDiff: 0.35000002
+    - _ColorDiff: -0.55
     - _ColorDiffOffset: 0
     - _Coverage: 0.03
     - _CoverageOffset: 1.02
+    - _CullMode: 2
     - _CutHeight: 105.8
     - _CutHeight2: 1285
     - _Cutoff: 0.403
@@ -111,10 +112,11 @@ Material:
     - _LightingControl: {r: 1, g: 1, b: -1, a: 0}
     - _Shading: {r: 0.27681658, g: 0.29418916, b: 0.4705882, a: 0.172}
     - _ShadowColor: {r: 0.23921569, g: 0.23921569, b: 0.31764707, a: 0.27450982}
-    - _SunColor: {r: 0.9019608, g: 0.9019608, b: 0.9019608, a: -0.011568628}
+    - _SunColor: {r: 0.9019608, g: 0.9019608, b: 0.9019608, a: 0.078431375}
     - _SunDir: {r: 0, g: 1, b: 0, a: 0}
     - _Velocity1: {r: 9.992325, g: 0.0000011911778, b: 0, a: 0.06994185}
-    - _Velocity2: {r: 14.960684, g: 0.0000017834523, b: 0, a: 2}
+    - _Velocity2: {r: 14.960718, g: 0.0000017834564, b: 0, a: 2}
     - _WindDirection: {r: 1, g: 0, b: 0, a: 0}
     - pointLightColor: {r: 1, g: 1, b: 1, a: 1}
     - pointLightPos: {r: -1046.5535, g: 660.5246, b: -1608.9182, a: 0}
+  m_BuildTextureStacks: []

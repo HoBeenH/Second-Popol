@@ -9,6 +9,7 @@ namespace Script
 
     public class Status
     {
+        public float rotSpeed;
         public int currentHealth;
         public int maxHealth;
         public int damage;
@@ -36,10 +37,9 @@ namespace Script
 
     public class PlayerStatus : Status
     {
-        public float rotSpeed = 20f;
-
         public PlayerStatus()
         {
+            this.rotSpeed = 20f;
             this.moveAnimDamp = 0.05f;
             this.skillDamage = 10;
             this.maxHealth = 100;
@@ -64,6 +64,7 @@ namespace Script
 
         public DragonStatus()
         {
+            this.rotSpeed = 5f;
             this.moveAnimDamp = 0.1f;
             this.maxHealth = 200;
             this.skillDamage = 5;
@@ -74,7 +75,7 @@ namespace Script
 
         public IEnumerator DragonRecovery()
         {
-            while (DragonPhaseManager.Instance.currentPhaseFlag != EDragonPhaseFlag.Dead)
+            while (DragonController.Instance.currentPhaseFlag != EDragonPhaseFlag.Dead)
             {
                 yield return m_RecoverySpeed;
                 Health += recovery;

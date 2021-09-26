@@ -1,4 +1,5 @@
 using System;
+using Script.Dragon;
 using UnityEngine;
 
 namespace Script.Player
@@ -14,7 +15,7 @@ namespace Script.Player
     public class PlayerController : MonoSingleton<PlayerController>
     {
         private StateMachine<PlayerController> m_PlayerStateMachine;
-        
+
         public PlayerStatus PlayerStat { get; private set; }
         public ECurrentWeaponFlag currentWeaponFlag;
         public Action useDefaultCam;
@@ -23,8 +24,8 @@ namespace Script.Player
         private void Awake()
         {
             PlayerStat = new PlayerStatus();
-            var _anim = GetComponent<Animator>();
-            m_PlayerStateMachine = new StateMachine<PlayerController>(_anim, this, new S_Player_Movement());
+            var anim = GetComponent<Animator>();
+            m_PlayerStateMachine = new StateMachine<PlayerController>(anim, this, new S_Player_Movement());
             m_PlayerStateMachine.SetState(new S_Player_ChangeWeapon());
             m_PlayerStateMachine.SetState(new W_Player_Attack());
             m_PlayerStateMachine.SetState(new W_Player_TopDown());
@@ -53,9 +54,10 @@ namespace Script.Player
         {
             if (currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Parry))
             {
-                
+                DragonController.Instance.Stun();
                 return;
             }
+
             PlayerStat.Health -= damage;
             if (PlayerStat.Health <= 0)
             {
