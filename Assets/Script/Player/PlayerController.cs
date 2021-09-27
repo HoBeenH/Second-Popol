@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Script.Player
 {
-    [System.Flags]
+    [Flags]
     public enum ECurrentWeaponFlag
     {
         Sword = 1 << 0,
@@ -45,15 +45,14 @@ namespace Script.Player
             Test();
         }
 
-        private void FixedUpdate()
-        {
-            m_PlayerStateMachine?.FixedUpdate();
-        }
+        private void FixedUpdate() => m_PlayerStateMachine?.FixedUpdate();
 
         private void TakeDamage(int damage)
         {
-            if (currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Parry))
+            if (currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Parry) &&
+                !(DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.CantParry)))
             {
+                m_PlayerStateMachine.ChangeState<W_Player_Skill>();
                 DragonController.Instance.Stun();
                 return;
             }
@@ -72,6 +71,11 @@ namespace Script.Player
             {
                 PlayerStat.Health -= 20;
                 Debug.Log(PlayerStat.Health);
+            }
+
+            if (Input.GetKey(KeyCode.X))
+            {
+                m_PlayerStateMachine.ChangeState<W_Player_Skill>();
             }
         }
     }

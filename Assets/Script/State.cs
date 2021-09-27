@@ -1,23 +1,22 @@
-﻿using Script.Player;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Script
 {
     public abstract class State<T>
     {
-        public int animToHash;
-        public StateMachine<T> machine;
-        public T owner;
+        public readonly int animToHash;
+        protected StateMachine<T> machine;
+        protected T owner;
 
-        public State()
+        protected State()
         {
         }
 
-        public State(string animName) : this(Animator.StringToHash(animName))
+        protected State(string animName) : this(Animator.StringToHash(animName))
         {
         }
 
-        public State(int animHash) => animToHash = animHash;
+        private State(int animHash) => animToHash = animHash;
 
         public void AddState(StateMachine<T> currentMachine, T currentOwner)
         {
@@ -26,7 +25,7 @@ namespace Script
             Init();
         }
 
-        public virtual void Init()
+        protected virtual void Init()
         {
         }
 

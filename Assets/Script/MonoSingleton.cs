@@ -10,17 +10,15 @@ namespace Script
         {
             get
             {
-                if (_Instance == null)
-                {
-                    _Instance = GameObject.FindObjectOfType<T>();
+                if (_Instance != null)
+                    return _Instance;
+                _Instance = GameObject.FindObjectOfType<T>();
 
-                    if (_Instance == null)
-                    {
-                        var _monoSingleton = new GameObject();
-                        _Instance = _monoSingleton.AddComponent<T>();
-                        _Instance.name = $"{typeof(T)} (SingleTon)";
-                    }
-                }
+                if (_Instance != null)
+                    return _Instance;
+                var _monoSingleton = new GameObject();
+                _Instance = _monoSingleton.AddComponent<T>();
+                _Instance.name = $"{typeof(T)} (SingleTon)";
 
                 return _Instance;
             }

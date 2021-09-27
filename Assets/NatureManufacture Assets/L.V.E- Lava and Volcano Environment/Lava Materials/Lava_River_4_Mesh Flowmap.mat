@@ -9,16 +9,19 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Lava_River_4_Mesh Flowmap
   m_Shader: {fileID: 4800000, guid: a078bba5a980e3447a3b8f0ef47227d2, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _DISABLE_SSR_TRANSPARENT
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2225
   stringTagMap:
     MotionVector: User
   disabledShaderPasses:
   - MOTIONVECTORS
   - TransparentBackface
+  - TransparentDepthPrepass
+  - TransparentDepthPostpass
+  - RayTracingPrepass
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -182,11 +185,26 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AOPower: 1
+    - _AddPrecomputedVelocity: 0
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
+    - _AlphaToMask: 0
+    - _AlphaToMaskInspectorValue: 0
     - _BigCascadeAngle: 7
     - _BigCascadeAngleFalloff: 2.3
     - _BigCascadeFalloff: 80
@@ -230,11 +248,14 @@ Material:
     - _Cutoff: 0.5
     - _Depth: 0.98
     - _DepthFalloff: -13
+    - _DepthOffsetEnable: 0
     - _Distortion: 0.03
     - _DoubleSidedEnable: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
     - _EdgeLength: 29.6
+    - _EnableBlendModePreserveSpecularLighting: 1
+    - _EnableFogOnTransparent: 1
     - _FastCascadeAngle: 90
     - _FastCascadeFalloff: 80
     - _FastCascadeNormalInfluence: 0
@@ -297,9 +318,13 @@ Material:
     - _MediumLavaTessScale: 0.1
     - _NormalScale: 0.5
     - _Occlusion: 0.48
+    - _OpaqueCullMode: 2
+    - _RayTracing: 0
     - _ReceivesSSR: 1
+    - _ReceivesSSRTransparent: 0
     - _Reflection: 0.66
     - _ReflectionPower: 0.083
+    - _RefractionModel: 0
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
     - _RimLightPower: 0.23
@@ -324,16 +349,17 @@ Material:
     - _Smoothness: 0.9
     - _Specular: 0.1
     - _SrcBlend: 1
-    - _StencilRef: 2
-    - _StencilRefDepth: 0
-    - _StencilRefDistortionVec: 64
-    - _StencilRefGBuffer: 2
-    - _StencilRefMV: 128
-    - _StencilWriteMask: 3
-    - _StencilWriteMaskDepth: 48
-    - _StencilWriteMaskDistortionVec: 64
-    - _StencilWriteMaskGBuffer: 51
-    - _StencilWriteMaskMV: 176
+    - _StencilRef: 0
+    - _StencilRefDepth: 8
+    - _StencilRefDistortionVec: 4
+    - _StencilRefGBuffer: 10
+    - _StencilRefMV: 40
+    - _StencilWriteMask: 6
+    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDistortionVec: 4
+    - _StencilWriteMaskGBuffer: 14
+    - _StencilWriteMaskMV: 40
+    - _SupportDecals: 1
     - _SurfaceType: 0
     - _TessMax: 11
     - _TessMaxDisp: 0
@@ -343,7 +369,11 @@ Material:
     - _ToggleSwitch1: 0
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
+    - _TransparentDepthPostpassEnable: 0
+    - _TransparentDepthPrepassEnable: 0
     - _TransparentSortPriority: 0
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
     - _UVDirectionV1U0: 1
     - _UVVDirection1UDirection0: 1
     - _Udirection: 0
@@ -412,3 +442,4 @@ Material:
     - _Vector0: {r: 0.03, g: 0, b: 0, a: 0}
     - _WaterMainSpeed: {r: 0.01, g: 0, b: 0, a: 0}
     - _WaterMixSpeed: {r: -0.007, g: 0.05, b: 0, a: 0}
+  m_BuildTextureStacks: []

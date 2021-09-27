@@ -1,0 +1,23 @@
+﻿using UnityEngine;
+
+namespace Script.Dragon
+{
+    public class S_Dragon_Stun : State<DragonController>
+    {
+        public S_Dragon_Stun() : base("Base Layer.Stun") => m_StunHash = Animator.StringToHash("Stun");
+        private readonly int m_StunHash;
+
+        public override void OnStateEnter()
+        {
+            machine.animator.SetTrigger(m_StunHash);
+        }
+
+        public override void OnStateChangePoint()
+        {
+            if (machine.IsEnd())
+            {
+                machine.ChangeState<S_Dragon_Movement>();
+            }
+        }
+    }
+}

@@ -1,5 +1,4 @@
-﻿using TMPro.EditorUtilities;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Script.Player
 {
@@ -12,14 +11,16 @@ namespace Script.Player
         private Transform m_CamPos;
         private float m_Hor;
         private float m_Ver;
+        protected bool bcanRun;
 
-        public override void Init()
+        protected override void Init()
         {
             m_CamPos = Camera.main.transform;
         }
 
         public override void OnStateEnter()
         {
+            bcanRun = true;
             Debug.Log(ToString());
         }
 
@@ -40,11 +41,6 @@ namespace Script.Player
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
                     machine.ChangeState<W_Player_TopDown>();
-                }
-
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    machine.ChangeState<W_Player_Skill>();
                 }
             }
             else if (owner.currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Magic))
@@ -78,7 +74,7 @@ namespace Script.Player
         {
             m_Hor = Input.GetAxis("Horizontal");
             m_Ver = Input.GetAxis("Vertical");
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && bcanRun)
             {
                 m_RunBlend = 2;
                 m_RunSpeed = 1;
@@ -93,16 +89,13 @@ namespace Script.Player
             machine.animator.SetFloat(m_MoveZHash, m_Ver * m_RunBlend, owner.PlayerStat.moveAnimDamp,
                 Time.deltaTime);
 
-            var _lookRight = m_CamPos.right;
             var _lookForward = m_CamPos.forward;
-            _lookRight.y = 0f;
             _lookForward.y = 0f;
-            var _moveDir = ((_lookForward * m_Ver) + (_lookRight * m_Hor)).normalized;
 
+            var _moveDIr = new Vector3(m_Hor, 0f, m_Ver).normalized;
             owner.transform.forward = Vector3.Lerp(owner.transform.forward, _lookForward,
                 owner.PlayerStat.rotSpeed * Time.deltaTime);
-            owner.transform.Translate(_moveDir * Time.deltaTime * (owner.PlayerStat.moveSpeed + m_RunSpeed),
-                Space.World);
+            owner.transform.Translate(_moveDIr * (Time.deltaTime * (owner.PlayerStat.moveSpeed + m_RunSpeed)));
         }
 
         public override void OnStateExit()

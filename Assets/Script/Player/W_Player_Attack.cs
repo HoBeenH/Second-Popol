@@ -11,7 +11,7 @@ namespace Script.Player
         private WaitUntil m_WaitForCurrentAnimFirstAttack;
         private WaitUntil m_WaitForCurrentAnimIdle;
 
-        public override void Init()
+        protected override void Init()
         {
             m_WaitForCurrentAnimFirstAttack = new WaitUntil(() =>
                 machine.animator.GetCurrentAnimatorStateInfo(0).fullPathHash == m_AttackLAnimHash);

@@ -9,10 +9,11 @@ namespace Script.Dragon
         private readonly int m_IdleAnimHash = Animator.StringToHash("Base Layer.Move");
         private readonly int m_TailHash = Animator.StringToHash("Tail");
         private readonly WaitForSeconds m_TailCoolTIme = new WaitForSeconds(12.0f);
+        private readonly WaitForSeconds m_Delay = new WaitForSeconds(0.5f);
         private WaitUntil m_CurrentAnimIsAttack;
         private WaitUntil m_CurrentAnimIsIdle;
 
-        public override void Init()
+        protected override void Init()
         {
             m_CurrentAnimIsAttack = new WaitUntil(() =>
                 machine.animator.GetCurrentAnimatorStateInfo(0).fullPathHash == m_AttackLAnimHash); 
@@ -22,9 +23,9 @@ namespace Script.Dragon
 
         public override void OnStateEnter()
         {
+            machine.animator.SetTrigger(m_TailHash);
             owner.StopAnim += HitParry;
             owner.bReadyTail = false;
-            machine.animator.SetTrigger(m_TailHash);
             owner.StartCoroutine(WaitForAnim());
             owner.StartCoroutine(CoolTime());
         }
@@ -37,13 +38,18 @@ namespace Script.Dragon
         private IEnumerator CoolTime()
         {
             yield return m_TailCoolTIme;
-            owner.bReadyAttack = true;
+            owner.bReadyTail = true;
         }
 
         private IEnumerator WaitForAnim()
         {
             yield return m_CurrentAnimIsAttack;
+            if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase2))
+            {
+                machine.animator.SetTrigger(m_TailHash);
+            }
             yield return m_CurrentAnimIsIdle;
+            yield return m_Delay;
             machine.ChangeState<S_Dragon_Movement>();
             owner.StopAnim -= HitParry;
         }

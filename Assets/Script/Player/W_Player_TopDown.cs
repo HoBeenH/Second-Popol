@@ -6,7 +6,6 @@ namespace Script.Player
     {
         private readonly int m_WTopDownHash;
 
-
         public W_Player_TopDown() : base("Base Layer.Skill.WTop Down") =>
             m_WTopDownHash = Animator.StringToHash("WTopDown");
 

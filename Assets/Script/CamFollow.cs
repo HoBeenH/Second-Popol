@@ -1,5 +1,3 @@
-using System;
-using DG.Tweening;
 using Script.Player;
 using UnityEngine;
 
@@ -12,7 +10,7 @@ namespace Script
         public Vector3 camOffset;
         public float smoothTime = 5f;
         public float rotSpeed = 3f;
-        public Transform targetPos;
+        private Transform m_TargetPos;
 
         private void Awake()
         {
@@ -26,6 +24,8 @@ namespace Script
                 actionCam.SetActive(true);
                 defaultCam.SetActive(false);
             };
+
+            m_TargetPos = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         private void Update()
@@ -41,7 +41,7 @@ namespace Script
         private void CamFollowSet()
         {
             var _position = transform.position;
-            var _nextPos = targetPos.TransformPoint(camOffset);
+            var _nextPos = m_TargetPos.TransformPoint(camOffset);
             _position = Vector3.Lerp(_position, _nextPos, smoothTime * Time.deltaTime);
             transform.position = _position;
         }
@@ -53,7 +53,7 @@ namespace Script
             var _clampX = _camAngle.x - _mouseDelta.y;
             var _x = _clampX < 180f
                 ? Mathf.Clamp(_clampX, -1f, 0f)
-                : Mathf.Clamp(_clampX, 335f, 360f);
+                : Mathf.Clamp(_clampX, 300f, 360f);
 
             this.transform.rotation = Quaternion.Euler(_x, _camAngle.y + _mouseDelta.x, _camAngle.z);
         }

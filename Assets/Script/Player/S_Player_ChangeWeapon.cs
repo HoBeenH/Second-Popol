@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Script.Player
@@ -11,17 +10,18 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
+            bcanRun = false;
             owner.PlayerStat.moveSpeed -= 1f;
             machine.animator.SetLayerWeight(1, 0.5f);
             machine.animator.SetTrigger(m_WeaponChangeHash);
-            owner.StartCoroutine(Wait());
+            owner.StartCoroutine(WaitForAnim());
         }
 
         public override void OnStateChangePoint()
         {
         }
 
-        private IEnumerator Wait()
+        private IEnumerator WaitForAnim()
         {
             yield return m_AnimTime;
             owner.PlayerStat.moveSpeed += 1f;

@@ -16,7 +16,7 @@ namespace Script
 
         #region PrefabClass
 
-        [System.Serializable]
+        [Serializable]
         public class Prefabs
         {
             public EPrefabName name;
@@ -54,9 +54,8 @@ namespace Script
 
         private GameObject CreatNewObj(Prefabs prefabName)
         {
-            var _obj = Instantiate(prefabName.prefabObj);
+            var _obj = Instantiate(prefabName.prefabObj, prefabName.prefabParent, true);
             _obj.SetActive(false);
-            _obj.transform.SetParent(prefabName.prefabParent);
             return _obj;
         }
 
@@ -92,7 +91,7 @@ namespace Script
             }
         }
 
-        public void ReTurnObj(GameObject returnObj, EPrefabName prefabName)
+        private void ReTurnObj(GameObject returnObj, EPrefabName prefabName)
         {
             var _currentPrefab = FindObjName(prefabName);
             returnObj.transform.SetParent(_currentPrefab.prefabParent);

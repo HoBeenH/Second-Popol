@@ -9,7 +9,7 @@ namespace Script.Player
         
         public S_Player_Sliding() : base("Base Layer.Skill.Sliding") => m_SlidingHash = Animator.StringToHash("Sliding");
 
-        public override void Init()
+        protected override void Init()
         {
             m_PlayerRigidbody = owner.GetComponent<Rigidbody>();
         }

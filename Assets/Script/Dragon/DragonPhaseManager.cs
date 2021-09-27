@@ -6,9 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Script.Dragon
 {
-
-
-    [System.Flags]
+    [Flags]
     public enum EDragonStatUpFlag
     {
         Default = 1 << 0,
@@ -19,10 +17,11 @@ namespace Script.Dragon
         HealthUp = 1 << 5,
         End = 1 << 6
     }
+
     public class DragonPhaseManager : MonoSingleton<DragonPhaseManager>
     {
         private EDragonStatUpFlag m_StatUpFlag = EDragonStatUpFlag.Default;
-        private readonly WaitForSeconds m_ReadyForSecondPhase = new WaitForSeconds(30f);
+        private readonly WaitForSeconds m_ReadyForSecondPhase = new WaitForSeconds(4f);
         private readonly WaitForSeconds m_ExhaustedTime = new WaitForSeconds(5f);
         private readonly WaitForSeconds m_AngryTime = new WaitForSeconds(10f);
         private readonly int[] m_Phase2StatUp = new int[3];
@@ -32,7 +31,7 @@ namespace Script.Dragon
         private int m_MagicCount;
         private int m_SwordCount;
         private int m_DragonAngry;
-        private int m_DragonAngryMax = 5;
+        private const int DRAGON_ANGRY_MAX = 10;
 
         private void Start()
         {
@@ -46,30 +45,40 @@ namespace Script.Dragon
                 ++m_DragonAngry;
                 var currentWeapon = PlayerController.Instance.currentWeaponFlag;
 
-                if (m_StatUpFlag != EDragonStatUpFlag.End)
+                if (!m_StatUpFlag.Equals(EDragonStatUpFlag.End))
                 {
                     HitCheck(currentWeapon);
                 }
 
-                if (m_DragonAngry >= m_DragonAngryMax)
+                if (m_DragonAngry >= DRAGON_ANGRY_MAX)
                 {
                     m_DragonAngry = 0;
-                    ++m_DragonAngryMax;
                     DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.Angry;
                 }
 
-                var _damage = currentWeapon switch
+                int _damage;
+                if (currentWeapon.HasFlag(ECurrentWeaponFlag.Parry))
                 {
-                    ECurrentWeaponFlag.Magic => PlayerController.Instance.PlayerStat.skillDamage -
-                                            DragonController.Instance.dragonStat.magicDefence,
-                    ECurrentWeaponFlag.Sword => PlayerController.Instance.PlayerStat.damage -
-                                            DragonController.Instance.dragonStat.defence,
-                    // ECurrentWeaponFlag.Parry => Dragon Stun,
-                    _ => throw new Exception($"Unknown Type : {currentWeapon.ToString()}")
-                };
-                if (_damage <= 0)
+                    DragonController.Instance.Stun();
                     return;
-                DragonController.Instance.TakeDamage(_damage);
+                }
+
+                if (currentWeapon.HasFlag(ECurrentWeaponFlag.Magic))
+                {
+                    _damage = PlayerController.Instance.PlayerStat.skillDamage -
+                              DragonController.Instance.dragonStat.magicDefence;
+                    if (_damage <= 0)
+                        return;
+                    DragonController.Instance.TakeDamage(_damage);
+                }
+                if (currentWeapon.HasFlag(ECurrentWeaponFlag.Sword))
+                {
+                    _damage = PlayerController.Instance.PlayerStat.damage -
+                              DragonController.Instance.dragonStat.defence;
+                    if (_damage <= 0)
+                        return;
+                    DragonController.Instance.TakeDamage(_damage);
+                }
             }
         }
 
@@ -105,6 +114,7 @@ namespace Script.Dragon
         private IEnumerator SecondPhaseStart()
         {
             yield return m_ReadyForSecondPhase;
+            Debug.Log($"Second\n{m_StatUpFlag.ToString()}");
             m_StatUpFlag = m_MagicCount >= m_SwordCount
                 ? m_StatUpFlag |= EDragonStatUpFlag.AntiMagic
                 : m_StatUpFlag |= EDragonStatUpFlag.AntiSword;
@@ -141,11 +151,11 @@ namespace Script.Dragon
                 Debug.Log("Current Phase Is Phase 2");
             }
         }
-        
+
 
         private void PhaseStatChange()
         {
-            if (m_StatUpFlag == EDragonStatUpFlag.Default)
+            if (m_StatUpFlag.Equals(EDragonStatUpFlag.Default))
             {
                 Debug.Log($"{m_StatUpFlag.ToString()} Is Default");
                 return;
@@ -164,7 +174,7 @@ namespace Script.Dragon
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.SpeedUp))
             {
                 DragonController.Instance.dragonStat.animSpeed += 0.2f;
-                DragonController.Instance.dragonStat.moveSpeed += 3f;
+                DragonController.Instance.nav.speed += 2f;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.DamageUp))
@@ -176,7 +186,7 @@ namespace Script.Dragon
             {
                 DragonController.Instance.dragonStat.recovery += 1;
                 DragonController.Instance.dragonStat.maxHealth = 300;
-                DragonController.Instance.dragonStat.currentHealth = 250;
+                DragonController.Instance.dragonStat.currentHealth += 150;
             }
 
             m_StatUpFlag = EDragonStatUpFlag.End;
@@ -184,7 +194,7 @@ namespace Script.Dragon
 
         public IEnumerator DragonAngry()
         {
-            while (DragonController.Instance.currentPhaseFlag != EDragonPhaseFlag.Dead)
+            while (!DragonController.Instance.currentPhaseFlag.Equals(EDragonPhaseFlag.Dead))
             {
                 if (DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Angry))
                 {
@@ -219,6 +229,5 @@ namespace Script.Dragon
                 DragonController.Instance.dragonStat.damage -= 4;
             }
         }
-
     }
 }

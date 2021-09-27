@@ -20,6 +20,7 @@ namespace Script
             CurrentState?.OnStateEnter();
         }
 
+
         public bool IsEnd()
         {
             var _currentAnim = animator.GetCurrentAnimatorStateInfo(0);
