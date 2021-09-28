@@ -38,8 +38,8 @@ namespace Script
     {
         public PlayerStatus()
         {
-            this.rotSpeed = 20f;
-            this.moveAnimDamp = 0.05f;
+            this.rotSpeed = 10f;
+            this.moveAnimDamp = 0.01f;
             this.skillDamage = 10;
             this.maxHealth = 100;
             this.damage = 10;

@@ -16,13 +16,16 @@ namespace Script.Player
     {
         private StateMachine<PlayerController> m_PlayerStateMachine;
 
+
         public PlayerStatus PlayerStat { get; private set; }
         public ECurrentWeaponFlag currentWeaponFlag;
         public Action useDefaultCam;
         public Action useActionCam;
+        public Action useFallDown;
 
         private void Awake()
         {
+            useFallDown = () => m_PlayerStateMachine.ChangeState<S_Player_FallDown>();
             PlayerStat = new PlayerStatus();
             var anim = GetComponent<Animator>();
             m_PlayerStateMachine = new StateMachine<PlayerController>(anim, this, new S_Player_Movement());
@@ -35,8 +38,8 @@ namespace Script.Player
             m_PlayerStateMachine.SetState(new M_Player_Shoot());
             m_PlayerStateMachine.SetState(new M_Player_HeavyShoot());
             m_PlayerStateMachine.SetState(new M_Player_TopDown());
+            m_PlayerStateMachine.SetState(new S_Player_FallDown());
             currentWeaponFlag |= ECurrentWeaponFlag.Sword;
-            Debug.Log(currentWeaponFlag.ToString());
         }
 
         private void Update()
@@ -75,7 +78,7 @@ namespace Script.Player
 
             if (Input.GetKey(KeyCode.X))
             {
-                m_PlayerStateMachine.ChangeState<W_Player_Skill>();
+                m_PlayerStateMachine.ChangeState<S_Player_FallDown>();
             }
         }
     }

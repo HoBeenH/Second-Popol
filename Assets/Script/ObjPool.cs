@@ -7,7 +7,9 @@ namespace Script
 {
     public enum EPrefabName
     {
-        PlayerWeaponEffect
+        PlayerWeaponEffect,
+        TopDownHand,
+        TopDown
     }
 
     public class ObjPool : MonoSingleton<ObjPool>

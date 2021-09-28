@@ -9,6 +9,7 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
+            EffectManager.Instance.PlayerSkillEffect(ESkillEffect.TopDown);
             owner.useActionCam();
             machine.animator.SetTrigger(m_TopDownHash);
         }

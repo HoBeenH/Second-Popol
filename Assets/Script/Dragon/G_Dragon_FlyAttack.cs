@@ -25,15 +25,10 @@ namespace Script.Dragon
 
         public override void OnStateEnter()
         {
-            owner.currentPhaseFlag |= EDragonPhaseFlag.CantParry;
+            owner.currentPhaseFlag |= EDragonPhaseFlag.CantParry | EDragonPhaseFlag.Fly;
             owner.bReadyFlyAttack = false;
             owner.StartCoroutine(CoolTime());
             owner.StartCoroutine(FlyAttack());
-        }
-
-        public override void OnStateExit()
-        {
-            owner.currentPhaseFlag &= ~EDragonPhaseFlag.CantParry;
         }
 
         private IEnumerator CoolTime()
@@ -44,9 +39,23 @@ namespace Script.Dragon
 
         private IEnumerator FlyAttack()
         {
-            var currentOffset = owner.nav.baseOffset;
             machine.animator.SetTrigger(m_FlyAttackHash);
             machine.animator.SetBool(m_bFlyAttackHash, true);
+
+            yield return owner.StartCoroutine(Fly(owner.nav.baseOffset));
+            yield return owner.StartCoroutine(FallDown(owner.nav.baseOffset));
+
+            yield return m_CurrentAnimIsIdle;
+            machine.animator.SetBool(m_bFlyAttackHash, false);
+            yield return m_Delay;
+
+            owner.currentPhaseFlag &= ~EDragonPhaseFlag.CantParry;
+            owner.currentPhaseFlag &= ~EDragonPhaseFlag.Fly;
+            machine.ChangeState<S_Dragon_Movement>();
+        }
+
+        private IEnumerator Fly(float currentOffset)
+        {
             while (currentOffset <= 1)
             {
                 currentOffset = Mathf.Lerp(currentOffset, 2, Time.deltaTime);
@@ -61,13 +70,15 @@ namespace Script.Dragon
                 owner.nav.baseOffset = currentOffset;
                 yield return null;
             }
+        }
 
+        private IEnumerator FallDown(float currentOffset)
+        {
             machine.animator.SetTrigger(m_FlyAttackHash);
-            var temp = (owner.player.GetComponent<Rigidbody>().velocity + owner.player.position);
-            owner.nav.SetDestination(temp);
-            while (currentOffset >= 2f)
+            var playerPos = owner.player.position;
+            owner.nav.SetDestination(playerPos);
+            while (currentOffset >= 3f)
             {
-                Physics.Raycast(owner.transform.position, owner.transform.forward, 1f);
                 currentOffset = Mathf.Lerp(currentOffset, 0f, 2f * Time.deltaTime);
                 owner.nav.baseOffset = currentOffset;
 
@@ -76,14 +87,7 @@ namespace Script.Dragon
 
             machine.animator.SetTrigger(m_FlyAttackHash);
             owner.nav.ResetPath();
-
             owner.nav.baseOffset = 0;
-
-            yield return m_CurrentAnimIsIdle;
-            machine.animator.SetBool(m_bFlyAttackHash, false);
-            yield return m_Delay;
-
-            machine.ChangeState<S_Dragon_Movement>();
         }
     }
 }

@@ -39,21 +39,21 @@ namespace Script.Dragon
         public override void OnStateExit()
         {
             owner.nav.ResetPath();
+            owner.nav.speed = 0f;
             machine.animator.SetFloat(m_MovementFloatHash, 0f);
         }
 
         public override void OnStateChangePoint()
         {
-            if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Angry))
-            {
-            }
-
-            if (CheckDis() == false)
+            if (CheckDis() == false) 
                 return;
             switch (PlayerPoint())
             {
                 case EPlayerPoint.Forward when owner.bReadyAttack:
                     machine.ChangeState<G_Dragon_Attack>();
+                    break;
+                case EPlayerPoint.Forward when owner.bReadyBreath:
+                    machine.ChangeState<G_Dragon_Breath>();
                     break;
                 case EPlayerPoint.Back when owner.bReadyTail:
                     machine.ChangeState<G_Dragon_Tail>();
@@ -64,13 +64,6 @@ namespace Script.Dragon
                         machine.ChangeState<G_Dragon_FlyAttack>();
                         return;
                     }
-
-                    if (owner.bReadyBreath)
-                    {
-                        machine.ChangeState<G_Dragon_Breath>();
-                        return;
-                    }
-
                     break;
             }
         }
@@ -89,7 +82,7 @@ namespace Script.Dragon
             {
                 return EPlayerPoint.Back;
             }
-            
+
             return EPlayerPoint.Other;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Script.Player;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,10 +11,9 @@ namespace Script.Dragon
     {
         Phase1 = 1 << 0,
         Phase2 = 1 << 1,
-        Angry = 1 << 2,
-        Exhausted = 1 << 3,
-        CantParry = 1 << 4,
-        Dead = 1 << 5
+        CantParry = 1 << 2,
+        Fly = 1 << 3,
+        Dead = 1 << 4
     }
 
     public class DragonController : MonoSingleton<DragonController>
@@ -48,7 +48,7 @@ namespace Script.Dragon
             m_DragonStateMachine.SetState(new G_Dragon_Breath());
             m_DragonStateMachine.SetState(new G_Dragon_FlyAttack());
             m_DragonStateMachine.SetState(new S_Dragon_Stun());
-            StartCoroutine(DragonPhaseManager.Instance.DragonAngry());
+            m_DragonStateMachine.SetState(new S_Dragon_Dead());
             StartCoroutine(dragonStat.DragonRecovery());
         }
 
@@ -59,13 +59,40 @@ namespace Script.Dragon
 
         private void FixedUpdate() => m_DragonStateMachine?.FixedUpdate();
 
-        public void TakeDamage(int damage) => dragonStat.Health -= damage;
+        public void TakeDamage(int damage, ECurrentWeaponFlag weapon)
+        {
+            var _damage = damage;
+            if (weapon.HasFlag(ECurrentWeaponFlag.Parry))
+            {
+                Stun();
+                return;
+            }
+            if (weapon.HasFlag(ECurrentWeaponFlag.Magic))
+            {
+                _damage -= dragonStat.magicDefence;
+            }
+
+            if (weapon.HasFlag(ECurrentWeaponFlag.Sword))
+            {
+                _damage -= dragonStat.defence;
+            }
+            
+            dragonStat.Health -= _damage;
+            if (dragonStat.Health <= 0f)
+            {
+                m_DragonStateMachine.ChangeState<S_Dragon_Dead>();
+            }
+            if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
+            {
+                DragonPhaseManager.Instance.HitCheck(weapon);
+            }
+        }
 
         [Button]
         public void Stun()
         {
             StopAnim?.Invoke();
             m_DragonStateMachine.ChangeState<S_Dragon_Stun>();
-        }
+        }       
     }
 }

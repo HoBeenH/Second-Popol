@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Script.Player;
 using UnityEngine;
 
 namespace Script.Dragon
@@ -16,7 +17,7 @@ namespace Script.Dragon
         protected override void Init()
         {
             m_CurrentAnimIsIdle = new WaitUntil(() =>
-                machine.animator.GetCurrentAnimatorStateInfo(0).fullPathHash == m_IdleAnimHash);   
+                machine.animator.GetCurrentAnimatorStateInfo(0).fullPathHash == m_IdleAnimHash);
             m_CurrentAnimIsBreath = new WaitUntil(() =>
                 machine.animator.GetCurrentAnimatorStateInfo(0).fullPathHash == m_BreathAnimHash);
         }
@@ -25,8 +26,11 @@ namespace Script.Dragon
         {
             owner.currentPhaseFlag |= EDragonPhaseFlag.CantParry;
             owner.bReadyBreath = false;
-            owner.StartCoroutine(WaitForAnim());
             machine.animator.SetTrigger(m_BreathHash);
+            owner.StartCoroutine(WaitForAnim());
+            owner.StartCoroutine(CoolTime());
+
+            PlayerController.Instance.useFallDown.Invoke();
         }
 
         private IEnumerator CoolTime()
@@ -43,6 +47,5 @@ namespace Script.Dragon
             owner.currentPhaseFlag &= ~EDragonPhaseFlag.CantParry;
             machine.ChangeState<S_Dragon_Movement>();
         }
-
     }
 }

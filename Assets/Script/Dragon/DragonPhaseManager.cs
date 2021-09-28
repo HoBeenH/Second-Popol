@@ -20,70 +20,24 @@ namespace Script.Dragon
 
     public class DragonPhaseManager : MonoSingleton<DragonPhaseManager>
     {
-        private EDragonStatUpFlag m_StatUpFlag = EDragonStatUpFlag.Default;
-        private readonly WaitForSeconds m_ReadyForSecondPhase = new WaitForSeconds(4f);
-        private readonly WaitForSeconds m_ExhaustedTime = new WaitForSeconds(5f);
-        private readonly WaitForSeconds m_AngryTime = new WaitForSeconds(10f);
+        public EDragonStatUpFlag m_StatUpFlag = EDragonStatUpFlag.Default;
         private readonly int[] m_Phase2StatUp = new int[3];
         private const int HEALTH = 0;
         private const int SPEED = 1;
         private const int DAMAGE = 2;
+        private float m_WaitForSecondPhase = 60f;
         private int m_MagicCount;
         private int m_SwordCount;
-        private int m_DragonAngry;
-        private const int DRAGON_ANGRY_MAX = 10;
+
 
         private void Start()
         {
             StartCoroutine(nameof(SecondPhaseStart));
         }
 
-        private void OnTriggerEnter(Collider other)
+        public void HitCheck(ECurrentWeaponFlag currentWeaponFlag)
         {
-            if (other.CompareTag("Player"))
-            {
-                ++m_DragonAngry;
-                var currentWeapon = PlayerController.Instance.currentWeaponFlag;
-
-                if (!m_StatUpFlag.Equals(EDragonStatUpFlag.End))
-                {
-                    HitCheck(currentWeapon);
-                }
-
-                if (m_DragonAngry >= DRAGON_ANGRY_MAX)
-                {
-                    m_DragonAngry = 0;
-                    DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.Angry;
-                }
-
-                int _damage;
-                if (currentWeapon.HasFlag(ECurrentWeaponFlag.Parry))
-                {
-                    DragonController.Instance.Stun();
-                    return;
-                }
-
-                if (currentWeapon.HasFlag(ECurrentWeaponFlag.Magic))
-                {
-                    _damage = PlayerController.Instance.PlayerStat.skillDamage -
-                              DragonController.Instance.dragonStat.magicDefence;
-                    if (_damage <= 0)
-                        return;
-                    DragonController.Instance.TakeDamage(_damage);
-                }
-                if (currentWeapon.HasFlag(ECurrentWeaponFlag.Sword))
-                {
-                    _damage = PlayerController.Instance.PlayerStat.damage -
-                              DragonController.Instance.dragonStat.defence;
-                    if (_damage <= 0)
-                        return;
-                    DragonController.Instance.TakeDamage(_damage);
-                }
-            }
-        }
-
-        private void HitCheck(ECurrentWeaponFlag currentWeaponFlag)
-        {
+            m_WaitForSecondPhase -= 1f;
             switch (currentWeaponFlag)
             {
                 case ECurrentWeaponFlag.Sword:
@@ -113,8 +67,15 @@ namespace Script.Dragon
 
         private IEnumerator SecondPhaseStart()
         {
-            yield return m_ReadyForSecondPhase;
-            Debug.Log($"Second\n{m_StatUpFlag.ToString()}");
+            while (true)
+            {
+                var _time = Time.time;
+                if (_time >= m_WaitForSecondPhase)
+                {
+                    break;
+                }
+                yield return null;
+            }
             m_StatUpFlag = m_MagicCount >= m_SwordCount
                 ? m_StatUpFlag |= EDragonStatUpFlag.AntiMagic
                 : m_StatUpFlag |= EDragonStatUpFlag.AntiSword;
@@ -135,6 +96,7 @@ namespace Script.Dragon
                 2 => m_StatUpFlag |= EDragonStatUpFlag.DamageUp,
                 _ => throw new Exception($"Can't Find : {_index}")
             };
+            Debug.Log($"Second\n{m_StatUpFlag.ToString()}");
             PhaseChange();
         }
 
@@ -190,44 +152,11 @@ namespace Script.Dragon
             }
 
             m_StatUpFlag = EDragonStatUpFlag.End;
+
+            var end = GetComponent<DragonPhaseManager>();
+            end.enabled = false;
         }
 
-        public IEnumerator DragonAngry()
-        {
-            while (!DragonController.Instance.currentPhaseFlag.Equals(EDragonPhaseFlag.Dead))
-            {
-                if (DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Angry))
-                {
-                    DragonController.Instance.currentPhaseFlag &= ~EDragonPhaseFlag.Angry;
-                    DragonHasBuff(true);
-                    yield return m_AngryTime;
-
-                    DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.Exhausted;
-                    DragonHasBuff(false);
-                    yield return m_ExhaustedTime;
-
-                    DragonController.Instance.currentPhaseFlag &= ~EDragonPhaseFlag.Exhausted;
-                    DragonHasBuff(true);
-                }
-
-                yield return null;
-            }
-        }
-
-        private void DragonHasBuff(bool isBuff)
-        {
-            if (isBuff)
-            {
-                DragonController.Instance.dragonStat.animSpeed += 0.1f;
-                DragonController.Instance.dragonStat.moveSpeed += 1.5f;
-                DragonController.Instance.dragonStat.damage += 2;
-            }
-            else
-            {
-                DragonController.Instance.dragonStat.animSpeed -= 0.2f;
-                DragonController.Instance.dragonStat.moveSpeed -= 3f;
-                DragonController.Instance.dragonStat.damage -= 4;
-            }
-        }
+       
     }
 }
