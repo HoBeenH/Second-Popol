@@ -125,30 +125,30 @@ namespace Script.Dragon
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.AntiMagic))
             {
-                DragonController.Instance.dragonStat.magicDefence += 3;
+                DragonController.Instance.DragonStat.magicDefence += 3;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.AntiSword))
             {
-                DragonController.Instance.dragonStat.defence += 3;
+                DragonController.Instance.DragonStat.defence += 3;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.SpeedUp))
             {
-                DragonController.Instance.dragonStat.animSpeed += 0.2f;
+                DragonController.Instance.DragonStat.animSpeed += 0.2f;
                 DragonController.Instance.nav.speed += 2f;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.DamageUp))
             {
-                DragonController.Instance.dragonStat.damage += 5;
+                DragonController.Instance.DragonStat.damage += 5;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.HealthUp))
             {
-                DragonController.Instance.dragonStat.recovery += 1;
-                DragonController.Instance.dragonStat.maxHealth = 300;
-                DragonController.Instance.dragonStat.currentHealth += 150;
+                DragonController.Instance.DragonStat.recovery += 1;
+                DragonController.Instance.DragonStat.maxHealth = 300;
+                DragonController.Instance.DragonStat.currentHealth += 150;
             }
 
             m_StatUpFlag = EDragonStatUpFlag.End;

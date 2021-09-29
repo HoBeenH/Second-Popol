@@ -28,21 +28,19 @@ namespace Script.Dragon
         [HideInInspector] public bool bReadyFlyAttack = true;
         [HideInInspector] public bool bReadyBreath = true;
         [SerializeField] public EDragonPhaseFlag currentPhaseFlag = EDragonPhaseFlag.Phase1;
-        public GameObject headObj;
         public LayerMask playerMask;
-        public DragonStatus dragonStat;
+        public DragonStatus DragonStat { get; private set; }
         public event Action StopAnim;
 
         private void Awake()
         {
-            dragonStat = new DragonStatus();
+            DragonStat = new DragonStatus();
             nav = GetComponent<NavMeshAgent>();
             player = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         private void Start()
         {
-            Debug.Log(dragonStat.Health);
             var anim = GetComponent<Animator>();
             m_DragonStateMachine = new StateMachine<DragonController>(anim, this, new S_Dragon_Movement());
             m_DragonStateMachine.SetState(new G_Dragon_Attack());
@@ -51,7 +49,7 @@ namespace Script.Dragon
             m_DragonStateMachine.SetState(new G_Dragon_FlyAttack());
             m_DragonStateMachine.SetState(new S_Dragon_Stun());
             m_DragonStateMachine.SetState(new S_Dragon_Dead());
-            StartCoroutine(dragonStat.DragonRecovery());
+            StartCoroutine(DragonStat.DragonRecovery());
         }
 
         private void Update()
@@ -71,15 +69,15 @@ namespace Script.Dragon
             }
             if (weapon.HasFlag(ECurrentWeaponFlag.Magic))
             {
-                _damage -= dragonStat.magicDefence;
+                _damage -= DragonStat.magicDefence;
             }
 
             if (weapon.HasFlag(ECurrentWeaponFlag.Sword))
             {
-                _damage -= dragonStat.defence;
+                _damage -= DragonStat.defence;
             }
-            dragonStat.Health -= _damage;
-            if (dragonStat.Health <= 0f)
+            DragonStat.Health -= _damage;
+            if (DragonStat.Health <= 0f)
             {
                 m_DragonStateMachine.ChangeState<S_Dragon_Dead>();
             }

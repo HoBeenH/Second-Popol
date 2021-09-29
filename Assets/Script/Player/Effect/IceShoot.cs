@@ -11,8 +11,13 @@ namespace Script.Player.Effect
         {
             if (Physics.Raycast(transform.position, transform.forward, out var _hit, 20f, PlayerController.Instance.dragon))
             {
+                if (DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.CantParry))
+                {
+                    return;
+                }
                 EffectManager.Instance.GetEffectOrNull(EPrefabName.Ice, _hit.point, null, m_ReturnTime);
                 DragonController.Instance.Frozen();
+                gameObject.SetActive(false);
             }
         }
     }

@@ -23,21 +23,17 @@ namespace Script.Dragon
 
         public override void OnStateUpdate()
         {
-            // if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Frozen))
-            // {
-            //     return;
-            // }
             var _playerPos = owner.player.position;
 
             machine.animator.SetFloat(m_MovementFloatHash, owner.nav.desiredVelocity.magnitude,
-                owner.dragonStat.moveAnimDamp, Time.deltaTime);
+                owner.DragonStat.moveAnimDamp, Time.deltaTime);
             owner.nav.SetDestination(_playerPos);
 
             if (CheckDis() == false)
                 return;
             var _nextRot = Quaternion.LookRotation((_playerPos - m_Dragon.position).normalized);
             m_Dragon.rotation = Quaternion.Slerp(m_Dragon.rotation, _nextRot,
-                owner.dragonStat.rotSpeed * Time.deltaTime);
+                owner.DragonStat.rotSpeed * Time.deltaTime);
         }
 
         public override void OnStateExit()
@@ -48,7 +44,7 @@ namespace Script.Dragon
 
         public override void OnStateChangePoint()
         {
-            if (!CheckDis() == false && owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Frozen)) 
+            if (CheckDis() == false) 
                 return;
             switch (PlayerPoint())
             {

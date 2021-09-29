@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Script.Player.Effect;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Script.Dragon
         private readonly int m_FlyAttackHash = Animator.StringToHash("FlyAttack");
         private readonly int m_bFlyAttackHash = Animator.StringToHash("NowFly");
         private readonly WaitForSeconds m_FlyAttackCoolTime = new WaitForSeconds(20.0f);
+        private readonly WaitForSeconds m_SmokeReturnTime = new WaitForSeconds(3.0f);
         private WaitUntil m_CurrentAnimIsFly;
 
         protected override void Init()
@@ -52,13 +54,6 @@ namespace Script.Dragon
 
         private IEnumerator Fly(float currentOffset)
         {
-            while (currentOffset <= 1)
-            {
-                currentOffset = Mathf.Lerp(currentOffset, 2, Time.deltaTime);
-                owner.nav.baseOffset = currentOffset;
-                yield return null;
-            }
-
             yield return m_CurrentAnimIsFly;
             while (currentOffset <= 19f)
             {
@@ -71,19 +66,23 @@ namespace Script.Dragon
         private IEnumerator FallDown(float currentOffset)
         {
             machine.animator.SetTrigger(m_FlyAttackHash);
-            var playerPos = owner.player.position;
-            owner.nav.SetDestination(playerPos);
+            var _targetPos = owner.player.position;
+            owner.nav.SetDestination(_targetPos);
             while (currentOffset >= 3f)
             {
                 currentOffset = Mathf.Lerp(currentOffset, 0f, 2f * Time.deltaTime);
                 owner.nav.baseOffset = currentOffset;
-
                 yield return null;
             }
 
             machine.animator.SetTrigger(m_FlyAttackHash);
             owner.nav.ResetPath();
             owner.nav.baseOffset = 0;
+            var _position = owner.transform.position;
+            EffectManager.Instance.GetEffectOrNull(EPrefabName.DragonDownSmoke, _position, null,
+                m_SmokeReturnTime); 
+            EffectManager.Instance.GetEffectOrNull(EPrefabName.DragonDownSmoke2, _position, null,
+                m_SmokeReturnTime,null,owner.transform);
         }
     }
 }

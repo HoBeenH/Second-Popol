@@ -16,10 +16,20 @@ namespace Script.Dragon
             owner.bReadyTail = false;
             owner.StartCoroutine(CoolTime());
             owner.StartCoroutine(machine.WaitForIdle(typeof(S_Dragon_Movement), m_AttackLAnimHash));
+
+        }
+
+        public override void OnStateChangePoint()
+        {
+            if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase2))
+            {
+                machine.animator.SetTrigger(m_TailHash);
+            }
         }
 
         public override void OnStateExit()
         {
+            machine.animator.ResetTrigger(m_TailHash);
             owner.StopAnim -= HitParry;
         }
 

@@ -11,12 +11,16 @@ namespace Script
         TopDownHand,
         TopDown,
         IceShoot,
-        Ice
+        Ice,
+        BreathForce,
+        DragonDownSmoke,
+        DragonDownSmoke2
     }
 
     public class ObjPool : MonoSingleton<ObjPool>
     {
-        [SerializeField] private Prefabs[] prefab;
+        [SerializeField] private Prefabs[] m_PlayerPrefab;
+        [SerializeField] private Prefabs[] m_EnemyPrefab;
 
         #region PrefabClass
 
@@ -39,12 +43,19 @@ namespace Script
 
         private void CreatParent()
         {
-            for (var i = 0; i < prefab.Length; i++)
+            for (var i = 0; i < m_PlayerPrefab.Length; i++)
             {
-                var _currentPrefabParent = new GameObject(prefab[i].name.ToString());
+                var _currentPrefabParent = new GameObject(m_PlayerPrefab[i].name.ToString());
                 _currentPrefabParent.transform.SetParent(this.transform);
-                prefab[i].prefabParent = _currentPrefabParent.transform;
-                EnqueueObj(prefab[i]);
+                m_PlayerPrefab[i].prefabParent = _currentPrefabParent.transform;
+                EnqueueObj(m_PlayerPrefab[i]);
+            }     
+            for (var i = 0; i < m_EnemyPrefab.Length; i++)
+            {
+                var _currentPrefabParent = new GameObject(m_EnemyPrefab[i].name.ToString());
+                _currentPrefabParent.transform.SetParent(this.transform);
+                m_EnemyPrefab[i].prefabParent = _currentPrefabParent.transform;
+                EnqueueObj(m_EnemyPrefab[i]);
             }
         }
 
@@ -65,11 +76,18 @@ namespace Script
 
         private Prefabs FindObjName(EPrefabName prefabName)
         {
-            for (var i = 0; i < prefab.Length; i++)
+            for (var i = 0; i < m_PlayerPrefab.Length; i++)
             {
-                if (prefab[i].name == prefabName)
+                if (m_PlayerPrefab[i].name == prefabName)
                 {
-                    return prefab[i];
+                    return m_PlayerPrefab[i];
+                }
+            }     
+            for (var i = 0; i < m_EnemyPrefab.Length; i++)
+            {
+                if (m_EnemyPrefab[i].name == prefabName)
+                {
+                    return m_EnemyPrefab[i];
                 }
             }
 

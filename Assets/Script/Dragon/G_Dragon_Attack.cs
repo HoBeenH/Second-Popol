@@ -25,13 +25,12 @@ namespace Script.Dragon
 
         private void HitParry()
         {
-            owner.StopAllCoroutines();
+            owner.StopCoroutine((machine.WaitForIdle(typeof(S_Dragon_Movement),m_AttackAnimHash)));
         }
 
         private IEnumerator CoolTime()
         {
             yield return m_AttackCoolTime;
-            Debug.Log("!");
             owner.bReadyAttack = true;
         }
     }

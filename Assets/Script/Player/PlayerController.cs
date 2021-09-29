@@ -22,7 +22,6 @@ namespace Script.Player
         public Action useActionCam;
         public Action useFallDown;
         public LayerMask dragon;
-        public GameObject temp;
         [HideInInspector] public bool bTopDownCoolTime = true;
 
         private void Awake()
