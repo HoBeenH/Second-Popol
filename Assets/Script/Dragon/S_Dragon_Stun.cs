@@ -10,14 +10,7 @@ namespace Script.Dragon
         public override void OnStateEnter()
         {
             machine.animator.SetTrigger(m_StunHash);
-        }
-
-        public override void OnStateChangePoint()
-        {
-            if (machine.IsEnd())
-            {
-                machine.ChangeState<S_Dragon_Movement>();
-            }
+            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Dragon_Movement),animToHash));
         }
     }
 }

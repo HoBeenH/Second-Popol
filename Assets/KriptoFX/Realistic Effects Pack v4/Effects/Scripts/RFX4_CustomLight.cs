@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 [ExecuteInEditMode]
 public class RFX4_CustomLight : MonoBehaviour
 {
-    static int MaxLightsCount = 1024;
+    static int MaxLightsCount = 8;
     Texture2D PointLightAttenuation;
     List<Light> sceneLights;
 

@@ -23,6 +23,10 @@ namespace Script.Dragon
 
         public override void OnStateUpdate()
         {
+            // if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Frozen))
+            // {
+            //     return;
+            // }
             var _playerPos = owner.player.position;
 
             machine.animator.SetFloat(m_MovementFloatHash, owner.nav.desiredVelocity.magnitude,
@@ -39,13 +43,12 @@ namespace Script.Dragon
         public override void OnStateExit()
         {
             owner.nav.ResetPath();
-            owner.nav.speed = 0f;
             machine.animator.SetFloat(m_MovementFloatHash, 0f);
         }
 
         public override void OnStateChangePoint()
         {
-            if (CheckDis() == false) 
+            if (!CheckDis() == false && owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Frozen)) 
                 return;
             switch (PlayerPoint())
             {

@@ -18,14 +18,7 @@ namespace Script.Player
         {
             machine.animator.SetTrigger(m_SlidingHash);
             m_PlayerRigidbody.velocity = owner.transform.forward * 7f;
-        }
-
-        public override void OnStateChangePoint()
-        {
-            if (machine.IsEnd())
-            {
-                machine.ChangeState<S_Player_Movement>();
-            }
+            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
         }
     }
 }

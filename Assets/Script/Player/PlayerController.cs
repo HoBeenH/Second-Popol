@@ -16,12 +16,14 @@ namespace Script.Player
     {
         private StateMachine<PlayerController> m_PlayerStateMachine;
 
-
         public PlayerStatus PlayerStat { get; private set; }
         public ECurrentWeaponFlag currentWeaponFlag;
         public Action useDefaultCam;
         public Action useActionCam;
         public Action useFallDown;
+        public LayerMask dragon;
+        public GameObject temp;
+        [HideInInspector] public bool bTopDownCoolTime = true;
 
         private void Awake()
         {

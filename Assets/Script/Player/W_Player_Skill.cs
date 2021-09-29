@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Script.Player.Effect;
+using UnityEngine;
 
 namespace Script.Player
 {
@@ -12,22 +13,17 @@ namespace Script.Player
         public override void OnStateEnter()
         {
             Time.timeScale = 0.8f;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
             owner.useActionCam();
             EffectManager.Instance.EffectPlayerWeapon(true);
             machine.animator.SetTrigger(m_WSkillHash);
-        }
-
-        public override void OnStateChangePoint()
-        {
-            if (machine.IsEnd())
-            {
-                Time.timeScale = 1f;
-                machine.ChangeState<S_Player_Movement>();
-            }
+            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
         }
 
         public override void OnStateExit()
         {
+            Time.timeScale = 1f;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
             owner.useDefaultCam();
             EffectManager.Instance.EffectPlayerWeapon(false);
         }

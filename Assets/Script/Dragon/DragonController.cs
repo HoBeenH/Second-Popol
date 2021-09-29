@@ -13,7 +13,8 @@ namespace Script.Dragon
         Phase2 = 1 << 1,
         CantParry = 1 << 2,
         Fly = 1 << 3,
-        Dead = 1 << 4
+        Frozen = 1 << 4,
+        Dead = 1 << 5
     }
 
     public class DragonController : MonoSingleton<DragonController>
@@ -41,6 +42,7 @@ namespace Script.Dragon
 
         private void Start()
         {
+            Debug.Log(dragonStat.Health);
             var anim = GetComponent<Animator>();
             m_DragonStateMachine = new StateMachine<DragonController>(anim, this, new S_Dragon_Movement());
             m_DragonStateMachine.SetState(new G_Dragon_Attack());
@@ -76,7 +78,6 @@ namespace Script.Dragon
             {
                 _damage -= dragonStat.defence;
             }
-            
             dragonStat.Health -= _damage;
             if (dragonStat.Health <= 0f)
             {
@@ -93,6 +94,18 @@ namespace Script.Dragon
         {
             StopAnim?.Invoke();
             m_DragonStateMachine.ChangeState<S_Dragon_Stun>();
-        }       
+        }
+
+        public void Frozen()
+        {
+            StopAnim?.Invoke();
+            currentPhaseFlag |= EDragonPhaseFlag.Frozen;
+            m_DragonStateMachine.ChangeState<S_Dragon_Movement>();
+            nav.SetDestination(transform.position);
+        }    
+        public void DeFrozen()
+        {
+            currentPhaseFlag &= ~EDragonPhaseFlag.Frozen;
+        }
     }
 }

@@ -52,7 +52,7 @@ MonoBehaviour:
   UseFastFlatDecals: 0
   UseCustomColor: 0
   EffectColor: {r: 1, g: 0, b: 0, a: 1}
-  IsVisible: 1
+  IsVisible: 0
   FadeoutTime: 1.5
   UseCollisionDetection: 1
   LimitMaxDistance: 0

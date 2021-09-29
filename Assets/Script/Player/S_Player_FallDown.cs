@@ -18,14 +18,7 @@ namespace Script.Player
         {
             m_Rig.AddForce(owner.transform.forward * -5, ForceMode.Impulse);
             machine.animator.SetTrigger(m_FallDownHash);
-        }
-
-        public override void OnStateChangePoint()
-        {
-            if (machine.IsEnd())
-            {
-                machine.ChangeState<S_Player_Movement>();
-            }
+            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
         }
     }
 }

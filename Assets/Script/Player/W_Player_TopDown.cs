@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Script.Player.Effect;
+using UnityEngine;
 
 namespace Script.Player
 {
@@ -14,14 +15,7 @@ namespace Script.Player
             owner.useActionCam();
             EffectManager.Instance.EffectPlayerWeapon(true);
             machine.animator.SetTrigger(m_WTopDownHash);
-        }
-
-        public override void OnStateChangePoint()
-        {
-            if (machine.IsEnd())
-            {
-                machine.ChangeState<S_Player_Movement>();
-            }
+            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
         }
 
         public override void OnStateExit()

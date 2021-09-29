@@ -13,14 +13,7 @@ namespace Script.Player
         {
             owner.useActionCam();
             machine.animator.SetTrigger(m_HeavyShootHash);
-        }
-
-        public override void OnStateChangePoint()
-        {
-            if (machine.IsEnd())
-            {
-                machine.ChangeState<S_Player_Movement>();
-            }
+            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
         }
 
         public override void OnStateExit()

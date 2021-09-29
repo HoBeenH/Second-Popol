@@ -38,6 +38,7 @@ namespace Script
             CamFollowSet();
         }
 
+
         private void CamFollowSet()
         {
             var _position = transform.position;

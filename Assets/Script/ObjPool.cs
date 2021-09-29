@@ -9,7 +9,9 @@ namespace Script
     {
         PlayerWeaponEffect,
         TopDownHand,
-        TopDown
+        TopDown,
+        IceShoot,
+        Ice
     }
 
     public class ObjPool : MonoSingleton<ObjPool>

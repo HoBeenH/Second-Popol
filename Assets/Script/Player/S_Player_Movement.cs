@@ -53,7 +53,7 @@ namespace Script.Player
                 {
                     machine.ChangeState<M_Player_HeavyShoot>();
                 }   
-                if (Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetKeyDown(KeyCode.Q) && owner.bTopDownCoolTime)
                 {
                     machine.ChangeState<M_Player_TopDown>();
                 }

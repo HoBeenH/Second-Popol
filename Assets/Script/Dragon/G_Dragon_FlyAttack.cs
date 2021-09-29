@@ -7,20 +7,15 @@ namespace Script.Dragon
     public class G_Dragon_FlyAttack : State<DragonController>
     {
         private readonly int m_FlyAnimHash = Animator.StringToHash("Base Layer.FlyAttack.Fly");
-        private readonly int m_IdleAnimHash = Animator.StringToHash("Base Layer.Move");
         private readonly int m_FlyAttackHash = Animator.StringToHash("FlyAttack");
         private readonly int m_bFlyAttackHash = Animator.StringToHash("NowFly");
         private readonly WaitForSeconds m_FlyAttackCoolTime = new WaitForSeconds(20.0f);
-        private readonly WaitForSeconds m_Delay = new WaitForSeconds(0.5f);
         private WaitUntil m_CurrentAnimIsFly;
-        private WaitUntil m_CurrentAnimIsIdle;
 
         protected override void Init()
         {
             m_CurrentAnimIsFly = new WaitUntil(() =>
                 machine.animator.GetCurrentAnimatorStateInfo(0).fullPathHash == m_FlyAnimHash);
-            m_CurrentAnimIsIdle = new WaitUntil(() =>
-                machine.animator.GetCurrentAnimatorStateInfo(0).fullPathHash == m_IdleAnimHash);
         }
 
         public override void OnStateEnter()
@@ -29,6 +24,13 @@ namespace Script.Dragon
             owner.bReadyFlyAttack = false;
             owner.StartCoroutine(CoolTime());
             owner.StartCoroutine(FlyAttack());
+        }
+
+        public override void OnStateExit()
+        {
+            owner.currentPhaseFlag &= ~EDragonPhaseFlag.CantParry;
+            owner.currentPhaseFlag &= ~EDragonPhaseFlag.Fly;
+            machine.animator.SetBool(m_bFlyAttackHash, false);
         }
 
         private IEnumerator CoolTime()
@@ -45,13 +47,7 @@ namespace Script.Dragon
             yield return owner.StartCoroutine(Fly(owner.nav.baseOffset));
             yield return owner.StartCoroutine(FallDown(owner.nav.baseOffset));
 
-            yield return m_CurrentAnimIsIdle;
-            machine.animator.SetBool(m_bFlyAttackHash, false);
-            yield return m_Delay;
-
-            owner.currentPhaseFlag &= ~EDragonPhaseFlag.CantParry;
-            owner.currentPhaseFlag &= ~EDragonPhaseFlag.Fly;
-            machine.ChangeState<S_Dragon_Movement>();
+            yield return owner.StartCoroutine(machine.WaitForIdle(typeof(S_Dragon_Movement)));
         }
 
         private IEnumerator Fly(float currentOffset)
