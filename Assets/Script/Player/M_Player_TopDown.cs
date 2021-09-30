@@ -19,17 +19,10 @@ namespace Script.Player
         {
             machine.animator.SetTrigger(m_TopDownHash);
             owner.bTopDownCoolTime = false;
-            owner.useActionCam();
             owner.StartCoroutine(CoolTime());
             SetEffect();
-            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
+            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement), true, animToHash));
         }
-
-        public override void OnStateExit()
-        {
-            owner.useDefaultCam();
-        }
-
         private IEnumerator CoolTime()
         {
             yield return m_TopDownCool;
@@ -41,14 +34,14 @@ namespace Script.Player
             EffectManager.Instance.GetEffectOrNull(EPrefabName.TopDownHand,
                 EffectManager.Instance.leftHand.transform.position, null,
                 m_EffectTopDownHandTimer, null, EffectManager.Instance.leftHand);
-            
+
             EffectManager.Instance.GetEffectOrNull(EPrefabName.TopDownHand,
                 EffectManager.Instance.rightHand.transform.position, null,
                 m_EffectTopDownHandTimer, null, EffectManager.Instance.rightHand);
-            
+
             Physics.Raycast(EffectManager.Instance.spawnPosUp.position, -EffectManager.Instance.spawnPosUp.up,
                 out var _hit);
-            
+
             EffectManager.Instance.GetEffectOrNull(EPrefabName.TopDown, _hit.point, null, m_EffectTopDownTimer,
                 m_EffectTopDownSpawnDelay);
         }

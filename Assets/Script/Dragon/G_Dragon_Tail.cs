@@ -15,13 +15,13 @@ namespace Script.Dragon
             owner.StopAnim += HitParry;
             owner.bReadyTail = false;
             owner.StartCoroutine(CoolTime());
-            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Dragon_Movement), m_AttackLAnimHash));
+            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement), true,m_AttackLAnimHash));
 
         }
 
         public override void OnStateChangePoint()
         {
-            if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase2))
+            if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.SpeedUp))
             {
                 machine.animator.SetTrigger(m_TailHash);
             }
@@ -35,7 +35,7 @@ namespace Script.Dragon
 
         private void HitParry()
         {
-            owner.StopCoroutine(machine.WaitForIdle(typeof(S_Dragon_Movement), m_AttackLAnimHash));
+            owner.StopCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement), true,m_AttackLAnimHash));
         }
 
         private IEnumerator CoolTime()

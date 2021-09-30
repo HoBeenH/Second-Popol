@@ -50,7 +50,7 @@ namespace Script.Dragon
             yield return owner.StartCoroutine(Fly(owner.nav.baseOffset));
             yield return owner.StartCoroutine(FallDown(owner.nav.baseOffset));
 
-            yield return owner.StartCoroutine(machine.WaitForIdle(typeof(S_Dragon_Movement)));
+            yield return owner.StartCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement)));
         }
 
         private IEnumerator Fly(float currentOffset)
@@ -85,7 +85,12 @@ namespace Script.Dragon
             EffectManager.Instance.GetEffectOrNull(EPrefabName.DragonDownSmoke2, _position, null,
                 m_SmokeReturnTime, null, owner.transform);
             var _result = new Collider[1];
-            int _size = Physics.OverlapSphereNonAlloc(_position, 5F, _result, owner.playerMask);
+            var _radius = 5f;
+            if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.HealthUp))
+            {
+                _radius = 10f;
+            }
+            var _size = Physics.OverlapSphereNonAlloc(_position, _radius, _result, owner.playerMask);
             if (_size == 0)
             {
                 yield break;;

@@ -11,14 +11,9 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
-            owner.useActionCam();
             machine.animator.SetTrigger(m_HeavyShootHash);
-            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
+            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));
         }
 
-        public override void OnStateExit()
-        {
-            owner.useDefaultCam();
-        }
     }
 }

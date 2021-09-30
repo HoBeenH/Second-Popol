@@ -16,10 +16,8 @@ namespace Script.Dragon
         {
             if (other.CompareTag("Player"))
             {
-                PlayerController.Instance.TakeDamage(DragonController.Instance.DragonStat.damage);
-                var temp = (other.transform.position - transform.position).normalized;
-                Debug.Log(temp);
-                PlayerController.Instance.useFallDown.Invoke(temp,5f);
+                var _dir = (other.transform.position - transform.position).normalized;
+                PlayerController.Instance.TakeDamage(DragonController.Instance.DragonStat.damage, _dir);
                 m_Col.enabled = false;
             }
         }

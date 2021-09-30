@@ -4702,7 +4702,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.25781247
+        functionName: TailCol
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 1
+        messageOptions: 0
+      - time: 0.74218756
+        functionName: TailCol
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -5847,7 +5861,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.41927096
+        functionName: TailCol
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 1
+        messageOptions: 0
+      - time: 0.6614583
+        functionName: TailCol
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -12695,6 +12723,10 @@ ModelImporter:
         weight: 1
       - path: DragonRoot/BoneRoot
         weight: 1
+      - path: DragonRoot/BoneRoot/Base Human
+        weight: 1
+      - path: DragonRoot/BoneRoot/Base HumanLIKTarget
+        weight: 1
       - path: DragonRoot/BoneRoot/Base HumanPelvis
         weight: 1
       - path: DragonRoot/BoneRoot/Base HumanPelvis/Base HumanLThigh1
@@ -13291,25 +13323,31 @@ ModelImporter:
           DragonLLeg3/English DragonLLegPalm
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonLLeg1/English DragonLLeg2/English
-          DragonLLeg3/English DragonLLegPalm/LLegPoint
+          DragonLLeg3/English DragonLLegPalm/LLegPoint02
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonLLeg1/English DragonLLeg2/English
-          DragonLLeg3/English DragonLLegPalm/LLegPoint/LLegToe1
+          DragonLLeg3/English DragonLLegPalm/LLegPoint02/LLegPoint01
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonLLeg1/English DragonLLeg2/English
-          DragonLLeg3/English DragonLLegPalm/LLegPoint/LLegToe1/LLegToe12
+          DragonLLeg3/English DragonLLegPalm/LLegPoint02/LLegPoint01/LLegPoint
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonLLeg1/English DragonLLeg2/English
-          DragonLLeg3/English DragonLLegPalm/LLegPoint/LLegToe2
+          DragonLLeg3/English DragonLLegPalm/LLegPoint02/LLegPoint01/LLegPoint/LLegToe1
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonLLeg1/English DragonLLeg2/English
-          DragonLLeg3/English DragonLLegPalm/LLegPoint/LLegToe2/LLegToe21
+          DragonLLeg3/English DragonLLegPalm/LLegPoint02/LLegPoint01/LLegPoint/LLegToe1/LLegToe12
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonLLeg1/English DragonLLeg2/English
-          DragonLLeg3/English DragonLLegPalm/LLegPoint/LLegToe3
+          DragonLLeg3/English DragonLLegPalm/LLegPoint02/LLegPoint01/LLegPoint/LLegToe2
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonLLeg1/English DragonLLeg2/English
-          DragonLLeg3/English DragonLLegPalm/LLegPoint/LLegToe3/LLegToe31
+          DragonLLeg3/English DragonLLegPalm/LLegPoint02/LLegPoint01/LLegPoint/LLegToe2/LLegToe21
+        weight: 1
+      - path: DragonRoot/English DragonPelvis/English DragonLLeg1/English DragonLLeg2/English
+          DragonLLeg3/English DragonLLegPalm/LLegPoint02/LLegPoint01/LLegPoint/LLegToe3
+        weight: 1
+      - path: DragonRoot/English DragonPelvis/English DragonLLeg1/English DragonLLeg2/English
+          DragonLLeg3/English DragonLLegPalm/LLegPoint02/LLegPoint01/LLegPoint/LLegToe3/LLegToe31
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonRLeg1
         weight: 1
@@ -13322,25 +13360,31 @@ ModelImporter:
           DragonRLeg3/English DragonRLegPalm
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonRLeg1/English DragonRLeg2/English
-          DragonRLeg3/English DragonRLegPalm/RLegPoint
+          DragonRLeg3/English DragonRLegPalm/RLegPoint02
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonRLeg1/English DragonRLeg2/English
-          DragonRLeg3/English DragonRLegPalm/RLegPoint/RLegToe1
+          DragonRLeg3/English DragonRLegPalm/RLegPoint02/RLegPoint01
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonRLeg1/English DragonRLeg2/English
-          DragonRLeg3/English DragonRLegPalm/RLegPoint/RLegToe1/RLegToe12
+          DragonRLeg3/English DragonRLegPalm/RLegPoint02/RLegPoint01/RLegPoint
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonRLeg1/English DragonRLeg2/English
-          DragonRLeg3/English DragonRLegPalm/RLegPoint/RLegToe2
+          DragonRLeg3/English DragonRLegPalm/RLegPoint02/RLegPoint01/RLegPoint/RLegToe1
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonRLeg1/English DragonRLeg2/English
-          DragonRLeg3/English DragonRLegPalm/RLegPoint/RLegToe2/RLegToe21
+          DragonRLeg3/English DragonRLegPalm/RLegPoint02/RLegPoint01/RLegPoint/RLegToe1/RLegToe12
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonRLeg1/English DragonRLeg2/English
-          DragonRLeg3/English DragonRLegPalm/RLegPoint/RLegToe3
+          DragonRLeg3/English DragonRLegPalm/RLegPoint02/RLegPoint01/RLegPoint/RLegToe2
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonRLeg1/English DragonRLeg2/English
-          DragonRLeg3/English DragonRLegPalm/RLegPoint/RLegToe3/RLegToe31
+          DragonRLeg3/English DragonRLegPalm/RLegPoint02/RLegPoint01/RLegPoint/RLegToe2/RLegToe21
+        weight: 1
+      - path: DragonRoot/English DragonPelvis/English DragonRLeg1/English DragonRLeg2/English
+          DragonRLeg3/English DragonRLegPalm/RLegPoint02/RLegPoint01/RLegPoint/RLegToe3
+        weight: 1
+      - path: DragonRoot/English DragonPelvis/English DragonRLeg1/English DragonRLeg2/English
+          DragonRLeg3/English DragonRLegPalm/RLegPoint02/RLegPoint01/RLegPoint/RLegToe3/RLegToe31
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1
         weight: 1
@@ -13373,31 +13417,39 @@ ModelImporter:
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonLArmCollarbone/English
-          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint
+          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint02
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonLArmCollarbone/English
-          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint/LHandToe1
+          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint02/LArmPoint01
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonLArmCollarbone/English
-          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint/LHandToe1/LHandToe12
+          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint02/LArmPoint01/LArmPoint
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonLArmCollarbone/English
-          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint/LHandToe2
+          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint02/LArmPoint01/LArmPoint/LHandToe1
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonLArmCollarbone/English
-          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint/LHandToe2/LHandToe21
+          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint02/LArmPoint01/LArmPoint/LHandToe1/LHandToe12
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonLArmCollarbone/English
-          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint/LHandToe3
+          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint02/LArmPoint01/LArmPoint/LHandToe2
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonLArmCollarbone/English
-          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint/LHandToe3/LHandToe31
+          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint02/LArmPoint01/LArmPoint/LHandToe2/LHandToe21
+        weight: 1
+      - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
+          DragonSpine3/English DragonRibcage/English DragonLArmCollarbone/English
+          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint02/LArmPoint01/LArmPoint/LHandToe3
+        weight: 1
+      - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
+          DragonSpine3/English DragonRibcage/English DragonLArmCollarbone/English
+          DragonLArm1/English DragonLArm2/English DragonLArm3/English DragonLArmPalm/LArmPoint02/LArmPoint01/LArmPoint/LHandToe3/LHandToe31
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonLWingCollarbone
@@ -13514,31 +13566,39 @@ ModelImporter:
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonRArmCollarbone/English
-          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint
+          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint02
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonRArmCollarbone/English
-          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint/RHandToe1
+          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint02/RArmPoint01
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonRArmCollarbone/English
-          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint/RHandToe1/RHandToe12
+          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint02/RArmPoint01/RArmPoint
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonRArmCollarbone/English
-          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint/RHandToe2
+          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint02/RArmPoint01/RArmPoint/RHandToe1
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonRArmCollarbone/English
-          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint/RHandToe2/RHandToe21
+          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint02/RArmPoint01/RArmPoint/RHandToe1/RHandToe12
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonRArmCollarbone/English
-          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint/RHandToe3
+          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint02/RArmPoint01/RArmPoint/RHandToe2
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonRArmCollarbone/English
-          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint/RHandToe3/RHandToe31
+          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint02/RArmPoint01/RArmPoint/RHandToe2/RHandToe21
+        weight: 1
+      - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
+          DragonSpine3/English DragonRibcage/English DragonRArmCollarbone/English
+          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint02/RArmPoint01/RArmPoint/RHandToe3
+        weight: 1
+      - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
+          DragonSpine3/English DragonRibcage/English DragonRArmCollarbone/English
+          DragonRArm1/English DragonRArm2/English DragonRArm3/English DragonRArmPalm/RArmPoint02/RArmPoint01/RArmPoint/RHandToe3/RHandToe31
         weight: 1
       - path: DragonRoot/English DragonPelvis/English DragonSpine1/English DragonSpine2/English
           DragonSpine3/English DragonRibcage/English DragonRWingCollarbone
@@ -13693,8 +13753,6 @@ ModelImporter:
         weight: 1
       - path: DragonRoot/S2B_NStretchIK_001/S2B_NStretchIK_002/S2B_NStretchIK_003/S2B_NStretchIK_004/S2B_NStretchIK_005/S2B_NStretchIK_006/S2B_NStretchIK_007/S2B_NStretchIK_008/S2B_NStretchIK_009/S2B_NStretchIK_010/S2B_NStretchIK_011/S2B_NStretchIK_012/S2B_NStretchIK_013/S2B_NStretchIK_014/S2B_NStretchIK_015/S2B_NStretchIK_016/S2B_NStretchIK_017
         weight: 1
-      - path: DragonRoot/S2B_NStretchIK_001/S2B_NStretchIK_002/S2B_NStretchIK_003/S2B_NStretchIK_004/S2B_NStretchIK_005/S2B_NStretchIK_006/S2B_NStretchIK_007/S2B_NStretchIK_008/S2B_NStretchIK_009/S2B_NStretchIK_010/S2B_NStretchIK_011/S2B_NStretchIK_012/S2B_NStretchIK_013/S2B_NStretchIK_014/S2B_NStretchIK_015/S2B_NStretchIK_016/S2B_NStretchIK_017/S2B_NStretchIK_018
-        weight: 1
       - path: DragonRoot/S2B_NStretchIK_019
         weight: 1
       - path: DragonRoot/S2B_NStretchIK_019/S2B_NStretchIK_020
@@ -13728,8 +13786,6 @@ ModelImporter:
       - path: DragonRoot/S2B_NStretchIK_019/S2B_NStretchIK_020/S2B_NStretchIK_021/S2B_NStretchIK_022/S2B_NStretchIK_023/S2B_NStretchIK_024/S2B_NStretchIK_025/S2B_NStretchIK_026/S2B_NStretchIK_027/S2B_NStretchIK_028/S2B_NStretchIK_029/S2B_NStretchIK_030/S2B_NStretchIK_031/S2B_NStretchIK_032/S2B_NStretchIK_033/S2B_NStretchIK_034
         weight: 1
       - path: DragonRoot/S2B_NStretchIK_019/S2B_NStretchIK_020/S2B_NStretchIK_021/S2B_NStretchIK_022/S2B_NStretchIK_023/S2B_NStretchIK_024/S2B_NStretchIK_025/S2B_NStretchIK_026/S2B_NStretchIK_027/S2B_NStretchIK_028/S2B_NStretchIK_029/S2B_NStretchIK_030/S2B_NStretchIK_031/S2B_NStretchIK_032/S2B_NStretchIK_033/S2B_NStretchIK_034/S2B_NStretchIK_035
-        weight: 1
-      - path: DragonRoot/S2B_NStretchIK_019/S2B_NStretchIK_020/S2B_NStretchIK_021/S2B_NStretchIK_022/S2B_NStretchIK_023/S2B_NStretchIK_024/S2B_NStretchIK_025/S2B_NStretchIK_026/S2B_NStretchIK_027/S2B_NStretchIK_028/S2B_NStretchIK_029/S2B_NStretchIK_030/S2B_NStretchIK_031/S2B_NStretchIK_032/S2B_NStretchIK_033/S2B_NStretchIK_034/S2B_NStretchIK_035/S2B_NStretchIK_036
         weight: 1
       - path: Dummy001
         weight: 1
@@ -42127,11 +42183,11 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 0
+      loopBlendOrientation: 1
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0

@@ -15,18 +15,16 @@ namespace Script.Player
         {
             Time.timeScale = 0.8f;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            owner.useActionCam();
             EffectManager.Instance.EffectPlayerWeapon(true);
             DragonController.Instance.TakeDamage(owner.PlayerStat.damage,owner.currentWeaponFlag);
             machine.animator.SetTrigger(m_WSkillHash);
-            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
+            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));
         }
 
         public override void OnStateExit()
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            owner.useDefaultCam();
             EffectManager.Instance.EffectPlayerWeapon(false);
         }
     }

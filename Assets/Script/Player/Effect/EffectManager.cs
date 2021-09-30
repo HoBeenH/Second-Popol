@@ -65,9 +65,10 @@ namespace Script.Player.Effect
         {
             if (isActive)
             {
-                m_WeaponEffects.Enqueue(GetMeshEffect(EPrefabName.PlayerWeaponEffect, m_ObjWeapon.position,
-                    m_ObjWeapon.gameObject, out var _rendererUpdater));
-                m_EffectRenderersOfWeapon.Enqueue(_rendererUpdater);
+                var obj = GetMeshEffect(EPrefabName.PlayerWeaponEffect, m_ObjWeapon.position,
+                    m_ObjWeapon.gameObject);
+                m_WeaponEffects.Enqueue(obj.gameObject);
+                m_EffectRenderersOfWeapon.Enqueue(obj);
             }
             else
             {
@@ -81,18 +82,17 @@ namespace Script.Player.Effect
 
         #region Player Skill Effect
 
-        public GameObject GetEffectOrNull(EPrefabName effectName, Vector3 position, Quaternion? rotPos = null,
-            WaitForSeconds returnTime = null,
-            WaitForSeconds delay = null, Transform owner = null)
+        public void GetEffectOrNull(EPrefabName effectName, Vector3 position, Quaternion? rotPos = null,
+            WaitForSeconds returnTime = null, WaitForSeconds delay = null, Transform owner = null)
         {
             if (delay != null)
             {
                 StartCoroutine(EffectDelayGet(effectName, position, rotPos, returnTime, delay, owner));
-                return null;
+                return;
             }
 
-
             var obj = ObjPool.Instance.GetObj(effectName);
+
             if (returnTime != null)
             {
                 ObjPool.Instance.ReTurnObj(obj, effectName, returnTime);
@@ -108,13 +108,10 @@ namespace Script.Player.Effect
             {
                 obj.transform.SetParent(owner.transform);
             }
-
-            return obj;
         }
 
-        public GameObject GetMeshEffect(EPrefabName effectName, Vector3 position,
-            GameObject owner, out PSMeshRendererUpdater rendererUpdater, WaitForSeconds returnTime = null,
-            WaitForSeconds fadeTime = null)
+        public PSMeshRendererUpdater GetMeshEffect(EPrefabName effectName, Vector3 position,
+            GameObject owner, WaitForSeconds returnTime = null, WaitForSeconds fadeTime = null)
         {
             var obj = ObjPool.Instance.GetObj(effectName);
             if (returnTime != null)
@@ -125,19 +122,18 @@ namespace Script.Player.Effect
             obj.transform.position = position;
             obj.transform.SetParent(owner.transform);
 
-            rendererUpdater = obj.GetComponent<PSMeshRendererUpdater>();
+            var rendererUpdater = obj.GetComponent<PSMeshRendererUpdater>();
             rendererUpdater.UpdateMeshEffect(owner);
             if (fadeTime != null)
             {
                 StartCoroutine(PsFade(rendererUpdater, fadeTime));
             }
 
-            return obj;
+            return rendererUpdater;
         }
 
         private IEnumerator EffectDelayGet(EPrefabName effectName, Vector3 position, Quaternion? rotPos,
-            WaitForSeconds returnTime,
-            WaitForSeconds delay, Transform owner)
+            WaitForSeconds returnTime, WaitForSeconds delay, Transform owner)
         {
             yield return delay;
             GetEffectOrNull(effectName, position, rotPos, returnTime, null, owner);
@@ -156,9 +152,10 @@ namespace Script.Player.Effect
                 StartCoroutine(DragonDelayBreath(isActive, time));
                 return;
             }
+
             _dragonBreath.gameObject.SetActive(isActive);
-        }  
-        
+        }
+
         private IEnumerator DragonDelayBreath(bool isActive, WaitForSeconds time)
         {
             yield return time;

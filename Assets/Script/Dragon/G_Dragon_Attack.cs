@@ -7,7 +7,7 @@ namespace Script.Dragon
     {
         private readonly int m_AttackTriggerHash = Animator.StringToHash("Attack");
         private readonly int m_AttackAnimHash = Animator.StringToHash("Base Layer.Attack_Idle.Attack 1");
-        private readonly WaitForSeconds m_AttackCoolTime = new WaitForSeconds(12.0f);
+        private readonly WaitForSeconds m_AttackCoolTime = new WaitForSeconds(10.0f);
 
         public override void OnStateEnter()
         {
@@ -15,7 +15,7 @@ namespace Script.Dragon
             owner.StopAnim += HitParry;
             machine.animator.SetTrigger(m_AttackTriggerHash);
             owner.StartCoroutine(CoolTime());
-            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Dragon_Movement),m_AttackAnimHash));
+            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement), true, m_AttackAnimHash));
         }
 
         public override void OnStateExit()
@@ -25,7 +25,7 @@ namespace Script.Dragon
 
         private void HitParry()
         {
-            owner.StopCoroutine((machine.WaitForIdle(typeof(S_Dragon_Movement),m_AttackAnimHash)));
+            owner.StopCoroutine((machine.WaitForAnim(typeof(S_Dragon_Movement), true, m_AttackAnimHash)));
         }
 
         private IEnumerator CoolTime()

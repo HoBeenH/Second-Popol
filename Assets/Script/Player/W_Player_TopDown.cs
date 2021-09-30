@@ -12,15 +12,13 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
-            owner.useActionCam();
             EffectManager.Instance.EffectPlayerWeapon(true);
             machine.animator.SetTrigger(m_WTopDownHash);
-            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
+            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement), true, animToHash));
         }
 
         public override void OnStateExit()
         {
-            owner.useDefaultCam();
             EffectManager.Instance.EffectPlayerWeapon(false);
         }
     }

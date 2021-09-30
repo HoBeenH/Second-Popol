@@ -21,7 +21,6 @@ namespace Script.Player
         public override void OnStateEnter()
         {
             bcanRun = true;
-            Debug.Log(ToString());
         }
 
         public override void OnStateChangePoint()

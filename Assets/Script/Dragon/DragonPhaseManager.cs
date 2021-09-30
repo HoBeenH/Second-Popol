@@ -136,12 +136,14 @@ namespace Script.Dragon
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.SpeedUp))
             {
                 DragonController.Instance.DragonStat.animSpeed += 0.2f;
+                DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.SpeedUp;
                 DragonController.Instance.nav.speed += 2f;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.DamageUp))
             {
                 DragonController.Instance.DragonStat.damage += 5;
+                DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.DamageUp;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.HealthUp))

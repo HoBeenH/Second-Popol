@@ -12,15 +12,13 @@ namespace Script.Player
         public override void OnStateEnter()
         {
             owner.currentWeaponFlag |= ECurrentWeaponFlag.Parry;
-            owner.useActionCam();
             machine.animator.SetTrigger(m_ParryingHash);
-            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
+            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));
         }
 
         public override void OnStateExit()
         {
             owner.currentWeaponFlag &= ~ECurrentWeaponFlag.Parry;
-            owner.useDefaultCam();
         }
     }
 }

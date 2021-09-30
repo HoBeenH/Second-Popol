@@ -14,7 +14,10 @@ namespace Script.Dragon
         CantParry = 1 << 2,
         Fly = 1 << 3,
         Frozen = 1 << 4,
-        Dead = 1 << 5
+        SpeedUp = 1 << 5,
+        DamageUp = 1 << 6,
+        HealthUp = 1 << 6,
+        Dead = 1 << 8
     }
 
     public class DragonController : MonoSingleton<DragonController>
@@ -31,7 +34,6 @@ namespace Script.Dragon
         public LayerMask playerMask;
         public DragonStatus DragonStat { get; private set; }
         public event Action StopAnim;
-        public Action AttackCollider;
 
         private void Awake()
         {
@@ -56,6 +58,11 @@ namespace Script.Dragon
         private void Update()
         {
             m_DragonStateMachine?.Update();
+
+            if (Input .GetKey(KeyCode.Tab))
+            {
+                m_DragonStateMachine.ChangeState<G_Dragon_FlyAttack>();
+            }
         }
 
         private void FixedUpdate() => m_DragonStateMachine?.FixedUpdate();
@@ -63,29 +70,31 @@ namespace Script.Dragon
         public void TakeDamage(int damage, ECurrentWeaponFlag weapon)
         {
             var _damage = damage;
-            if (weapon.HasFlag(ECurrentWeaponFlag.Parry))
-            {
-                Stun();
-                return;
-            }
             if (weapon.HasFlag(ECurrentWeaponFlag.Magic))
             {
                 _damage -= DragonStat.magicDefence;
+                if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
+                {
+                    DragonPhaseManager.Instance.HitCheck(ECurrentWeaponFlag.Magic);
+                }
             }
-
-            if (weapon.HasFlag(ECurrentWeaponFlag.Sword))
+            else if (weapon.HasFlag(ECurrentWeaponFlag.Sword))
             {
                 _damage -= DragonStat.defence;
+                if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
+                {
+                    DragonPhaseManager.Instance.HitCheck(ECurrentWeaponFlag.Sword);
+                }
             }
+
             DragonStat.Health -= _damage;
             if (DragonStat.Health <= 0f)
             {
                 m_DragonStateMachine.ChangeState<S_Dragon_Dead>();
+                return;
             }
-            if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
-            {
-                DragonPhaseManager.Instance.HitCheck(weapon);
-            }
+            Debug.Log(DragonStat.Health);
+
         }
 
         [Button]
@@ -101,7 +110,8 @@ namespace Script.Dragon
             currentPhaseFlag |= EDragonPhaseFlag.Frozen;
             m_DragonStateMachine.ChangeState<S_Dragon_Movement>();
             nav.SetDestination(transform.position);
-        }    
+        }
+
         public void DeFrozen()
         {
             currentPhaseFlag &= ~EDragonPhaseFlag.Frozen;

@@ -1,3 +1,4 @@
+using Cinemachine;
 using DG.Tweening;
 using Script.Player;
 using UnityEngine;
@@ -8,25 +9,12 @@ namespace Script
     {
         private Transform m_TargetPos;
 
-        [SerializeField] private GameObject defaultCam;
-        [SerializeField] private GameObject actionCam;
         public Vector3 camOffset;
         public float smoothTime = 5f;
         public float rotSpeed = 3f;
-        public LayerMask player;
 
         private void Awake()
         {
-            PlayerController.Instance.useDefaultCam = () =>
-            {
-                defaultCam.SetActive(true);
-                actionCam.SetActive(false);
-            };
-            PlayerController.Instance.useActionCam = () =>
-            {
-                actionCam.SetActive(true);
-                defaultCam.SetActive(false);
-            };
 
             m_TargetPos = GameObject.FindGameObjectWithTag("Player").transform;
         }

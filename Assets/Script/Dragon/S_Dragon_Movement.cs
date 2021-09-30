@@ -23,17 +23,21 @@ namespace Script.Dragon
 
         public override void OnStateUpdate()
         {
-            var _playerPos = owner.player.position;
-
-            machine.animator.SetFloat(m_MovementFloatHash, owner.nav.desiredVelocity.magnitude,
+            var _dir = (owner.player.position - m_Dragon.position);
+            Debug.Log(_dir.magnitude);
+            machine.animator.SetFloat(m_MovementFloatHash, _dir.magnitude,
                 owner.DragonStat.moveAnimDamp, Time.deltaTime);
-            owner.nav.SetDestination(_playerPos);
-
-            if (CheckDis() == false)
-                return;
-            var _nextRot = Quaternion.LookRotation((_playerPos - m_Dragon.position).normalized);
-            m_Dragon.rotation = Quaternion.Slerp(m_Dragon.rotation, _nextRot,
-                owner.DragonStat.rotSpeed * Time.deltaTime);
+            if (CheckDis())
+            {
+                m_Dragon.rotation = Quaternion.Slerp(m_Dragon.rotation, Quaternion.LookRotation(_dir.normalized),
+                    owner.DragonStat.rotSpeed * Time.deltaTime);
+            }
+            else
+            {
+                machine.animator.SetFloat(m_MovementFloatHash, _dir.magnitude,
+                    owner.DragonStat.moveAnimDamp, Time.deltaTime);
+                owner.nav.SetDestination(owner.player.position);
+            }
         }
 
         public override void OnStateExit()
@@ -44,7 +48,7 @@ namespace Script.Dragon
 
         public override void OnStateChangePoint()
         {
-            if (CheckDis() == false) 
+            if (CheckDis() == false)
                 return;
             switch (PlayerPoint())
             {
@@ -63,6 +67,7 @@ namespace Script.Dragon
                         machine.ChangeState<G_Dragon_FlyAttack>();
                         return;
                     }
+
                     break;
             }
         }

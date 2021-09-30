@@ -11,10 +11,9 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
-            owner.useActionCam();
             EffectManager.Instance.EffectPlayerWeapon(true);
             machine.animator.SetTrigger(m_Attack);
-            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),m_AttackLAnimHash));
+            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,m_AttackLAnimHash));
         }
 
         public override void OnStateChangePoint()
@@ -27,7 +26,6 @@ namespace Script.Player
 
         public override void OnStateExit()
         {
-            owner.useDefaultCam();
             machine.animator.ResetTrigger(m_Attack);
             EffectManager.Instance.EffectPlayerWeapon(false);
         }

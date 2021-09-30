@@ -21,8 +21,6 @@ namespace Script.Player
 
         public PlayerStatus PlayerStat { get; private set; }
         public ECurrentWeaponFlag currentWeaponFlag;
-        public Action useDefaultCam;
-        public Action useActionCam;
         public Action<Vector3, float> useFallDown;
         public LayerMask dragon;
         [HideInInspector] public bool bTopDownCoolTime = true;
@@ -66,7 +64,7 @@ namespace Script.Player
 
         private void FixedUpdate() => m_PlayerStateMachine?.FixedUpdate();
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, Vector3? dir = null)
         {
             if (currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Parry) &&
                 !(DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.CantParry)))
@@ -80,9 +78,13 @@ namespace Script.Player
             if (PlayerStat.Health <= 0)
             {
                 // 죽음
+                return;
             }
 
-            // 피격판정
+            if (dir != null)
+            {
+                useFallDown((Vector3)dir, 5f);
+            }
             Debug.Log($"Take Damage {PlayerStat.Health}");
         }
 

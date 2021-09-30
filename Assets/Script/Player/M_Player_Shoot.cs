@@ -13,17 +13,11 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
-            owner.useActionCam();
             machine.animator.SetTrigger(m_ShootHash);
             EffectManager.Instance.GetEffectOrNull(EPrefabName.IceShoot, EffectManager.Instance.spawnPosFw.position,
                 Quaternion.LookRotation(owner.transform.forward),
             m_EffectDestroyTime, m_EffectDelayTime);
-            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
-        }
-
-        public override void OnStateExit()
-        {
-            owner.useDefaultCam();
+            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));
         }
     }
 }

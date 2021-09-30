@@ -19,12 +19,12 @@ namespace Script.Player
             if (_point >= 0)
             {
                 machine.animator.SetTrigger(m_FallDownBkHash);
-                owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement), m_FallDownBkAnimHash));
+                owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement), true,m_FallDownBkAnimHash));
             }
             else
             {
                 machine.animator.SetTrigger(m_FallDownFwHash);
-                owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement), m_FallDownFwAnimHash));
+                owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement), true,m_FallDownFwAnimHash));
             }
         }
 
