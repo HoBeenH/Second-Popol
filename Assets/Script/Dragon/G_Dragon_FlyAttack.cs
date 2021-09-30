@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Script.Player;
 using Script.Player.Effect;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -80,9 +81,19 @@ namespace Script.Dragon
             owner.nav.baseOffset = 0;
             var _position = owner.transform.position;
             EffectManager.Instance.GetEffectOrNull(EPrefabName.DragonDownSmoke, _position, null,
-                m_SmokeReturnTime); 
+                m_SmokeReturnTime);
             EffectManager.Instance.GetEffectOrNull(EPrefabName.DragonDownSmoke2, _position, null,
-                m_SmokeReturnTime,null,owner.transform);
+                m_SmokeReturnTime, null, owner.transform);
+            var _result = new Collider[1];
+            int _size = Physics.OverlapSphereNonAlloc(_position, 5F, _result, owner.playerMask);
+            if (_size == 0)
+            {
+                yield break;;
+            }
+
+            var temp = (owner.player.position - owner.transform.position).normalized;
+            PlayerController.Instance.useFallDown.Invoke(temp,5f);
+            PlayerController.Instance.TakeDamage(owner.DragonStat.damage);
         }
     }
 }

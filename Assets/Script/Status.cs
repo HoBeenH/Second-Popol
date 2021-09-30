@@ -54,7 +54,7 @@ namespace Script
 
     public class DragonStatus : Status
     {
-        private readonly WaitForSeconds m_RecoverySpeed = new WaitForSeconds(0.5f);
+        private readonly WaitForSeconds m_RecoverySpeed = new WaitForSeconds(2f);
  
         public float animSpeed = 1.0f;
         public int magicDefence = 3;

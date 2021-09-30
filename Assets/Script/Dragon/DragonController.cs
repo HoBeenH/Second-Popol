@@ -31,6 +31,7 @@ namespace Script.Dragon
         public LayerMask playerMask;
         public DragonStatus DragonStat { get; private set; }
         public event Action StopAnim;
+        public Action AttackCollider;
 
         private void Awake()
         {

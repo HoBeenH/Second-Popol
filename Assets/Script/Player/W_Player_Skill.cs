@@ -1,4 +1,5 @@
-﻿using Script.Player.Effect;
+﻿using Script.Dragon;
+using Script.Player.Effect;
 using UnityEngine;
 
 namespace Script.Player
@@ -16,6 +17,7 @@ namespace Script.Player
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
             owner.useActionCam();
             EffectManager.Instance.EffectPlayerWeapon(true);
+            DragonController.Instance.TakeDamage(owner.PlayerStat.damage,owner.currentWeaponFlag);
             machine.animator.SetTrigger(m_WSkillHash);
             owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
         }

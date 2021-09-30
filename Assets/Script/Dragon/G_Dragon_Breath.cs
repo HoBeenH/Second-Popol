@@ -21,9 +21,11 @@ namespace Script.Dragon
             machine.animator.SetTrigger(m_BreathHash);
             owner.StartCoroutine(CoolTime());
             owner.StartCoroutine(machine.WaitForIdle(typeof(S_Dragon_Movement), m_BreathAnimHash));
-            EffectManager.Instance.GetEffectOrNull(EPrefabName.BreathForce, owner.transform.position, null,
+            var _position = owner.transform.position;
+            EffectManager.Instance.GetEffectOrNull(EPrefabName.BreathForce, _position, null,
                 m_BreathForceReturn, m_BreathForceDelay);
-            PlayerController.Instance.useFallDown.Invoke();
+            var temp = (owner.player.position - _position).normalized;
+            PlayerController.Instance.useFallDown.Invoke(temp,5f);
             
             EffectManager.Instance.DragonBreath(true,m_BreathDelay);
         }

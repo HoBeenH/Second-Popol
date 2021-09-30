@@ -1,6 +1,7 @@
 using System;
 using Script.Dragon;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Script.Player
 {
@@ -9,25 +10,28 @@ namespace Script.Player
     {
         Sword = 1 << 0,
         Magic = 1 << 1,
-        Parry = 1 << 2
+        Parry = 1 << 2,
+        FallDown = 1 << 3
     }
 
     public class PlayerController : MonoSingleton<PlayerController>
     {
         private StateMachine<PlayerController> m_PlayerStateMachine;
+        private Rigidbody m_Rig;
 
         public PlayerStatus PlayerStat { get; private set; }
         public ECurrentWeaponFlag currentWeaponFlag;
         public Action useDefaultCam;
         public Action useActionCam;
-        public Action useFallDown;
+        public Action<Vector3, float> useFallDown;
         public LayerMask dragon;
         [HideInInspector] public bool bTopDownCoolTime = true;
 
         private void Awake()
         {
-            useFallDown = () => m_PlayerStateMachine.ChangeState<S_Player_FallDown>();
+            m_Rig = GetComponent<Rigidbody>();
             PlayerStat = new PlayerStatus();
+
             var anim = GetComponent<Animator>();
             m_PlayerStateMachine = new StateMachine<PlayerController>(anim, this, new S_Player_Movement());
             m_PlayerStateMachine.SetState(new S_Player_ChangeWeapon());
@@ -40,6 +44,17 @@ namespace Script.Player
             m_PlayerStateMachine.SetState(new M_Player_HeavyShoot());
             m_PlayerStateMachine.SetState(new M_Player_TopDown());
             m_PlayerStateMachine.SetState(new S_Player_FallDown());
+        }
+
+        private void Start()
+        {
+            useFallDown += (v, f) =>
+            {
+                if (currentWeaponFlag.HasFlag(ECurrentWeaponFlag.FallDown))
+                    return;
+                m_PlayerStateMachine.ChangeState<S_Player_FallDown>();
+                m_Rig.AddForce(v * f, ForceMode.Impulse);
+            };
             currentWeaponFlag |= ECurrentWeaponFlag.Sword;
         }
 
@@ -51,7 +66,7 @@ namespace Script.Player
 
         private void FixedUpdate() => m_PlayerStateMachine?.FixedUpdate();
 
-        private void TakeDamage(int damage)
+        public void TakeDamage(int damage)
         {
             if (currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Parry) &&
                 !(DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.CantParry)))
@@ -66,7 +81,9 @@ namespace Script.Player
             {
                 // 죽음
             }
+
             // 피격판정
+            Debug.Log($"Take Damage {PlayerStat.Health}");
         }
 
         private void Test()

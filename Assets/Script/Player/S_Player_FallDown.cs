@@ -1,24 +1,36 @@
-﻿using UnityEngine;
+﻿using Script.Dragon;
+using UnityEngine;
 
 namespace Script.Player
 {
     public class S_Player_FallDown : State<PlayerController>
     {
-        private readonly int m_FallDownHash;
-        private Rigidbody m_Rig;
-
-        public S_Player_FallDown() : base("Base Layer.FallDown") => m_FallDownHash = Animator.StringToHash("FallDown");
-
-        protected override void Init()
-        {
-            m_Rig = owner.GetComponent<Rigidbody>();
-        }
+        private readonly int m_FallDownBkHash = Animator.StringToHash("FallDownBk");
+        private readonly int m_FallDownFwHash = Animator.StringToHash("FallDownFw");
+        private readonly int m_FallDownBkAnimHash = Animator.StringToHash("Base Layer.FallDown.FallDownBk");
+        private readonly int m_FallDownFwAnimHash = Animator.StringToHash("Base Layer.FallDown.FallDownFw");
 
         public override void OnStateEnter()
         {
-            m_Rig.AddForce(owner.transform.forward * -5, ForceMode.Impulse);
-            machine.animator.SetTrigger(m_FallDownHash);
-            owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement),animToHash));
+            owner.currentWeaponFlag |= ECurrentWeaponFlag.FallDown;
+            var _transform = owner.transform;
+            var _point = Vector3.Dot(_transform.forward,
+                (DragonController.Instance.transform.position - _transform.position).normalized);
+            if (_point >= 0)
+            {
+                machine.animator.SetTrigger(m_FallDownBkHash);
+                owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement), m_FallDownBkAnimHash));
+            }
+            else
+            {
+                machine.animator.SetTrigger(m_FallDownFwHash);
+                owner.StartCoroutine(machine.WaitForIdle(typeof(S_Player_Movement), m_FallDownFwAnimHash));
+            }
+        }
+
+        public override void OnStateExit()
+        {
+            owner.currentWeaponFlag &= ~ECurrentWeaponFlag.FallDown;
         }
     }
 }

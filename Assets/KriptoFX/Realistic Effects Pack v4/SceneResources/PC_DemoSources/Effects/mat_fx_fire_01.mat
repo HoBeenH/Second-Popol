@@ -8,8 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_fx_fire_01
-  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: BlendAdd Clip_OFF FrameBlend_ON SoftParticles_ON VertLight_OFF
+  m_Shader: {fileID: 4800000, guid: 4775e5a8f344d6348adf934e722da85d, type: 3}
+  m_ShaderKeywords: BlendAdd Clip_OFF FrameBlend_OFF FresnelFade_OFF SoftParticles_ON
+    VertLight_OFF
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -72,6 +73,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - CullMode: 2
     - DstMode: 1
     - SrcMode: 5
     - _AlphaTestRef: 0.5
@@ -83,6 +85,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
     - _EmissionScale: 1
+    - _FresnelStr: 1
     - _Glossiness: 1
     - _InvFade: 3
     - _Lightmapping: 0
@@ -102,5 +105,4 @@ Material:
     - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 0, g: 0, b: 0, a: 1}
     - _Tiling: {r: 800, g: 400, b: 8, a: 4}
-    - _TintColor: {r: 3.0588236, g: 1.8774847, b: 1.5294118, a: 0.743}
-  m_BuildTextureStacks: []
+    - _TintColor: {r: 0.9612722, g: 0.39901862, b: 0, a: 1}

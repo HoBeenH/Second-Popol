@@ -17,17 +17,8 @@ namespace Script.Player
         {
             if (other.CompareTag("Dragon"))
             {
-                var currentWeapon = PlayerController.Instance.currentWeaponFlag;
-                
-                var damage = currentWeapon switch
-                {
-                    _ when currentWeapon.HasFlag(ECurrentWeaponFlag.Sword) => PlayerController.Instance.PlayerStat.damage,
-                    _ when currentWeapon.HasFlag(ECurrentWeaponFlag.Magic) => PlayerController.Instance.PlayerStat.skillDamage,
-                    _ => throw new Exception()
-                };
-            
-                Debug.Log($"Current Weapon : {currentWeapon}\ndamage : {damage}");
-                DragonController.Instance.TakeDamage(damage,currentWeapon);
+                DragonController.Instance.TakeDamage(PlayerController.Instance.PlayerStat.damage,
+                    PlayerController.Instance.currentWeaponFlag);
                 m_Collider.enabled = false;
             }
         }

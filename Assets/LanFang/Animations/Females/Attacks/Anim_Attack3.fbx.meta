@@ -667,7 +667,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 1
         messageOptions: 0
-      - time: 0.29347825
+      - time: 0.4954487
         functionName: WeaponCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
