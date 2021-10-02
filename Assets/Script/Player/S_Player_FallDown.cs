@@ -1,5 +1,6 @@
 ﻿using Script.Dragon;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player
 {
@@ -14,8 +15,9 @@ namespace Script.Player
         {
             owner.currentWeaponFlag |= ECurrentWeaponFlag.FallDown;
             var _transform = owner.transform;
+            // 전방 후방 확인
             var _point = Vector3.Dot(_transform.forward,
-                (DragonController.Instance.transform.position - _transform.position).normalized);
+                (_DragonController.transform.position - _transform.position).normalized);
             if (_point >= 0)
             {
                 machine.animator.SetTrigger(m_FallDownBkHash);

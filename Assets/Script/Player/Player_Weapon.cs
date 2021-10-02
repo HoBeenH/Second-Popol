@@ -1,6 +1,7 @@
-using System;
+using Cinemachine;
 using Script.Dragon;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player
 {
@@ -17,9 +18,9 @@ namespace Script.Player
         {
             if (other.CompareTag("Dragon"))
             {
-                DragonController.Instance.TakeDamage(PlayerController.Instance.PlayerStat.damage,
-                    PlayerController.Instance.currentWeaponFlag);
+                _DragonController.TakeDamage(_PlayerController.PlayerStat.damage, _PlayerController.currentWeaponFlag);
                 m_Collider.enabled = false;
+                _CamManager.playerWeapon.GenerateImpulse();
             }
         }
     }

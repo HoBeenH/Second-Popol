@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Script.Dragon;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script
 {
@@ -52,7 +53,7 @@ namespace Script
 
     #region DragonStatus
 
-    public class DragonStatus : Status
+    public class DragonInfo : Status
     {
         private readonly WaitForSeconds m_RecoverySpeed = new WaitForSeconds(2f);
  
@@ -61,7 +62,7 @@ namespace Script
         public int defence = 3;
         public int recovery = 1;
 
-        public DragonStatus()
+        public DragonInfo()
         {
             this.rotSpeed = 2f;
             this.moveAnimDamp = 0.1f;
@@ -74,7 +75,7 @@ namespace Script
 
         public IEnumerator DragonRecovery()
         {
-            while (DragonController.Instance.currentPhaseFlag != EDragonPhaseFlag.Dead)
+            while (_DragonController.currentPhaseFlag != EDragonPhaseFlag.Dead)
             {
                 yield return m_RecoverySpeed;
                 Health += recovery;

@@ -1,7 +1,7 @@
 using System;
 using Script.Dragon;
 using UnityEngine;
-using UnityEngine.Events;
+using static Script.Facade;
 
 namespace Script.Player
 {
@@ -22,7 +22,7 @@ namespace Script.Player
         public PlayerStatus PlayerStat { get; private set; }
         public ECurrentWeaponFlag currentWeaponFlag;
         public Action<Vector3, float> useFallDown;
-        public LayerMask dragon;
+        public LayerMask dragon = 1 << 11;
         [HideInInspector] public bool bTopDownCoolTime = true;
 
         private void Awake()
@@ -67,10 +67,10 @@ namespace Script.Player
         public void TakeDamage(int damage, Vector3? dir = null)
         {
             if (currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Parry) &&
-                !(DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.CantParry)))
+                !_DragonController.currentPhaseFlag.HasFlag(EDragonPhaseFlag.CantParry))
             {
                 m_PlayerStateMachine.ChangeState<W_Player_Skill>();
-                DragonController.Instance.Stun();
+                _DragonController.Stun();
                 return;
             }
 

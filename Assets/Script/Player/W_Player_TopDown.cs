@@ -1,5 +1,6 @@
 ﻿using Script.Player.Effect;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player
 {
@@ -12,14 +13,14 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
-            EffectManager.Instance.EffectPlayerWeapon(true);
+            _EffectManager.EffectPlayerWeapon(true);
             machine.animator.SetTrigger(m_WTopDownHash);
             owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement), true, animToHash));
         }
 
         public override void OnStateExit()
         {
-            EffectManager.Instance.EffectPlayerWeapon(false);
+            _EffectManager.EffectPlayerWeapon(false);
         }
     }
 }

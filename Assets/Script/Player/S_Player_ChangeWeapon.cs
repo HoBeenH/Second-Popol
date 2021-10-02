@@ -5,6 +5,7 @@ namespace Script.Player
 {
     public class S_Player_ChangeWeapon : S_Player_Movement
     {
+        // 이동상태 상속으로 이동구현
         private readonly int m_WeaponChangeHash = Animator.StringToHash("WeaponChange");
         private readonly WaitForSeconds m_AnimTime = new WaitForSeconds(2.0f);
 
@@ -12,9 +13,9 @@ namespace Script.Player
         {
             bcanRun = false;
             owner.PlayerStat.moveSpeed -= 1f;
-            machine.animator.SetLayerWeight(1, 0.5f);
-            machine.animator.SetTrigger(m_WeaponChangeHash);
             owner.StartCoroutine(WaitForAnim());
+            machine.animator.SetTrigger(m_WeaponChangeHash);
+            machine.animator.SetLayerWeight(1, 0.5f);
         }
 
         public override void OnStateChangePoint()

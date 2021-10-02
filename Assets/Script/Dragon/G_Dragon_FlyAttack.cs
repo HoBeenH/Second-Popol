@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using Script.Player;
 using Script.Player.Effect;
-using Sirenix.Utilities;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Dragon
 {
@@ -14,6 +14,7 @@ namespace Script.Dragon
         private readonly WaitForSeconds m_FlyAttackCoolTime = new WaitForSeconds(20.0f);
         private readonly WaitForSeconds m_SmokeReturnTime = new WaitForSeconds(3.0f);
         private WaitUntil m_CurrentAnimIsFly;
+        private readonly Collider[] m_Results = new Collider[1];
 
         protected override void Init()
         {
@@ -25,7 +26,6 @@ namespace Script.Dragon
         {
             owner.currentPhaseFlag |= EDragonPhaseFlag.CantParry | EDragonPhaseFlag.Fly;
             owner.bReadyFlyAttack = false;
-            owner.StartCoroutine(CoolTime());
             owner.StartCoroutine(FlyAttack());
         }
 
@@ -36,43 +36,37 @@ namespace Script.Dragon
             machine.animator.SetBool(m_bFlyAttackHash, false);
         }
 
-        private IEnumerator CoolTime()
-        {
-            yield return m_FlyAttackCoolTime;
-            owner.bReadyFlyAttack = true;
-        }
-
         private IEnumerator FlyAttack()
         {
             machine.animator.SetTrigger(m_FlyAttackHash);
             machine.animator.SetBool(m_bFlyAttackHash, true);
 
-            yield return owner.StartCoroutine(Fly(owner.nav.baseOffset));
-            yield return owner.StartCoroutine(FallDown(owner.nav.baseOffset));
+            yield return owner.StartCoroutine(Fly());
+            yield return owner.StartCoroutine(FallDown());
 
             yield return owner.StartCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement)));
+            yield return m_FlyAttackCoolTime;
+            owner.bReadyFlyAttack = true;
         }
 
-        private IEnumerator Fly(float currentOffset)
+        private IEnumerator Fly()
         {
             yield return m_CurrentAnimIsFly;
-            while (currentOffset <= 19f)
+            while (owner.nav.baseOffset <= 19f)
             {
-                currentOffset = Mathf.Lerp(currentOffset, 20, Time.deltaTime);
-                owner.nav.baseOffset = currentOffset;
+                owner.nav.baseOffset = Mathf.Lerp(owner.nav.baseOffset, 20, Time.deltaTime);
                 yield return null;
             }
         }
 
-        private IEnumerator FallDown(float currentOffset)
+        private IEnumerator FallDown()
         {
             machine.animator.SetTrigger(m_FlyAttackHash);
-            var _targetPos = owner.player.position;
-            owner.nav.SetDestination(_targetPos);
-            while (currentOffset >= 3f)
+            var _targetPos = _PlayerController.transform.position;
+            while (owner.nav.baseOffset >= 3f)
             {
-                currentOffset = Mathf.Lerp(currentOffset, 0f, 2f * Time.deltaTime);
-                owner.nav.baseOffset = currentOffset;
+                owner.nav.SetDestination(_targetPos);
+                owner.nav.baseOffset = Mathf.Lerp(owner.nav.baseOffset, 0f, 1.5f * Time.deltaTime);
                 yield return null;
             }
 
@@ -80,25 +74,25 @@ namespace Script.Dragon
             owner.nav.ResetPath();
             owner.nav.baseOffset = 0;
             var _position = owner.transform.position;
-            EffectManager.Instance.GetEffectOrNull(EPrefabName.DragonDownSmoke, _position, null,
+            _EffectManager.GetEffectOrNull(EPrefabName.DragonDownSmoke, _position, null,
                 m_SmokeReturnTime);
-            EffectManager.Instance.GetEffectOrNull(EPrefabName.DragonDownSmoke2, _position, null,
+            _EffectManager.GetEffectOrNull(EPrefabName.DragonDownSmoke2, _position, null,
                 m_SmokeReturnTime, null, owner.transform);
-            var _result = new Collider[1];
             var _radius = 5f;
             if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.HealthUp))
             {
                 _radius = 10f;
             }
-            var _size = Physics.OverlapSphereNonAlloc(_position, _radius, _result, owner.playerMask);
+
+            var _size = Physics.OverlapSphereNonAlloc(_position, _radius, m_Results, owner.playerMask);
             if (_size == 0)
             {
-                yield break;;
+                yield break;
             }
 
-            var temp = (owner.player.position - owner.transform.position).normalized;
-            PlayerController.Instance.useFallDown.Invoke(temp,5f);
-            PlayerController.Instance.TakeDamage(owner.DragonStat.damage);
+            _PlayerController.TakeDamage(owner.DragonStat.damage,
+                (_PlayerController.transform.position - owner.transform.position).normalized);
+            
         }
     }
 }

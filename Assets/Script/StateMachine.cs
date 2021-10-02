@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Script.Dragon;
-using Script.Player;
 using UnityEngine;
 
 namespace Script
@@ -27,7 +25,7 @@ namespace Script
         }
 
 
-        public IEnumerator WaitForAnim(Type nextState, bool waitIdle = true, params int[] hash)
+        public IEnumerator WaitForAnim(Type nextState = null, bool waitIdle = true, params int[] hash)
         {
             foreach (var currentAnim in hash)
             {
@@ -39,9 +37,12 @@ namespace Script
                 yield return m_WaitIdle;
             }
 
-            CurrentState?.OnStateExit();
-            CurrentState = m_States[nextState];
-            CurrentState?.OnStateEnter();
+            if (nextState != null)
+            {
+                CurrentState?.OnStateExit();
+                CurrentState = m_States[nextState];
+                CurrentState?.OnStateEnter();
+            }
         }
 
         public void SetState(State<T> state)

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using Script.Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static Script.Facade;
 
 namespace Script.Dragon
 {
@@ -74,41 +76,51 @@ namespace Script.Dragon
                 {
                     break;
                 }
+
                 yield return null;
             }
+
             m_StatUpFlag = m_MagicCount >= m_SwordCount
                 ? m_StatUpFlag |= EDragonStatUpFlag.AntiMagic
                 : m_StatUpFlag |= EDragonStatUpFlag.AntiSword;
 
-            var _index = 0;
-            for (var i = 0; i < m_Phase2StatUp.Length - 1; i++)
+            var _min = m_Phase2StatUp.Min();
+            for (var i = 0; i < m_Phase2StatUp.Length; i++)
             {
-                if (m_Phase2StatUp[i] <= m_Phase2StatUp[i + 1])
-                {
-                    _index = i + 1;
-                }
+                if (_min != m_Phase2StatUp[i])
+                    continue;
+                _min = i;
+                break;
             }
 
-            m_StatUpFlag = _index switch
+            for (var i = 0; i < m_Phase2StatUp.Length; i++)
             {
-                0 => m_StatUpFlag |= EDragonStatUpFlag.HealthUp,
-                1 => m_StatUpFlag |= EDragonStatUpFlag.SpeedUp,
-                2 => m_StatUpFlag |= EDragonStatUpFlag.DamageUp,
-                _ => throw new Exception($"Can't Find : {_index}")
-            };
+                if (i == _min)
+                {
+                    continue;
+                }
+                m_StatUpFlag = i switch
+                {
+                    0 => m_StatUpFlag |= EDragonStatUpFlag.HealthUp,
+                    1 => m_StatUpFlag |= EDragonStatUpFlag.SpeedUp,
+                    2 => m_StatUpFlag |= EDragonStatUpFlag.DamageUp,
+                    _ => throw new Exception($"Can't Find : {_min}")
+                };
+            }
+
             Debug.Log($"Second\n{m_StatUpFlag.ToString()}");
             PhaseChange();
         }
 
         private void PhaseChange()
         {
-            if (DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
+            if (_DragonController.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
             {
-                DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.Phase2;
-                DragonController.Instance.currentPhaseFlag &= ~EDragonPhaseFlag.Phase1;
+                _DragonController.currentPhaseFlag |= EDragonPhaseFlag.Phase2;
+                _DragonController.currentPhaseFlag &= ~EDragonPhaseFlag.Phase1;
                 PhaseStatChange();
             }
-            else if (DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase2))
+            else if (_DragonController.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase2))
             {
                 Debug.Log("Current Phase Is Phase 2");
             }
@@ -125,32 +137,33 @@ namespace Script.Dragon
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.AntiMagic))
             {
-                DragonController.Instance.DragonStat.magicDefence += 3;
+                _DragonController.DragonStat.magicDefence += 3;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.AntiSword))
             {
-                DragonController.Instance.DragonStat.defence += 3;
+                _DragonController.DragonStat.defence += 3;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.SpeedUp))
             {
-                DragonController.Instance.DragonStat.animSpeed += 0.2f;
-                DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.SpeedUp;
-                DragonController.Instance.nav.speed += 2f;
+                _DragonController.nav.speed += 2f;
+                _DragonController.DragonStat.animSpeed += 0.2f;
+                _DragonController.currentPhaseFlag |= EDragonPhaseFlag.SpeedUp;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.DamageUp))
             {
-                DragonController.Instance.DragonStat.damage += 5;
-                DragonController.Instance.currentPhaseFlag |= EDragonPhaseFlag.DamageUp;
+                _DragonController.DragonStat.damage += 5;
+                _DragonController.currentPhaseFlag |= EDragonPhaseFlag.DamageUp;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.HealthUp))
             {
-                DragonController.Instance.DragonStat.recovery += 1;
-                DragonController.Instance.DragonStat.maxHealth = 300;
-                DragonController.Instance.DragonStat.currentHealth += 150;
+                _DragonController.DragonStat.recovery += 1;
+                _DragonController.DragonStat.maxHealth = 300;
+                _DragonController.DragonStat.currentHealth += 150;
+                _DragonController.currentPhaseFlag |= EDragonPhaseFlag.HealthUp;
             }
 
             m_StatUpFlag = EDragonStatUpFlag.End;
@@ -158,7 +171,5 @@ namespace Script.Dragon
             var end = GetComponent<DragonPhaseManager>();
             end.enabled = false;
         }
-
-       
     }
 }

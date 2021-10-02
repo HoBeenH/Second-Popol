@@ -1,5 +1,6 @@
 ﻿using Script.Player.Effect;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player
 {
@@ -14,7 +15,7 @@ namespace Script.Player
         public override void OnStateEnter()
         {
             machine.animator.SetTrigger(m_ShootHash);
-            EffectManager.Instance.GetEffectOrNull(EPrefabName.IceShoot, EffectManager.Instance.spawnPosFw.position,
+            _EffectManager.GetEffectOrNull(EPrefabName.IceShoot, _EffectManager.spawnPosFw.position,
                 Quaternion.LookRotation(owner.transform.forward),
             m_EffectDestroyTime, m_EffectDelayTime);
             owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));

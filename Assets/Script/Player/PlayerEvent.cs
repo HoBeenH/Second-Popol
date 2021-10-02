@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player
 {
@@ -29,18 +30,18 @@ namespace Script.Player
 
         public void WeaponAnimEvent()
         {
-            if (PlayerController.Instance.currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Sword))
+            if (_PlayerController.currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Sword))
             {
                 m_ObjWeapon.SetActive(false);
-                PlayerController.Instance.currentWeaponFlag |= ECurrentWeaponFlag.Magic;
-                PlayerController.Instance.currentWeaponFlag &= ~ECurrentWeaponFlag.Sword;
+                _PlayerController.currentWeaponFlag |= ECurrentWeaponFlag.Magic;
+                _PlayerController.currentWeaponFlag &= ~ECurrentWeaponFlag.Sword;
                 m_Animator.SetBool(m_NowWeapon, false);
             }
-            else if (PlayerController.Instance.currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Magic))
+            else if (_PlayerController.currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Magic))
             {
                 m_ObjWeapon.SetActive(true);
-                PlayerController.Instance.currentWeaponFlag |= ECurrentWeaponFlag.Sword;
-                PlayerController.Instance.currentWeaponFlag &= ~ECurrentWeaponFlag.Magic;
+                _PlayerController.currentWeaponFlag |= ECurrentWeaponFlag.Sword;
+                _PlayerController.currentWeaponFlag &= ~ECurrentWeaponFlag.Magic;
                 m_Animator.SetBool(m_NowWeapon, true);
             }
         }

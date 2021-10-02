@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player.Effect
 {
@@ -9,15 +9,17 @@ namespace Script.Player.Effect
     {
         #region Player Weapon Effect
 
+        // 무기 이펙트의 자연스러운 전환을 위한 큐
         private readonly Queue<PSMeshRendererUpdater> m_EffectRenderersOfWeapon = new Queue<PSMeshRendererUpdater>();
         private readonly Queue<GameObject> m_WeaponEffects = new Queue<GameObject>();
         private readonly WaitForSeconds m_EffectWeaponDelay = new WaitForSeconds(3.0f);
+        // 이펙트 스폰 위치
         private Transform m_ObjWeapon;
         [HideInInspector] public Transform leftHand;
         [HideInInspector] public Transform rightHand;
         [HideInInspector] public Transform spawnPosUp;
         [HideInInspector] public Transform spawnPosFw;
-        public Transform _dragonBreath;
+        [HideInInspector] public Transform _dragonBreath;
 
         private void Awake()
         {
@@ -61,6 +63,7 @@ namespace Script.Player.Effect
             }
         }
 
+        // 무기 이펙트 소환
         public void EffectPlayerWeapon(bool isActive)
         {
             if (isActive)
@@ -73,7 +76,7 @@ namespace Script.Player.Effect
             else
             {
                 m_EffectRenderersOfWeapon.Dequeue().IsActive = false;
-                ObjPool.Instance.ReTurnObj(m_WeaponEffects.Dequeue(), EPrefabName.PlayerWeaponEffect,
+                _ObjPool.ReTurnObj(m_WeaponEffects.Dequeue(), EPrefabName.PlayerWeaponEffect,
                     m_EffectWeaponDelay);
             }
         }
@@ -82,6 +85,7 @@ namespace Script.Player.Effect
 
         #region Player Skill Effect
 
+        // 스킬이펙트
         public void GetEffectOrNull(EPrefabName effectName, Vector3 position, Quaternion? rotPos = null,
             WaitForSeconds returnTime = null, WaitForSeconds delay = null, Transform owner = null)
         {
@@ -91,11 +95,11 @@ namespace Script.Player.Effect
                 return;
             }
 
-            var obj = ObjPool.Instance.GetObj(effectName);
+            var obj = _ObjPool.GetObj(effectName);
 
             if (returnTime != null)
             {
-                ObjPool.Instance.ReTurnObj(obj, effectName, returnTime);
+                _ObjPool.ReTurnObj(obj, effectName, returnTime);
             }
 
             obj.transform.position = position;
@@ -113,10 +117,10 @@ namespace Script.Player.Effect
         public PSMeshRendererUpdater GetMeshEffect(EPrefabName effectName, Vector3 position,
             GameObject owner, WaitForSeconds returnTime = null, WaitForSeconds fadeTime = null)
         {
-            var obj = ObjPool.Instance.GetObj(effectName);
+            var obj = _ObjPool.GetObj(effectName);
             if (returnTime != null)
             {
-                ObjPool.Instance.ReTurnObj(obj, effectName, returnTime);
+                _ObjPool.ReTurnObj(obj, effectName, returnTime);
             }
 
             obj.transform.position = position;

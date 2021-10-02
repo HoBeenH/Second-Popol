@@ -1,6 +1,7 @@
 ﻿using Script.Dragon;
 using Script.Player.Effect;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player
 {
@@ -15,8 +16,8 @@ namespace Script.Player
         {
             Time.timeScale = 0.8f;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            EffectManager.Instance.EffectPlayerWeapon(true);
-            DragonController.Instance.TakeDamage(owner.PlayerStat.damage,owner.currentWeaponFlag);
+            _EffectManager.EffectPlayerWeapon(true);
+            _DragonController.TakeDamage(owner.PlayerStat.damage,owner.currentWeaponFlag);
             machine.animator.SetTrigger(m_WSkillHash);
             owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));
         }
@@ -25,7 +26,7 @@ namespace Script.Player
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            EffectManager.Instance.EffectPlayerWeapon(false);
+            _EffectManager.EffectPlayerWeapon(false);
         }
     }
 }

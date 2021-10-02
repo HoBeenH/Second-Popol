@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Dragon
 {
@@ -13,19 +14,20 @@ namespace Script.Dragon
     {
         private readonly int m_MovementFloatHash = Animator.StringToHash("Move");
         private float m_DisToCondition;
+        private float m_StopDis;
         private Transform m_Dragon;
 
         protected override void Init()
         {
             m_Dragon = owner.GetComponent<Transform>();
-            m_DisToCondition = Mathf.Pow(owner.nav.stoppingDistance, 2);
+            m_StopDis = owner.nav.stoppingDistance;
+            m_DisToCondition = Mathf.Pow(m_StopDis, 2);
         }
 
         public override void OnStateUpdate()
         {
-            var _dir = (owner.player.position - m_Dragon.position);
-            Debug.Log(_dir.magnitude);
-            machine.animator.SetFloat(m_MovementFloatHash, _dir.magnitude,
+            var _dir = (_PlayerController.transform.position - m_Dragon.position);
+            machine.animator.SetFloat(m_MovementFloatHash, _dir.magnitude - owner.nav.stoppingDistance,
                 owner.DragonStat.moveAnimDamp, Time.deltaTime);
             if (CheckDis())
             {
@@ -34,15 +36,14 @@ namespace Script.Dragon
             }
             else
             {
-                machine.animator.SetFloat(m_MovementFloatHash, _dir.magnitude,
-                    owner.DragonStat.moveAnimDamp, Time.deltaTime);
-                owner.nav.SetDestination(owner.player.position);
+                owner.nav.SetDestination(_PlayerController.transform.position);
             }
         }
 
         public override void OnStateExit()
         {
             owner.nav.ResetPath();
+            owner.nav.velocity = Vector3.zero;
             machine.animator.SetFloat(m_MovementFloatHash, 0f);
         }
 
@@ -65,7 +66,11 @@ namespace Script.Dragon
                     if (owner.bReadyFlyAttack)
                     {
                         machine.ChangeState<G_Dragon_FlyAttack>();
-                        return;
+                        break;
+                    }
+                    if (owner.bReadyPattern && owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase2))
+                    {
+                        
                     }
 
                     break;
@@ -73,23 +78,12 @@ namespace Script.Dragon
         }
 
 
-        private EPlayerPoint PlayerPoint()
-        {
-            var temp = owner.player.position - m_Dragon.position;
-            var point = Vector3.SignedAngle(owner.transform.forward, temp, m_Dragon.up);
-            if (-40f <= point && point < 40f)
-            {
-                return EPlayerPoint.Forward;
-            }
+        private EPlayerPoint PlayerPoint() =>
+            Vector3.Dot(m_Dragon.forward,
+                (_PlayerController.transform.position - m_Dragon.position).normalized) >= 0f
+                ? EPlayerPoint.Forward : EPlayerPoint.Back;
 
-            if (120 <= point || point <= -120)
-            {
-                return EPlayerPoint.Back;
-            }
-
-            return EPlayerPoint.Other;
-        }
-
-        private bool CheckDis() => (owner.player.position - owner.transform.position).sqrMagnitude <= m_DisToCondition;
+        private bool CheckDis() =>
+            (_PlayerController.transform.position - owner.transform.position).sqrMagnitude <= m_DisToCondition;
     }
 }

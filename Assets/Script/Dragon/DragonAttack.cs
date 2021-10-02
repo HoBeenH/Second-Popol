@@ -1,5 +1,6 @@
 using Script.Player;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Dragon
 {
@@ -16,8 +17,8 @@ namespace Script.Dragon
         {
             if (other.CompareTag("Player"))
             {
-                var _dir = (other.transform.position - transform.position).normalized;
-                PlayerController.Instance.TakeDamage(DragonController.Instance.DragonStat.damage, _dir);
+                _PlayerController.TakeDamage(_DragonController.DragonStat.damage,
+                    (other.transform.position - transform.position).normalized);
                 m_Col.enabled = false;
             }
         }

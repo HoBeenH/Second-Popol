@@ -3,6 +3,7 @@ using Script.Player;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using static Script.Facade;
 
 namespace Script.Dragon
 {
@@ -16,7 +17,7 @@ namespace Script.Dragon
         Frozen = 1 << 4,
         SpeedUp = 1 << 5,
         DamageUp = 1 << 6,
-        HealthUp = 1 << 6,
+        HealthUp = 1 << 7,
         Dead = 1 << 8
     }
 
@@ -25,21 +26,20 @@ namespace Script.Dragon
         private StateMachine<DragonController> m_DragonStateMachine;
 
         [HideInInspector] public NavMeshAgent nav;
-        [HideInInspector] public Transform player;
         [HideInInspector] public bool bReadyAttack = true;
         [HideInInspector] public bool bReadyTail = true;
         [HideInInspector] public bool bReadyFlyAttack = true;
         [HideInInspector] public bool bReadyBreath = true;
+        [HideInInspector] public bool bReadyPattern = true;
         [SerializeField] public EDragonPhaseFlag currentPhaseFlag = EDragonPhaseFlag.Phase1;
         public LayerMask playerMask;
-        public DragonStatus DragonStat { get; private set; }
+        public DragonInfo DragonStat { get; private set; }
         public event Action StopAnim;
 
         private void Awake()
         {
-            DragonStat = new DragonStatus();
+            DragonStat = new DragonInfo();
             nav = GetComponent<NavMeshAgent>();
-            player = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         private void Start()
@@ -51,7 +51,9 @@ namespace Script.Dragon
             m_DragonStateMachine.SetState(new G_Dragon_Breath());
             m_DragonStateMachine.SetState(new G_Dragon_FlyAttack());
             m_DragonStateMachine.SetState(new S_Dragon_Stun());
+            m_DragonStateMachine.SetState(new G_Dragon_Frozen());
             m_DragonStateMachine.SetState(new S_Dragon_Dead());
+            m_DragonStateMachine.SetState(new G_Dragon_Pattern());
             StartCoroutine(DragonStat.DragonRecovery());
         }
 
@@ -61,7 +63,11 @@ namespace Script.Dragon
 
             if (Input .GetKey(KeyCode.Tab))
             {
-                m_DragonStateMachine.ChangeState<G_Dragon_FlyAttack>();
+                m_DragonStateMachine?.ChangeState<G_Dragon_Pattern>();
+            }   
+            if (Input .GetKey(KeyCode.LeftAlt))
+            {
+                m_DragonStateMachine?.ChangeState<G_Dragon_FlyAttack>();
             }
         }
 
@@ -75,7 +81,7 @@ namespace Script.Dragon
                 _damage -= DragonStat.magicDefence;
                 if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
                 {
-                    DragonPhaseManager.Instance.HitCheck(ECurrentWeaponFlag.Magic);
+                    _DragonPhaseManager.HitCheck(ECurrentWeaponFlag.Magic);
                 }
             }
             else if (weapon.HasFlag(ECurrentWeaponFlag.Sword))
@@ -83,7 +89,7 @@ namespace Script.Dragon
                 _damage -= DragonStat.defence;
                 if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
                 {
-                    DragonPhaseManager.Instance.HitCheck(ECurrentWeaponFlag.Sword);
+                    _DragonPhaseManager.HitCheck(ECurrentWeaponFlag.Sword);
                 }
             }
 
@@ -107,14 +113,7 @@ namespace Script.Dragon
         public void Frozen()
         {
             StopAnim?.Invoke();
-            currentPhaseFlag |= EDragonPhaseFlag.Frozen;
-            m_DragonStateMachine.ChangeState<S_Dragon_Movement>();
-            nav.SetDestination(transform.position);
-        }
-
-        public void DeFrozen()
-        {
-            currentPhaseFlag &= ~EDragonPhaseFlag.Frozen;
+            m_DragonStateMachine.ChangeState<G_Dragon_Frozen>();
         }
     }
 }

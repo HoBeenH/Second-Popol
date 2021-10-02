@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Script.Player.Effect;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player
 {
@@ -23,6 +24,7 @@ namespace Script.Player
             SetEffect();
             owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement), true, animToHash));
         }
+
         private IEnumerator CoolTime()
         {
             yield return m_TopDownCool;
@@ -31,18 +33,16 @@ namespace Script.Player
 
         private void SetEffect()
         {
-            EffectManager.Instance.GetEffectOrNull(EPrefabName.TopDownHand,
-                EffectManager.Instance.leftHand.transform.position, null,
-                m_EffectTopDownHandTimer, null, EffectManager.Instance.leftHand);
+            _EffectManager.GetEffectOrNull(EPrefabName.TopDownHand, _EffectManager.leftHand.position, null,
+                m_EffectTopDownHandTimer, null, _EffectManager.leftHand);
 
-            EffectManager.Instance.GetEffectOrNull(EPrefabName.TopDownHand,
-                EffectManager.Instance.rightHand.transform.position, null,
-                m_EffectTopDownHandTimer, null, EffectManager.Instance.rightHand);
+            _EffectManager.GetEffectOrNull(EPrefabName.TopDownHand, _EffectManager.rightHand.position, null,
+                m_EffectTopDownHandTimer, null, _EffectManager.rightHand);
 
-            Physics.Raycast(EffectManager.Instance.spawnPosUp.position, -EffectManager.Instance.spawnPosUp.up,
+            Physics.Raycast(_EffectManager.spawnPosUp.position, -_EffectManager.spawnPosUp.up,
                 out var _hit);
 
-            EffectManager.Instance.GetEffectOrNull(EPrefabName.TopDown, _hit.point, null, m_EffectTopDownTimer,
+            _EffectManager.GetEffectOrNull(EPrefabName.TopDown, _hit.point, null, m_EffectTopDownTimer,
                 m_EffectTopDownSpawnDelay);
         }
     }

@@ -1,23 +1,30 @@
+using System;
 using Script.Dragon;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player.Effect
 {
     public class IceShoot : MonoBehaviour
     {
         private readonly WaitForSeconds m_ReturnTime = new WaitForSeconds(3.0f);
-        
-        void Update()
+
+        private void Update()
         {
-            if (Physics.Raycast(transform.position, transform.forward, out var _hit, 20f, PlayerController.Instance.dragon))
+            Debug.DrawRay(transform.position,transform.forward * 20f,Color.magenta);
+        }
+
+        void OnEnable()
+        {
+            if (Physics.Raycast(transform.position, transform.forward, out var _hit, 20f,
+                _PlayerController.dragon))
             {
-                if (DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.CantParry))
+                // if (!DragonController.Instance.currentPhaseFlag.HasFlag(EDragonPhaseFlag.CantParry))
                 {
-                    return;
+                    _EffectManager.GetEffectOrNull(EPrefabName.Ice, _hit.point, null, m_ReturnTime);
+                    _DragonController.Frozen();
                 }
-                EffectManager.Instance.GetEffectOrNull(EPrefabName.Ice, _hit.point, null, m_ReturnTime);
-                DragonController.Instance.Frozen();
-                gameObject.SetActive(false);
+                Debug.Log(_hit);
             }
         }
     }

@@ -1,5 +1,6 @@
 using Script.Player;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Dragon
 {
@@ -10,15 +11,14 @@ namespace Script.Dragon
         private void Awake()
         {
             m_Tails = GetComponentsInChildren<Collider>();
-            Debug.Log(m_Tails.Length);
         }
-        
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                var _dir = (other.transform.position - transform.position).normalized;
-                PlayerController.Instance.TakeDamage(DragonController.Instance.DragonStat.damage,_dir);
+                _PlayerController.TakeDamage(_DragonController.DragonStat.damage,
+                    (other.transform.position - transform.position).normalized);
                 foreach (var tail in m_Tails)
                 {
                     tail.enabled = false;

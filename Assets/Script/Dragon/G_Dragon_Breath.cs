@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using Script.Player;
-using Script.Player.Effect;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Dragon
 {
@@ -24,17 +23,17 @@ namespace Script.Dragon
             var _position = owner.transform.position;
             if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.DamageUp))
             {
-                EffectManager.Instance.GetEffectOrNull(EPrefabName.BreathForce, _position, null,
+                _EffectManager.GetEffectOrNull(EPrefabName.BreathForce, _position, null,
                     m_BreathForceReturn, m_BreathForceDelay);
-                PlayerController.Instance.useFallDown.Invoke((owner.player.position - _position).normalized, 5f);
+                _PlayerController.useFallDown.Invoke((_PlayerController.transform.position - _position).normalized, 5f);
             }
 
-            EffectManager.Instance.DragonBreath(true, m_BreathDelay);
+            _EffectManager.DragonBreath(true, m_BreathDelay);
         }
 
         public override void OnStateExit()
         {
-            EffectManager.Instance.DragonBreath(false);
+            _EffectManager.DragonBreath(false);
             owner.currentPhaseFlag &= ~EDragonPhaseFlag.CantParry;
         }
 

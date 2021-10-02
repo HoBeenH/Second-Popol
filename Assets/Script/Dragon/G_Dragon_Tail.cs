@@ -16,7 +16,6 @@ namespace Script.Dragon
             owner.bReadyTail = false;
             owner.StartCoroutine(CoolTime());
             owner.StartCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement), true,m_AttackLAnimHash));
-
         }
 
         public override void OnStateChangePoint()
