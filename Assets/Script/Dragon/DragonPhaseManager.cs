@@ -84,28 +84,20 @@ namespace Script.Dragon
                 ? m_StatUpFlag |= EDragonStatUpFlag.AntiMagic
                 : m_StatUpFlag |= EDragonStatUpFlag.AntiSword;
 
-            var _min = m_Phase2StatUp.Min();
-            for (var i = 0; i < m_Phase2StatUp.Length; i++)
-            {
-                if (_min != m_Phase2StatUp[i])
-                    continue;
-                _min = i;
-                break;
-            }
+            var _max = m_Phase2StatUp.Max();
 
             for (var i = 0; i < m_Phase2StatUp.Length; i++)
             {
-                if (i == _min)
-                {
+                if (m_Phase2StatUp[i] != _max) 
                     continue;
-                }
                 m_StatUpFlag = i switch
                 {
                     0 => m_StatUpFlag |= EDragonStatUpFlag.HealthUp,
                     1 => m_StatUpFlag |= EDragonStatUpFlag.SpeedUp,
                     2 => m_StatUpFlag |= EDragonStatUpFlag.DamageUp,
-                    _ => throw new Exception($"Can't Find : {_min}")
+                    _ => throw new Exception($"Can't Find : {_max}")
                 };
+                break;
             }
 
             Debug.Log($"Second\n{m_StatUpFlag.ToString()}");

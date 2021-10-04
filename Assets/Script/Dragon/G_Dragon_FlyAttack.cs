@@ -72,6 +72,7 @@ namespace Script.Dragon
 
             machine.animator.SetTrigger(m_FlyAttackHash);
             owner.nav.ResetPath();
+            owner.nav.velocity = Vector3.zero;
             owner.nav.baseOffset = 0;
             var _position = owner.transform.position;
             _EffectManager.GetEffectOrNull(EPrefabName.DragonDownSmoke, _position, null,
