@@ -15,7 +15,7 @@ namespace Script.Player
         {
             _EffectManager.EffectPlayerWeapon(true);
             machine.animator.SetTrigger(m_WTopDownHash);
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement), true, animToHash));
+            owner.StartCoroutine(machine.WaitForIdle(animToHash));
         }
 
         public override void OnStateExit()

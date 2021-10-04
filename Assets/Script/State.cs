@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Script
 {
@@ -7,6 +8,8 @@ namespace Script
         public readonly int animToHash;
         protected StateMachine<T> machine;
         protected T owner;
+        public WaitForSeconds skillCoolDOwn;
+        public bool skillReady;
 
         protected State()
         {

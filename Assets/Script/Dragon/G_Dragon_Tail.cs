@@ -15,7 +15,7 @@ namespace Script.Dragon
             owner.StopAnim += HitParry;
             owner.bReadyTail = false;
             owner.StartCoroutine(CoolTime());
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement), true,m_AttackLAnimHash));
+            owner.StartCoroutine(machine.WaitForIdle( m_AttackLAnimHash));
         }
 
         public override void OnStateChangePoint()
@@ -34,7 +34,7 @@ namespace Script.Dragon
 
         private void HitParry()
         {
-            owner.StopCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement), true,m_AttackLAnimHash));
+            owner.StopCoroutine(machine.WaitForIdle(m_AttackLAnimHash));
         }
 
         private IEnumerator CoolTime()

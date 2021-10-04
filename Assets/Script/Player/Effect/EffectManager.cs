@@ -19,20 +19,10 @@ namespace Script.Player.Effect
         [HideInInspector] public Transform rightHand;
         [HideInInspector] public Transform spawnPosUp;
         [HideInInspector] public Transform spawnPosFw;
-        [HideInInspector] public Transform _dragonBreath;
+        public Transform _dragonBreath;
 
         private void Awake()
         {
-            var _dragonFind = GameObject.FindGameObjectWithTag("Dragon").GetComponentsInChildren<Transform>();
-            foreach (var t in _dragonFind)
-            {
-                if (t.name.Equals("Spawn Pos"))
-                {
-                    _dragonBreath = t;
-                    break;
-                }
-            }
-
             var _find = GameObject.FindGameObjectWithTag("Player").GetComponentsInChildren<Transform>();
             foreach (var t in _find)
             {

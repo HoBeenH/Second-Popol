@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Script.Player;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -26,15 +27,16 @@ namespace Script.Dragon
         private StateMachine<DragonController> m_DragonStateMachine;
 
         [HideInInspector] public NavMeshAgent nav;
-        [HideInInspector] public bool bReadyAttack = true;
-        [HideInInspector] public bool bReadyTail = true;
-        [HideInInspector] public bool bReadyFlyAttack = true;
-        [HideInInspector] public bool bReadyBreath = true;
-        [HideInInspector] public bool bReadyPattern = true;
+
         [SerializeField] public EDragonPhaseFlag currentPhaseFlag = EDragonPhaseFlag.Phase1;
         public LayerMask playerMask;
         public DragonInfo DragonStat { get; private set; }
         public event Action StopAnim;
+        public bool bReadyAttack = true;
+        public bool bReadyTail = true;
+        public bool bReadyFlyAttack = true;
+        public bool bReadyBreath = true;
+        public bool bReadyPattern = true;
 
         private void Awake()
         {
@@ -54,7 +56,6 @@ namespace Script.Dragon
             m_DragonStateMachine.SetState(new G_Dragon_Frozen());
             m_DragonStateMachine.SetState(new S_Dragon_Dead());
             m_DragonStateMachine.SetState(new G_Dragon_Pattern());
-            StartCoroutine(DragonStat.DragonRecovery());
         }
 
         private void Update()
@@ -93,13 +94,13 @@ namespace Script.Dragon
                 }
             }
 
-            DragonStat.Health -= _damage;
-            if (DragonStat.Health <= 0f)
+            DragonStat.health -= _damage;
+            if (DragonStat.health <= 0f)
             {
                 m_DragonStateMachine.ChangeState<S_Dragon_Dead>();
                 return;
             }
-            Debug.Log(DragonStat.Health);
+            Debug.Log(DragonStat.health);
 
         }
 
@@ -107,6 +108,7 @@ namespace Script.Dragon
         public void Stun()
         {
             StopAnim?.Invoke();
+            StopAnim = null;
             m_DragonStateMachine.ChangeState<S_Dragon_Stun>();
         }
 

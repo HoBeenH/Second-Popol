@@ -74,8 +74,8 @@ namespace Script.Player
                 return;
             }
 
-            PlayerStat.Health -= damage;
-            if (PlayerStat.Health <= 0)
+            PlayerStat.health -= damage;
+            if (PlayerStat.health <= 0)
             {
                 // 죽음
                 return;
@@ -85,15 +85,15 @@ namespace Script.Player
             {
                 useFallDown((Vector3)dir, 5f);
             }
-            Debug.Log($"Take Damage {PlayerStat.Health}");
+            Debug.Log($"Take Damage {PlayerStat.health}");
         }
 
         private void Test()
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                PlayerStat.Health -= 20;
-                Debug.Log(PlayerStat.Health);
+                PlayerStat.health -= 20;
+                Debug.Log(PlayerStat.health);
             }
 
             if (Input.GetKey(KeyCode.X))

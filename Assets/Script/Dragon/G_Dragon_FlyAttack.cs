@@ -11,7 +11,7 @@ namespace Script.Dragon
         private readonly int m_FlyAnimHash = Animator.StringToHash("Base Layer.FlyAttack.Fly");
         private readonly int m_FlyAttackHash = Animator.StringToHash("FlyAttack");
         private readonly int m_bFlyAttackHash = Animator.StringToHash("NowFly");
-        private readonly WaitForSeconds m_FlyAttackCoolTime = new WaitForSeconds(20.0f);
+        private readonly WaitForSeconds m_FlyAttackCoolTime = new WaitForSeconds(15.0f);
         private readonly WaitForSeconds m_SmokeReturnTime = new WaitForSeconds(3.0f);
         private WaitUntil m_CurrentAnimIsFly;
         private readonly Collider[] m_Results = new Collider[1];
@@ -44,7 +44,7 @@ namespace Script.Dragon
             yield return owner.StartCoroutine(Fly());
             yield return owner.StartCoroutine(FallDown());
 
-            yield return owner.StartCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement)));
+            yield return owner.StartCoroutine(machine.WaitForIdle());
             yield return m_FlyAttackCoolTime;
             owner.bReadyFlyAttack = true;
         }

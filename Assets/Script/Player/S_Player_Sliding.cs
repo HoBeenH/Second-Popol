@@ -18,7 +18,7 @@ namespace Script.Player
         {
             machine.animator.SetTrigger(m_SlidingHash);
             m_PlayerRigidbody.velocity = owner.transform.forward * 7f;
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));
+            owner.StartCoroutine(machine.WaitForIdle(animToHash));
         }
     }
 }

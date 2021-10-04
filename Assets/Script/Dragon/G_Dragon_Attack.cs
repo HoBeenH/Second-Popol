@@ -15,7 +15,7 @@ namespace Script.Dragon
             owner.StopAnim += HitParry;
             machine.animator.SetTrigger(m_AttackTriggerHash);
             owner.StartCoroutine(CoolTime());
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement), true, m_AttackAnimHash));
+            owner.StartCoroutine(machine.WaitForIdle( m_AttackAnimHash));
         }
 
         public override void OnStateExit()
@@ -25,7 +25,7 @@ namespace Script.Dragon
 
         private void HitParry()
         {
-            owner.StopCoroutine((machine.WaitForAnim(typeof(S_Dragon_Movement), true, m_AttackAnimHash)));
+            owner.StopCoroutine((machine.WaitForIdle( m_AttackAnimHash)));
         }
 
         private IEnumerator CoolTime()

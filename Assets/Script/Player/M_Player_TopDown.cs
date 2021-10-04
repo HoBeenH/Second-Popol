@@ -22,7 +22,7 @@ namespace Script.Player
             owner.bTopDownCoolTime = false;
             owner.StartCoroutine(CoolTime());
             SetEffect();
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement), true, animToHash));
+            owner.StartCoroutine(machine.WaitForIdle(animToHash));
         }
 
         private IEnumerator CoolTime()

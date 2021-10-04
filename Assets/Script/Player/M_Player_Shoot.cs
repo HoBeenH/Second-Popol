@@ -18,7 +18,7 @@ namespace Script.Player
             _EffectManager.GetEffectOrNull(EPrefabName.IceShoot, _EffectManager.spawnPosFw.position,
                 Quaternion.LookRotation(owner.transform.forward),
             m_EffectDestroyTime, m_EffectDelayTime);
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));
+            owner.StartCoroutine(machine.WaitForIdle(animToHash));
         }
     }
 }

@@ -160,9 +160,7 @@ namespace Script.Dragon
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.HealthUp))
             {
-                _DragonController.DragonStat.recovery += 1;
-                _DragonController.DragonStat.maxHealth = 300;
-                _DragonController.DragonStat.currentHealth += 150;
+                _DragonController.DragonStat.health += 300;
                 _DragonController.currentPhaseFlag |= EDragonPhaseFlag.HealthUp;
             }
 

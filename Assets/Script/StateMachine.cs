@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Script.Dragon;
+using Script.Player;
 using UnityEngine;
 
 namespace Script
@@ -10,8 +12,10 @@ namespace Script
         private readonly Dictionary<Type, State<T>> m_States = new Dictionary<Type, State<T>>();
         private State<T> CurrentState { get; set; }
         public readonly Animator animator;
+
         private readonly T m_Owner;
         private readonly WaitUntil m_WaitIdle;
+        private readonly Type m_Idle;
 
         public StateMachine(Animator anim, T currentOwner, State<T> state)
         {
@@ -22,27 +26,31 @@ namespace Script
             CurrentState?.OnStateEnter();
             m_WaitIdle = new WaitUntil(() =>
                 animator.GetCurrentAnimatorStateInfo(0).fullPathHash == Animator.StringToHash("Base Layer.Move"));
+
+            if (currentOwner.GetType() == typeof(DragonController))
+            {
+                m_Idle = typeof(S_Dragon_Movement);
+            }
+
+            if (currentOwner.GetType() == typeof(PlayerController))
+            {
+                m_Idle = typeof(S_Player_Movement);
+            }
         }
 
 
-        public IEnumerator WaitForAnim(Type nextState = null, bool waitIdle = true, params int[] hash)
+        public IEnumerator WaitForIdle(params int[] hash)
         {
             foreach (var currentAnim in hash)
             {
                 yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).fullPathHash == currentAnim);
             }
 
-            if (waitIdle)
-            {
-                yield return m_WaitIdle;
-            }
+            yield return m_WaitIdle;
 
-            if (nextState != null)
-            {
-                CurrentState?.OnStateExit();
-                CurrentState = m_States[nextState];
-                CurrentState?.OnStateEnter();
-            }
+            CurrentState?.OnStateExit();
+            CurrentState = m_States[m_Idle];
+            CurrentState?.OnStateEnter();
         }
 
         public void SetState(State<T> state)

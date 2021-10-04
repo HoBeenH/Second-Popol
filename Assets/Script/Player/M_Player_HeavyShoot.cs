@@ -12,7 +12,7 @@ namespace Script.Player
         public override void OnStateEnter()
         {
             machine.animator.SetTrigger(m_HeavyShootHash);
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));
+            owner.StartCoroutine(machine.WaitForIdle(animToHash));
         }
 
     }

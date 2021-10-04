@@ -14,12 +14,13 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
+            _CamManager.playerWeapon.GenerateImpulse();
             Time.timeScale = 0.8f;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
             _EffectManager.EffectPlayerWeapon(true);
             _DragonController.TakeDamage(owner.PlayerStat.damage,owner.currentWeaponFlag);
             machine.animator.SetTrigger(m_WSkillHash);
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));
+            owner.StartCoroutine(machine.WaitForIdle(animToHash));
         }
 
         public override void OnStateExit()

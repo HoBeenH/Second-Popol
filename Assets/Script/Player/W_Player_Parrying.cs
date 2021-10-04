@@ -13,7 +13,7 @@ namespace Script.Player
         {
             owner.currentWeaponFlag |= ECurrentWeaponFlag.Parry;
             machine.animator.SetTrigger(m_ParryingHash);
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement),true,animToHash));
+            owner.StartCoroutine(machine.WaitForIdle(animToHash));
         }
 
         public override void OnStateExit()

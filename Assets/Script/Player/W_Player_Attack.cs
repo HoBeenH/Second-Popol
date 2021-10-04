@@ -14,7 +14,7 @@ namespace Script.Player
         {
             _EffectManager.EffectPlayerWeapon(true);
             machine.animator.SetTrigger(m_Attack);
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Player_Movement), true, m_AttackLAnimHash));
+            owner.StartCoroutine(machine.WaitForIdle(m_AttackLAnimHash));
         }
 
         public override void OnStateChangePoint()

@@ -19,7 +19,7 @@ namespace Script.Dragon
             owner.bReadyBreath = false;
             machine.animator.SetTrigger(m_BreathHash);
             owner.StartCoroutine(CoolTime());
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement), true, m_BreathAnimHash));
+            owner.StartCoroutine(machine.WaitForIdle(m_BreathAnimHash));
             var _position = owner.transform.position;
             if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.DamageUp))
             {

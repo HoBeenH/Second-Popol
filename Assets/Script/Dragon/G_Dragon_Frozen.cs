@@ -11,7 +11,7 @@ namespace Script.Dragon
         {
             owner.currentPhaseFlag |= EDragonPhaseFlag.Frozen;
             machine.animator.SetTrigger(m_FrozenHash);
-            owner.StartCoroutine(machine.WaitForAnim(typeof(S_Dragon_Movement), true, animToHash));
+            owner.StartCoroutine(machine.WaitForIdle( animToHash));
         }
 
         public override void OnStateExit()
