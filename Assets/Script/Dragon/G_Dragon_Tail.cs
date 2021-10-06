@@ -20,7 +20,7 @@ namespace Script.Dragon
 
         public override void OnStateChangePoint()
         {
-            if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.SpeedUp))
+            if (owner.currentStateFlag.HasFlag(EDragonPhaseFlag.SpeedUp))
             {
                 machine.animator.SetTrigger(m_TailHash);
             }

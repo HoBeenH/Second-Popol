@@ -10,9 +10,9 @@ namespace Script.Dragon
     {
         private readonly int m_FlyAnimHash = Animator.StringToHash("Base Layer.FlyAttack.Fly");
         private readonly int m_FlyAttackHash = Animator.StringToHash("FlyAttack");
-        private readonly int m_bFlyAttackHash = Animator.StringToHash("NowFly");
+        private readonly int m_BFlyAttackHash = Animator.StringToHash("NowFly");
         private readonly WaitForSeconds m_FlyAttackCoolTime = new WaitForSeconds(15.0f);
-        private readonly WaitForSeconds m_SmokeReturnTime = new WaitForSeconds(3.0f);
+        private readonly WaitForSeconds m_SmokeReturnTime = new WaitForSeconds(5.0f);
         private WaitUntil m_CurrentAnimIsFly;
         private readonly Collider[] m_Results = new Collider[1];
 
@@ -24,22 +24,22 @@ namespace Script.Dragon
 
         public override void OnStateEnter()
         {
-            owner.currentPhaseFlag |= EDragonPhaseFlag.CantParry | EDragonPhaseFlag.Fly;
+            owner.currentStateFlag |= EDragonPhaseFlag.CantParry | EDragonPhaseFlag.Fly;
             owner.bReadyFlyAttack = false;
             owner.StartCoroutine(FlyAttack());
         }
 
         public override void OnStateExit()
         {
-            owner.currentPhaseFlag &= ~EDragonPhaseFlag.CantParry;
-            owner.currentPhaseFlag &= ~EDragonPhaseFlag.Fly;
-            machine.animator.SetBool(m_bFlyAttackHash, false);
+            owner.currentStateFlag &= ~EDragonPhaseFlag.CantParry;
+            owner.currentStateFlag &= ~EDragonPhaseFlag.Fly;
+            machine.animator.SetBool(m_BFlyAttackHash, false);
         }
 
         private IEnumerator FlyAttack()
         {
             machine.animator.SetTrigger(m_FlyAttackHash);
-            machine.animator.SetBool(m_bFlyAttackHash, true);
+            machine.animator.SetBool(m_BFlyAttackHash, true);
 
             yield return owner.StartCoroutine(Fly());
             yield return owner.StartCoroutine(FallDown());
@@ -52,8 +52,11 @@ namespace Script.Dragon
         private IEnumerator Fly()
         {
             yield return m_CurrentAnimIsFly;
+            var dir = (_PlayerController.transform.position - owner.transform.position).normalized;
             while (owner.nav.baseOffset <= 19f)
             {
+                owner.transform.rotation = Quaternion.Slerp(owner.transform.rotation, Quaternion.LookRotation(dir),
+                    5 * Time.deltaTime);
                 owner.nav.baseOffset = Mathf.Lerp(owner.nav.baseOffset, 20, Time.deltaTime);
                 yield return null;
             }
@@ -80,7 +83,7 @@ namespace Script.Dragon
             _EffectManager.GetEffectOrNull(EPrefabName.DragonDownSmoke2, _position, null,
                 m_SmokeReturnTime, null, owner.transform);
             var _radius = 5f;
-            if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.HealthUp))
+            if (owner.currentStateFlag.HasFlag(EDragonPhaseFlag.HealthUp))
             {
                 _radius = 10f;
             }
@@ -93,7 +96,6 @@ namespace Script.Dragon
 
             _PlayerController.TakeDamage(owner.DragonStat.damage,
                 (_PlayerController.transform.position - owner.transform.position).normalized);
-            
         }
     }
 }

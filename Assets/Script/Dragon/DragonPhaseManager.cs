@@ -8,21 +8,21 @@ using static Script.Facade;
 
 namespace Script.Dragon
 {
-    [Flags]
-    public enum EDragonStatUpFlag
-    {
-        Default = 1 << 0,
-        AntiMagic = 1 << 1,
-        AntiSword = 1 << 2,
-        SpeedUp = 1 << 3,
-        DamageUp = 1 << 4,
-        HealthUp = 1 << 5,
-        End = 1 << 6
-    }
-
     public class DragonPhaseManager : MonoSingleton<DragonPhaseManager>
     {
-        public EDragonStatUpFlag m_StatUpFlag = EDragonStatUpFlag.Default;
+        [Flags]
+        private enum EDragonStatUpFlag
+        {
+            Default = 1 << 0,
+            AntiMagic = 1 << 1,
+            AntiSword = 1 << 2,
+            SpeedUp = 1 << 3,
+            DamageUp = 1 << 4,
+            HealthUp = 1 << 5,
+            End = 1 << 6
+        }
+
+        private EDragonStatUpFlag m_StatUpFlag;
         private readonly int[] m_Phase2StatUp = new int[3];
         private const int HEALTH = 0;
         private const int SPEED = 1;
@@ -37,19 +37,19 @@ namespace Script.Dragon
             StartCoroutine(nameof(SecondPhaseStart));
         }
 
-        public void HitCheck(ECurrentWeaponFlag currentWeaponFlag)
+        public void HitCheck(EPlayerFlag playerFlag)
         {
             m_WaitForSecondPhase -= 1f;
-            switch (currentWeaponFlag)
+            switch (playerFlag)
             {
-                case ECurrentWeaponFlag.Sword:
+                case EPlayerFlag.Sword:
                     m_SwordCount += 1;
                     break;
-                case ECurrentWeaponFlag.Magic:
+                case EPlayerFlag.Magic:
                     m_MagicCount += 1;
                     break;
                 default:
-                    throw new Exception($"Unknown Type : {currentWeaponFlag.ToString()}");
+                    throw new Exception($"Unknown Type : {playerFlag.ToString()}");
             }
 
             var _randomStat = Random.Range(0, 3);
@@ -88,7 +88,7 @@ namespace Script.Dragon
 
             for (var i = 0; i < m_Phase2StatUp.Length; i++)
             {
-                if (m_Phase2StatUp[i] != _max) 
+                if (m_Phase2StatUp[i] != _max)
                     continue;
                 m_StatUpFlag = i switch
                 {
@@ -106,13 +106,13 @@ namespace Script.Dragon
 
         private void PhaseChange()
         {
-            if (_DragonController.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
+            if (_DragonController.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase1))
             {
-                _DragonController.currentPhaseFlag |= EDragonPhaseFlag.Phase2;
-                _DragonController.currentPhaseFlag &= ~EDragonPhaseFlag.Phase1;
+                _DragonController.currentStateFlag |= EDragonPhaseFlag.Phase2;
+                _DragonController.currentStateFlag &= ~EDragonPhaseFlag.Phase1;
                 PhaseStatChange();
             }
-            else if (_DragonController.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase2))
+            else if (_DragonController.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase2))
             {
                 Debug.Log("Current Phase Is Phase 2");
             }
@@ -141,19 +141,22 @@ namespace Script.Dragon
             {
                 _DragonController.nav.speed += 2f;
                 _DragonController.DragonStat.animSpeed += 0.2f;
-                _DragonController.currentPhaseFlag |= EDragonPhaseFlag.SpeedUp;
+                _EffectManager.DragonMesh = EPrefabName.SpeedUp;
+                _DragonController.currentStateFlag |= EDragonPhaseFlag.SpeedUp;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.DamageUp))
             {
                 _DragonController.DragonStat.damage += 5;
-                _DragonController.currentPhaseFlag |= EDragonPhaseFlag.DamageUp;
+                _EffectManager.DragonMesh = EPrefabName.DamageUp;
+                _DragonController.currentStateFlag |= EDragonPhaseFlag.DamageUp;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.HealthUp))
             {
                 _DragonController.DragonStat.health += 300;
-                _DragonController.currentPhaseFlag |= EDragonPhaseFlag.HealthUp;
+                _EffectManager.DragonMesh = EPrefabName.HealthUp;
+                _DragonController.currentStateFlag |= EDragonPhaseFlag.HealthUp;
             }
 
             m_StatUpFlag = EDragonStatUpFlag.End;

@@ -1,12 +1,13 @@
 using System;
 using Script.Dragon;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static Script.Facade;
 
 namespace Script.Player
 {
     [Flags]
-    public enum ECurrentWeaponFlag
+    public enum EPlayerFlag
     {
         Sword = 1 << 0,
         Magic = 1 << 1,
@@ -18,9 +19,10 @@ namespace Script.Player
     {
         private StateMachine<PlayerController> m_PlayerStateMachine;
         private Rigidbody m_Rig;
+        public bool debug;
 
         public PlayerStatus PlayerStat { get; private set; }
-        public ECurrentWeaponFlag currentWeaponFlag;
+        public EPlayerFlag playerCurrentFlag;
         public Action<Vector3, float> useFallDown;
         public LayerMask dragon = 1 << 11;
         [HideInInspector] public bool bTopDownCoolTime = true;
@@ -48,12 +50,12 @@ namespace Script.Player
         {
             useFallDown += (v, f) =>
             {
-                if (currentWeaponFlag.HasFlag(ECurrentWeaponFlag.FallDown))
+                if (playerCurrentFlag.HasFlag(EPlayerFlag.FallDown))
                     return;
                 m_PlayerStateMachine.ChangeState<S_Player_FallDown>();
                 m_Rig.AddForce(v * f, ForceMode.Impulse);
             };
-            currentWeaponFlag |= ECurrentWeaponFlag.Sword;
+            playerCurrentFlag |= EPlayerFlag.Sword;
         }
 
         private void Update()
@@ -66,8 +68,17 @@ namespace Script.Player
 
         public void TakeDamage(int damage, Vector3? dir = null)
         {
-            if (currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Parry) &&
-                !_DragonController.currentPhaseFlag.HasFlag(EDragonPhaseFlag.CantParry))
+            if (debug)
+            {
+                return;
+            }
+            if (playerCurrentFlag.HasFlag(EPlayerFlag.FallDown))
+            {
+                return;
+            }
+
+            if (playerCurrentFlag.HasFlag(EPlayerFlag.Parry) &&
+                !_DragonController.currentStateFlag.HasFlag(EDragonPhaseFlag.CantParry))
             {
                 m_PlayerStateMachine.ChangeState<W_Player_Skill>();
                 _DragonController.Stun();
@@ -75,27 +86,22 @@ namespace Script.Player
             }
 
             PlayerStat.health -= damage;
+            if (dir != null)
+            {
+                useFallDown((Vector3) dir, 5f);
+            }
+
             if (PlayerStat.health <= 0)
             {
                 // 죽음
                 return;
             }
 
-            if (dir != null)
-            {
-                useFallDown((Vector3)dir, 5f);
-            }
             Debug.Log($"Take Damage {PlayerStat.health}");
         }
 
         private void Test()
         {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                PlayerStat.health -= 20;
-                Debug.Log(PlayerStat.health);
-            }
-
             if (Input.GetKey(KeyCode.X))
             {
                 m_PlayerStateMachine.ChangeState<S_Player_FallDown>();

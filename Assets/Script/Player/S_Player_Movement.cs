@@ -25,7 +25,7 @@ namespace Script.Player
 
         public override void OnStateChangePoint()
         {
-            if (owner.currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Sword))
+            if (owner.playerCurrentFlag.HasFlag(EPlayerFlag.Sword))
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -42,7 +42,7 @@ namespace Script.Player
                     machine.ChangeState<W_Player_TopDown>();
                 }
             }
-            else if (owner.currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Magic))
+            else if (owner.playerCurrentFlag.HasFlag(EPlayerFlag.Magic))
             {
                 if (Input.GetMouseButtonDown(0))
                 {

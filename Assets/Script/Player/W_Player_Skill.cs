@@ -18,7 +18,7 @@ namespace Script.Player
             Time.timeScale = 0.8f;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
             _EffectManager.EffectPlayerWeapon(true);
-            _DragonController.TakeDamage(owner.PlayerStat.damage,owner.currentWeaponFlag);
+            _DragonController.TakeDamage(owner.PlayerStat.damage,owner.playerCurrentFlag);
             machine.animator.SetTrigger(m_WSkillHash);
             owner.StartCoroutine(machine.WaitForIdle(animToHash));
         }

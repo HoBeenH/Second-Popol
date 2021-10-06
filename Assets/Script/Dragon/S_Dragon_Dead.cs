@@ -16,6 +16,7 @@ namespace Script.Dragon
 
         public override void OnStateEnter()
         {
+            owner.currentStateFlag = EDragonPhaseFlag.Dead;
             owner.StopAllCoroutines();
             machine.animator.ResetTrigger(m_Attack);
             machine.animator.ResetTrigger(m_Tail);
@@ -23,7 +24,7 @@ namespace Script.Dragon
             machine.animator.ResetTrigger(m_Breath);
             machine.animator.ResetTrigger(m_Stun);
             machine.animator.SetTrigger(m_DeathHash);
-            if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Fly))
+            if (owner.currentStateFlag.HasFlag(EDragonPhaseFlag.Fly))
             {
                 owner.StartCoroutine(FallDown(owner.nav.baseOffset));
             }

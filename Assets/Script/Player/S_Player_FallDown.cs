@@ -13,7 +13,7 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
-            owner.currentWeaponFlag |= ECurrentWeaponFlag.FallDown;
+            owner.playerCurrentFlag |= EPlayerFlag.FallDown;
             var _transform = owner.transform;
             // 전방 후방 확인
             var _point = Vector3.Dot(_transform.forward,
@@ -32,7 +32,7 @@ namespace Script.Player
 
         public override void OnStateExit()
         {
-            owner.currentWeaponFlag &= ~ECurrentWeaponFlag.FallDown;
+            owner.playerCurrentFlag &= ~EPlayerFlag.FallDown;
         }
     }
 }

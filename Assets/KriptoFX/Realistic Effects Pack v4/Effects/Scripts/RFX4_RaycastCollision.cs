@@ -16,9 +16,10 @@ public class RFX4_RaycastCollision : MonoBehaviour
     public bool IsWorldSpace = true;
     public bool RealTimeUpdateRaycast;
     public bool DestroyAfterDisabling;
-    public LayerMask Enemy;
-    [HideInInspector] public float HUE = -1;
-    [HideInInspector] public List<GameObject> CollidedInstances = new List<GameObject>();
+    [HideInInspector]
+    public float HUE = -1;
+    [HideInInspector]
+    public List<GameObject> CollidedInstances = new List<GameObject>();
 
     const string particlesAdditionalName = "Distance";
     ParticleSystem[] distanceParticles;
@@ -53,8 +54,7 @@ public class RFX4_RaycastCollision : MonoBehaviour
 
     void Update()
     {
-        if (canUpdate)
-        {
+        if (canUpdate) {
             UpdateRaycast();
         }
     }
@@ -63,8 +63,7 @@ public class RFX4_RaycastCollision : MonoBehaviour
     private void UpdateRaycast()
     {
         RaycastHit raycastHit;
-        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, RaycastDistance,Enemy))
-        {
+        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, RaycastDistance)) {
             Vector3 position;
             if (UsePivotPosition)
                 position = raycastHit.transform.position;
@@ -73,24 +72,19 @@ public class RFX4_RaycastCollision : MonoBehaviour
 
             var handler = CollisionEnter;
             if (handler != null)
-                handler(this,
-                    new RFX4_PhysicsMotion.RFX4_CollisionInfo
-                    {
-                        HitPoint = raycastHit.point, HitCollider = raycastHit.collider,
-                        HitGameObject = raycastHit.transform.gameObject
-                    });
+                handler(this, new RFX4_PhysicsMotion.RFX4_CollisionInfo { HitPoint = raycastHit.point, HitCollider = raycastHit.collider, HitGameObject = raycastHit.transform.gameObject});
 
-            if (distanceParticles != null)
-                foreach (var rayPS in distanceParticles)
-                {
+            if (distanceParticles !=null)
+            foreach (var rayPS in distanceParticles)
+            {
+
                     if (rayPS != null && rayPS.name.Contains(particlesAdditionalName))
-                        rayPS.GetComponent<ParticleSystemRenderer>().lengthScale =
-                            (transform.position - raycastHit.point).magnitude / rayPS.main.startSize.constantMax;
-                }
+                    rayPS.GetComponent<ParticleSystemRenderer>().lengthScale = (transform.position - raycastHit.point).magnitude / rayPS.main.startSize.constantMax;
 
-            if (CollidedInstances.Count == 0)
-                foreach (var effect in Effects)
-                {
+            }
+
+            if (CollidedInstances.Count==0)
+                foreach (var effect in Effects) {
                     if (effect != null)
                     {
                         var instance = Instantiate(effect, position, new Quaternion()) as GameObject;
@@ -105,7 +99,7 @@ public class RFX4_RaycastCollision : MonoBehaviour
                         CollidedInstances.Add(instance);
 
                         if (HUE > -0.9f) RFX4_ColorHelper.ChangeObjectColorByHUE(instance, HUE);
-
+                    
                         if (!IsWorldSpace)
                             instance.transform.parent = transform;
                         if (UseNormalRotation)
@@ -115,15 +109,13 @@ public class RFX4_RaycastCollision : MonoBehaviour
                     }
                 }
             else
-                foreach (var instance in CollidedInstances)
-                {
+                foreach (var instance in CollidedInstances) {
                     if (instance == null) continue;
                     instance.transform.position = position;
                     if (UseNormalRotation)
                         instance.transform.LookAt(raycastHit.point + raycastHit.normal);
                 }
         }
-
         if (RealTimeUpdateRaycast)
             canUpdate = true;
     }
@@ -131,7 +123,7 @@ public class RFX4_RaycastCollision : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + transform.forward * RaycastDistance);
+       Gizmos.color = Color.blue;
+       Gizmos.DrawLine(transform.position, transform.position + transform.forward * RaycastDistance);
     }
 }

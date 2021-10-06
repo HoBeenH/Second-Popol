@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using UnityEngine;
 using System.Collections;
 
 public class ME_MouseOrbit : MonoBehaviour
 {
     public GameObject target;
+    public GameObject cylinder;
     public float distance = 10.0f;
 
     public float xSpeed = 250.0f;
@@ -29,28 +30,36 @@ public class ME_MouseOrbit : MonoBehaviour
     {
         if (distance < 2) distance = 2;
         distance -= Input.GetAxis("Mouse ScrollWheel")*2;
-        if (target && (Input.GetMouseButton(0) || Input.GetMouseButton(1)))
+        if (target && (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2)))
         {
-            var pos = Input.mousePosition;
-            var dpiScale = 1f;
-            if (Screen.dpi < 1) dpiScale = 1;
-            if (Screen.dpi < 200) dpiScale = 1;
-            else dpiScale = Screen.dpi/200f;
+            if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+            {
+                var pos = Input.mousePosition;
+                var dpiScale = 1f;
+                if (Screen.dpi < 1) dpiScale = 1;
+                if (Screen.dpi < 200) dpiScale = 1;
+                else dpiScale = Screen.dpi / 200f;
 
-            if (pos.x < 380*dpiScale && Screen.height - pos.y < 250*dpiScale) return;
+                if (pos.x < 380 * dpiScale && Screen.height - pos.y < 250 * dpiScale) return;
 
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
 
-            x += Input.GetAxis("Mouse X")*xSpeed*0.02f;
-            y -= Input.GetAxis("Mouse Y")*ySpeed*0.02f;
+                x += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
+                y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
 
-            y = ClampAngle(y, yMinLimit, yMaxLimit);
-            var rotation = Quaternion.Euler(y, x, 0);
-            var position = rotation* new Vector3(0.0f, 0.0f, -distance) + target.transform.position;
-            transform.rotation = rotation;
-            transform.position = position;
-
+                y = ClampAngle(y, yMinLimit, yMaxLimit);
+                var rotation = Quaternion.Euler(y, x, 0);
+                var position = rotation * new Vector3(0.0f, 0.0f, -distance) + target.transform.position;
+                transform.rotation = rotation;
+                transform.position = position;
+            }
+            if (Input.GetMouseButton(2))
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                transform.RotateAround(target.transform.position, Vector3.up, 15 * Time.deltaTime);
+            }
         }
         else
         {

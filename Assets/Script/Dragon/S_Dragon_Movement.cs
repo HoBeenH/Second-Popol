@@ -51,6 +51,12 @@ namespace Script.Dragon
         {
             if (CheckDis() == false)
                 return;
+            if (owner.bReadyPattern && owner.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase2))
+            {
+                machine.ChangeState<G_Dragon_Pattern>();
+                return;
+            }
+
             switch (PlayerPoint())
             {
                 case EPlayerPoint.Forward when owner.bReadyAttack:
@@ -66,13 +72,7 @@ namespace Script.Dragon
                     if (owner.bReadyFlyAttack)
                     {
                         machine.ChangeState<G_Dragon_FlyAttack>();
-                        break;
                     }
-                    if (owner.bReadyPattern && owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase2))
-                    {
-                        
-                    }
-
                     break;
             }
         }
@@ -81,7 +81,8 @@ namespace Script.Dragon
         private EPlayerPoint PlayerPoint() =>
             Vector3.Dot(m_Dragon.forward,
                 (_PlayerController.transform.position - m_Dragon.position).normalized) >= 0f
-                ? EPlayerPoint.Forward : EPlayerPoint.Back;
+                ? EPlayerPoint.Forward
+                : EPlayerPoint.Back;
 
         private bool CheckDis() =>
             (_PlayerController.transform.position - owner.transform.position).sqrMagnitude <= m_DisToCondition;

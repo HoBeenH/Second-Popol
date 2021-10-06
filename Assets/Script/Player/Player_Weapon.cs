@@ -18,7 +18,7 @@ namespace Script.Player
         {
             if (other.CompareTag("Dragon"))
             {
-                _DragonController.TakeDamage(_PlayerController.PlayerStat.damage, _PlayerController.currentWeaponFlag);
+                _DragonController.TakeDamage(_PlayerController.PlayerStat.damage, _PlayerController.playerCurrentFlag);
                 m_Collider.enabled = false;
                 _CamManager.playerWeapon.GenerateImpulse();
             }

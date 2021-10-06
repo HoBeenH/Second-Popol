@@ -52,7 +52,6 @@ namespace Script
             this.rotSpeed = 2f;
             this.moveAnimDamp = 0.1f;
             this.health = 200;
-            this.skillDamage = 5;
             this.damage = 5;
             this.moveSpeed = 3.5f;
         }

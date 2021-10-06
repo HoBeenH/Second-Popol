@@ -11,14 +11,14 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
-            owner.currentWeaponFlag |= ECurrentWeaponFlag.Parry;
+            owner.playerCurrentFlag |= EPlayerFlag.Parry;
             machine.animator.SetTrigger(m_ParryingHash);
             owner.StartCoroutine(machine.WaitForIdle(animToHash));
         }
 
         public override void OnStateExit()
         {
-            owner.currentWeaponFlag &= ~ECurrentWeaponFlag.Parry;
+            owner.playerCurrentFlag &= ~EPlayerFlag.Parry;
         }
     }
 }

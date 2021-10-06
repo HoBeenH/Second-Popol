@@ -13,13 +13,16 @@ namespace Script.Player.Effect
         private readonly Queue<PSMeshRendererUpdater> m_EffectRenderersOfWeapon = new Queue<PSMeshRendererUpdater>();
         private readonly Queue<GameObject> m_WeaponEffects = new Queue<GameObject>();
         private readonly WaitForSeconds m_EffectWeaponDelay = new WaitForSeconds(3.0f);
+
         // 이펙트 스폰 위치
         private Transform m_ObjWeapon;
         [HideInInspector] public Transform leftHand;
         [HideInInspector] public Transform rightHand;
         [HideInInspector] public Transform spawnPosUp;
         [HideInInspector] public Transform spawnPosFw;
-        public Transform _dragonBreath;
+        public Transform _dragonHead;
+
+        [HideInInspector] public EPrefabName DragonMesh;
 
         private void Awake()
         {
@@ -36,7 +39,7 @@ namespace Script.Player.Effect
                     spawnPosUp = t;
                 }
 
-                if (t.name.Equals("SpawnPosFw"))
+                if (t.name.Equals("SpawnPosRHand"))
                 {
                     spawnPosFw = t;
                 }
@@ -104,6 +107,40 @@ namespace Script.Player.Effect
             }
         }
 
+        public void GetEffectOrNull(EPrefabName effectName, Vector3 position, out GameObject objReturn,
+            Quaternion? rotPos = null, WaitForSeconds returnTime = null, float? delay = null, Transform owner = null)
+        {
+            if (delay != null)
+            {
+                var _time = 0f;
+                var _maxTime = (float)delay;
+                while (_maxTime >= _time)
+                {
+                    _time += Time.deltaTime;
+                }
+            }
+
+            var obj = _ObjPool.GetObj(effectName);
+
+            if (returnTime != null)
+            {
+                _ObjPool.ReTurnObj(obj, effectName, returnTime);
+            }
+
+            obj.transform.position = position;
+            if (rotPos != null)
+            {
+                obj.transform.rotation = (Quaternion) rotPos;
+            }
+
+            if (owner != null)
+            {
+                obj.transform.SetParent(owner.transform);
+            }
+
+            objReturn = obj;
+        }
+
         public PSMeshRendererUpdater GetMeshEffect(EPrefabName effectName, Vector3 position,
             GameObject owner, WaitForSeconds returnTime = null, WaitForSeconds fadeTime = null)
         {
@@ -147,13 +184,13 @@ namespace Script.Player.Effect
                 return;
             }
 
-            _dragonBreath.gameObject.SetActive(isActive);
+            _dragonHead.gameObject.SetActive(isActive);
         }
 
         private IEnumerator DragonDelayBreath(bool isActive, WaitForSeconds time)
         {
             yield return time;
-            _dragonBreath.gameObject.SetActive(isActive);
+            _dragonHead.gameObject.SetActive(isActive);
         }
 
         #endregion

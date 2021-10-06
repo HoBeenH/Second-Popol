@@ -10,11 +10,19 @@ namespace Script
         PlayerWeaponEffect,
         TopDownHand,
         TopDown,
-        IceShoot,
-        Ice,
+        Shoot,
         BreathForce,
         DragonDownSmoke,
-        DragonDownSmoke2
+        DragonDownSmoke2,
+        Fire,
+        FireEx,
+        HealthUp,
+        DamageUp,
+        SpeedUp,
+        FireDragon,
+        FireDragonSpawn,
+        FireEx2,
+        FireDragonEx
     }
 
     public class ObjPool : MonoSingleton<ObjPool>

@@ -15,8 +15,8 @@ namespace Script.Player
         public override void OnStateEnter()
         {
             machine.animator.SetTrigger(m_ShootHash);
-            _EffectManager.GetEffectOrNull(EPrefabName.IceShoot, _EffectManager.spawnPosFw.position,
-                Quaternion.LookRotation(owner.transform.forward),
+            _EffectManager.GetEffectOrNull(EPrefabName.Shoot, _EffectManager.spawnPosFw.position,
+                Quaternion.identity,
             m_EffectDestroyTime, m_EffectDelayTime);
             owner.StartCoroutine(machine.WaitForIdle(animToHash));
         }

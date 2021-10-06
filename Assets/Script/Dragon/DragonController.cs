@@ -15,21 +15,20 @@ namespace Script.Dragon
         Phase2 = 1 << 1,
         CantParry = 1 << 2,
         Fly = 1 << 3,
-        Frozen = 1 << 4,
-        SpeedUp = 1 << 5,
-        DamageUp = 1 << 6,
-        HealthUp = 1 << 7,
-        Dead = 1 << 8
+        SpeedUp = 1 << 4,
+        DamageUp = 1 << 5,
+        HealthUp = 1 << 6,
+        Dead = 1 << 7
     }
 
     public class DragonController : MonoSingleton<DragonController>
     {
-        private StateMachine<DragonController> m_DragonStateMachine;
+        private StateMachine<DragonController> m_StateMachine;
 
         [HideInInspector] public NavMeshAgent nav;
 
-        [SerializeField] public EDragonPhaseFlag currentPhaseFlag = EDragonPhaseFlag.Phase1;
-        public LayerMask playerMask;
+        [SerializeField] public EDragonPhaseFlag currentStateFlag = EDragonPhaseFlag.Phase1;
+        public LayerMask playerMask = 1<< 10;
         public DragonInfo DragonStat { get; private set; }
         public event Action StopAnim;
         public bool bReadyAttack = true;
@@ -47,57 +46,57 @@ namespace Script.Dragon
         private void Start()
         {
             var anim = GetComponent<Animator>();
-            m_DragonStateMachine = new StateMachine<DragonController>(anim, this, new S_Dragon_Movement());
-            m_DragonStateMachine.SetState(new G_Dragon_Attack());
-            m_DragonStateMachine.SetState(new G_Dragon_Tail());
-            m_DragonStateMachine.SetState(new G_Dragon_Breath());
-            m_DragonStateMachine.SetState(new G_Dragon_FlyAttack());
-            m_DragonStateMachine.SetState(new S_Dragon_Stun());
-            m_DragonStateMachine.SetState(new G_Dragon_Frozen());
-            m_DragonStateMachine.SetState(new S_Dragon_Dead());
-            m_DragonStateMachine.SetState(new G_Dragon_Pattern());
+            m_StateMachine = new StateMachine<DragonController>(anim, this, new S_Dragon_Movement());
+            m_StateMachine.SetState(new G_Dragon_Attack());
+            m_StateMachine.SetState(new G_Dragon_Tail());
+            m_StateMachine.SetState(new G_Dragon_Breath());
+            m_StateMachine.SetState(new G_Dragon_FlyAttack());
+            m_StateMachine.SetState(new S_Dragon_Stun());
+            m_StateMachine.SetState(new S_Dragon_Dead());
+            m_StateMachine.SetState(new G_Dragon_Pattern());
         }
 
         private void Update()
         {
-            m_DragonStateMachine?.Update();
+            m_StateMachine?.Update();
 
             if (Input .GetKey(KeyCode.Tab))
             {
-                m_DragonStateMachine?.ChangeState<G_Dragon_Pattern>();
+                m_StateMachine?.ChangeState<G_Dragon_Pattern>();
             }   
             if (Input .GetKey(KeyCode.LeftAlt))
             {
-                m_DragonStateMachine?.ChangeState<G_Dragon_FlyAttack>();
+                m_StateMachine?.ChangeState<G_Dragon_FlyAttack>();
             }
         }
 
-        private void FixedUpdate() => m_DragonStateMachine?.FixedUpdate();
 
-        public void TakeDamage(int damage, ECurrentWeaponFlag weapon)
+        private void FixedUpdate() => m_StateMachine?.FixedUpdate();
+
+        public void TakeDamage(int damage, EPlayerFlag weapon)
         {
             var _damage = damage;
-            if (weapon.HasFlag(ECurrentWeaponFlag.Magic))
+            if (weapon.HasFlag(EPlayerFlag.Magic))
             {
                 _damage -= DragonStat.magicDefence;
-                if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
+                if (currentStateFlag.HasFlag(EDragonPhaseFlag.Phase1))
                 {
-                    _DragonPhaseManager.HitCheck(ECurrentWeaponFlag.Magic);
+                    _DragonPhaseManager.HitCheck(EPlayerFlag.Magic);
                 }
             }
-            else if (weapon.HasFlag(ECurrentWeaponFlag.Sword))
+            else if (weapon.HasFlag(EPlayerFlag.Sword))
             {
                 _damage -= DragonStat.defence;
-                if (currentPhaseFlag.HasFlag(EDragonPhaseFlag.Phase1))
+                if (currentStateFlag.HasFlag(EDragonPhaseFlag.Phase1))
                 {
-                    _DragonPhaseManager.HitCheck(ECurrentWeaponFlag.Sword);
+                    _DragonPhaseManager.HitCheck(EPlayerFlag.Sword);
                 }
             }
 
             DragonStat.health -= _damage;
             if (DragonStat.health <= 0f)
             {
-                m_DragonStateMachine.ChangeState<S_Dragon_Dead>();
+                m_StateMachine.ChangeState<S_Dragon_Dead>();
                 return;
             }
             Debug.Log(DragonStat.health);
@@ -109,13 +108,7 @@ namespace Script.Dragon
         {
             StopAnim?.Invoke();
             StopAnim = null;
-            m_DragonStateMachine.ChangeState<S_Dragon_Stun>();
-        }
-
-        public void Frozen()
-        {
-            StopAnim?.Invoke();
-            m_DragonStateMachine.ChangeState<G_Dragon_Frozen>();
+            m_StateMachine.ChangeState<S_Dragon_Stun>();
         }
     }
 }

@@ -15,13 +15,13 @@ namespace Script.Dragon
 
         public override void OnStateEnter()
         {
-            owner.currentPhaseFlag |= EDragonPhaseFlag.CantParry;
+            owner.currentStateFlag |= EDragonPhaseFlag.CantParry;
             owner.bReadyBreath = false;
             machine.animator.SetTrigger(m_BreathHash);
             owner.StartCoroutine(CoolTime());
             owner.StartCoroutine(machine.WaitForIdle(m_BreathAnimHash));
             var _position = owner.transform.position;
-            if (owner.currentPhaseFlag.HasFlag(EDragonPhaseFlag.DamageUp))
+            if (owner.currentStateFlag.HasFlag(EDragonPhaseFlag.DamageUp))
             {
                 _EffectManager.GetEffectOrNull(EPrefabName.BreathForce, _position, null,
                     m_BreathForceReturn, m_BreathForceDelay);
@@ -34,7 +34,7 @@ namespace Script.Dragon
         public override void OnStateExit()
         {
             _EffectManager.DragonBreath(false);
-            owner.currentPhaseFlag &= ~EDragonPhaseFlag.CantParry;
+            owner.currentStateFlag &= ~EDragonPhaseFlag.CantParry;
         }
 
         private IEnumerator CoolTime()

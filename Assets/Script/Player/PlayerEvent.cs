@@ -30,18 +30,18 @@ namespace Script.Player
 
         public void WeaponAnimEvent()
         {
-            if (_PlayerController.currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Sword))
+            if (_PlayerController.playerCurrentFlag.HasFlag(EPlayerFlag.Sword))
             {
                 m_ObjWeapon.SetActive(false);
-                _PlayerController.currentWeaponFlag |= ECurrentWeaponFlag.Magic;
-                _PlayerController.currentWeaponFlag &= ~ECurrentWeaponFlag.Sword;
+                _PlayerController.playerCurrentFlag |= EPlayerFlag.Magic;
+                _PlayerController.playerCurrentFlag &= ~EPlayerFlag.Sword;
                 m_Animator.SetBool(m_NowWeapon, false);
             }
-            else if (_PlayerController.currentWeaponFlag.HasFlag(ECurrentWeaponFlag.Magic))
+            else if (_PlayerController.playerCurrentFlag.HasFlag(EPlayerFlag.Magic))
             {
                 m_ObjWeapon.SetActive(true);
-                _PlayerController.currentWeaponFlag |= ECurrentWeaponFlag.Sword;
-                _PlayerController.currentWeaponFlag &= ~ECurrentWeaponFlag.Magic;
+                _PlayerController.playerCurrentFlag |= EPlayerFlag.Sword;
+                _PlayerController.playerCurrentFlag &= ~EPlayerFlag.Magic;
                 m_Animator.SetBool(m_NowWeapon, true);
             }
         }
