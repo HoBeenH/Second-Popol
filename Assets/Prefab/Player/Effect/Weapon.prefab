@@ -4883,7 +4883,7 @@ GameObject:
   - component: {fileID: 478886}
   - component: {fileID: 11456172}
   m_Layer: 0
-  m_Name: Effect5 1
+  m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

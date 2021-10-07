@@ -92,7 +92,6 @@ namespace Script.Dragon
                     _DragonPhaseManager.HitCheck(EPlayerFlag.Sword);
                 }
             }
-
             DragonStat.health -= _damage;
             if (DragonStat.health <= 0f)
             {

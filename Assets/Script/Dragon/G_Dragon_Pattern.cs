@@ -61,12 +61,12 @@ namespace Script.Dragon
 
         public override void OnStateEnter()
         {
-            // if (m_BIsFirst)
-            // {
-            //     _EffectManager.GetMeshEffect(_EffectManager.DragonMesh, _DragonController.transform.position,
-            //         _DragonController.gameObject);
-            //     m_BIsFirst = false;
-            // }
+            if (m_BIsFirst)
+            {
+                _EffectManager.GetMeshEffect(_EffectManager.DragonMesh, _DragonController.transform.position,
+                    _DragonController.gameObject);
+                m_BIsFirst = false;
+            }
 
             owner.nav.autoTraverseOffMeshLink = true;
             owner.currentStateFlag |= EDragonPhaseFlag.CantParry;

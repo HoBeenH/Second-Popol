@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Script.Dragon;
 using Script.Player;
 using Script.Player.Effect;
@@ -28,7 +30,7 @@ namespace Script
             }
         }
     }
-
+    
     // 가독성 및 관리용 파사드 클래스
     public static class Facade
     {

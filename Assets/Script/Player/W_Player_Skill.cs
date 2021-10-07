@@ -14,7 +14,7 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
-            _CamManager.playerWeapon.GenerateImpulse();
+            _CamManager.PlayerWeapon.GenerateImpulse();
             Time.timeScale = 0.8f;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
             _EffectManager.EffectPlayerWeapon(true);

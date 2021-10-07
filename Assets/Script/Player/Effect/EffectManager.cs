@@ -22,7 +22,7 @@ namespace Script.Player.Effect
         [HideInInspector] public Transform spawnPosFw;
         public Transform _dragonHead;
 
-        [HideInInspector] public EPrefabName DragonMesh;
+        public EPrefabName DragonMesh;
 
         private void Awake()
         {
@@ -39,7 +39,7 @@ namespace Script.Player.Effect
                     spawnPosUp = t;
                 }
 
-                if (t.name.Equals("SpawnPosRHand"))
+                if (t.name.Equals("SpawnPosFw"))
                 {
                     spawnPosFw = t;
                 }

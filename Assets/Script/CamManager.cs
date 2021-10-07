@@ -1,4 +1,5 @@
 using Cinemachine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 namespace Script
@@ -6,6 +7,7 @@ namespace Script
     // 카메라 관리
     public class CamManager : MonoSingleton<CamManager>
     {
-        public CinemachineImpulseSource playerWeapon;
+        public CinemachineImpulseSource PlayerWeapon;
+        public CinemachineImpulseSource Boom;
     }
 }

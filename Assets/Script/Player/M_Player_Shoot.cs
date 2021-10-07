@@ -15,10 +15,20 @@ namespace Script.Player
         public override void OnStateEnter()
         {
             machine.animator.SetTrigger(m_ShootHash);
-            _EffectManager.GetEffectOrNull(EPrefabName.Shoot, _EffectManager.spawnPosFw.position,
-                Quaternion.identity,
-            m_EffectDestroyTime, m_EffectDelayTime);
+            SetEffect();
             owner.StartCoroutine(machine.WaitForIdle(animToHash));
+        }
+
+        private void SetEffect()
+        {
+            _EffectManager.GetEffectOrNull(EPrefabName.Shoot, _EffectManager.spawnPosFw.position,
+                Quaternion.LookRotation(owner.transform.forward),
+                m_EffectDestroyTime, m_EffectDelayTime);
+
+            _EffectManager.GetEffectOrNull(EPrefabName.ShootHand, _EffectManager.leftHand.position, null,
+                new WaitForSeconds(6.0f), null, _EffectManager.leftHand);
+            _EffectManager.GetEffectOrNull(EPrefabName.ShootHand, _EffectManager.rightHand.position, null,
+                new WaitForSeconds(6.0f), null, _EffectManager.rightHand);
         }
     }
 }

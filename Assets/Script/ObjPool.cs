@@ -22,7 +22,8 @@ namespace Script
         FireDragon,
         FireDragonSpawn,
         FireEx2,
-        FireDragonEx
+        FireDragonEx,
+        ShootHand
     }
 
     public class ObjPool : MonoSingleton<ObjPool>
