@@ -18563,10 +18563,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6999918479136107402}
-  - component: {fileID: 4197773263908432957}
   - component: {fileID: 7188004496898716674}
   - component: {fileID: 4612530385527008671}
   - component: {fileID: 4719446810224442681}
+  - component: {fileID: -137407526231978022}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -18589,26 +18589,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &4197773263908432957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7004941711044002402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2c9b8c1cf8996241841146e33f2bbcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Type: 0
-  m_Owner: 0
-  speed: 15
-  radius: 2
-  BHasImpulse: 1
-  source: {fileID: 4719446810224442681}
-  BHasDelay: 0
-  delayTime: 0
 --- !u!54 &7188004496898716674
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18653,32 +18633,14 @@ MonoBehaviour:
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
     m_RawSignal: {fileID: 11400000, guid: 36d3c50fdc46f6d4d82386f5340c88f0, type: 2}
-    m_AmplitudeGain: 5
-    m_FrequencyGain: 5
+    m_AmplitudeGain: 0.1
+    m_FrequencyGain: 0.2
     m_RepeatMode: 0
     m_Randomize: 1
     m_TimeEnvelope:
       m_AttackShape:
         serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 2
-          outSlope: 2
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
+        m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -18688,9 +18650,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      m_AttackTime: 1
+      m_AttackTime: 0.3
       m_SustainTime: 0.2
-      m_DecayTime: 1
+      m_DecayTime: 0.3
       m_ScaleWithImpact: 1
       m_HoldForever: 0
     m_ImpactRadius: 1000
@@ -18698,6 +18660,27 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 1000
     m_PropagationSpeed: 343
+--- !u!114 &-137407526231978022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7004941711044002402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e23dbe0a3c2474f987c0af2677d7a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Type: 0
+  speed: 15
+  BHasTriggerEffect: 1
+  m_TriggerEffect: 0
+  radius: 2
+  BHasDelay: 0
+  delayTime: 0
+  BHasImpulse: 1
+  source: {fileID: 4719446810224442681}
 --- !u!1 &7004997695401649288
 GameObject:
   m_ObjectHideFlags: 0

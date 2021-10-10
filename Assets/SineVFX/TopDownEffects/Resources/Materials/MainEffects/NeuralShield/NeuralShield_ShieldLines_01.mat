@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NeuralShield_ShieldLines_01
-  m_Shader: {fileID: -6465566751694194690, guid: d3f0a2763644e614496ee474ac198d87, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: d3f0a2763644e614496ee474ac198d87,
+    type: 3}
   m_ShaderKeywords: _DEPTHMASKENABLED_ON _DOUBLESIDED_ON _ENABLE_FOG_ON_TRANSPARENT
     _RAMPENABLED_ON _SURFACE_TYPE_TRANSPARENT _VERTICALGRADIENTENABLED_ON _WAVESENABLED_ON
   m_LightmapFlags: 0

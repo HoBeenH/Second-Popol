@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 7, y: 7}
         m_Offset: {x: 0, y: 0}
     - _DetailMap:
-        m_Texture: {fileID: 2800000, guid: d359e4c224c263d44a92eb479f92f147, type: 3}
+        m_Texture: {fileID: 2800000, guid: 47ad7e46b21583743883bd38913e1c3d, type: 3}
         m_Scale: {x: 7, y: 7}
         m_Offset: {x: 0, y: 0}
     - _DetailMask:
@@ -95,7 +95,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
-        m_Texture: {fileID: 2800000, guid: 4df728f269f3f844e89076b3b7291239, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6b4020b30a4584447bce2783aef32f61, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -323,7 +323,7 @@ Material:
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &3847636706450639867
+--- !u!114 &2464689129707164996
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

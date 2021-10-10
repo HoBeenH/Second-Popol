@@ -21,7 +21,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SummonStorm_Explosion_Lightning_01
-  m_Shader: {fileID: -6465566751694194690, guid: d641899987d8f764da5c95549691ab93, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: d641899987d8f764da5c95549691ab93,
+    type: 3}
   m_ShaderKeywords: _DOUBLESIDED_ON _ENABLE_FOG_ON_TRANSPARENT _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0

@@ -1,5 +1,8 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using static Script.Facade;
+using Random = UnityEngine.Random;
 
 namespace Script.Dragon
 {
@@ -7,35 +10,43 @@ namespace Script.Dragon
     {
         Forward,
         Back,
-        Other
     }
 
     public class S_Dragon_Movement : State<DragonController>
     {
         private readonly int m_MovementFloatHash = Animator.StringToHash("Move");
-        private float m_DisToCondition;
-        private float m_StopDis;
         private Transform m_Dragon;
+        private readonly Type m_Attack = typeof(G_Dragon_Attack);
+        private readonly Type m_Breath = typeof(G_Dragon_Breath);
+        private readonly Type m_Phase2 = typeof(G_Dragon_Phase2);
+        private readonly Type m_Tail = typeof(G_Dragon_Tail);
+        private readonly Type m_FlyAttack = typeof(G_Dragon_FlyAttack);
+        private bool m_BHasPattern;
 
         protected override void Init()
         {
             m_Dragon = owner.GetComponent<Transform>();
-            m_StopDis = owner.nav.stoppingDistance;
-            m_DisToCondition = Mathf.Pow(m_StopDis, 2);
+        }
+
+        public override void OnStateEnter()
+        {
+            m_BHasPattern = machine.nextPattern.Count != 0;
+            if (!m_BHasPattern)
+            {
+                owner.StartCoroutine(ChoicePattern());
+            }
+            else
+            {
+                machine.ChangeState(machine.nextPattern.Dequeue());
+            }
         }
 
         public override void OnStateUpdate()
         {
-            var _dir = (_PlayerController.transform.position - m_Dragon.position);
-            machine.animator.SetFloat(m_MovementFloatHash, _dir.magnitude - owner.nav.stoppingDistance,
-                owner.DragonStat.moveAnimDamp, Time.deltaTime);
-            if (CheckDis())
+            if (!m_BHasPattern)
             {
-                m_Dragon.rotation = Quaternion.Slerp(m_Dragon.rotation, Quaternion.LookRotation(_dir.normalized),
-                    owner.DragonStat.rotSpeed * Time.deltaTime);
-            }
-            else
-            {
+                machine.animator.SetFloat(m_MovementFloatHash, owner.nav.desiredVelocity.magnitude,
+                    owner.DragonStat.moveAnimDamp, Time.deltaTime);
                 owner.nav.SetDestination(_PlayerController.transform.position);
             }
         }
@@ -47,34 +58,44 @@ namespace Script.Dragon
             machine.animator.SetFloat(m_MovementFloatHash, 0f);
         }
 
-        public override void OnStateChangePoint()
+        private IEnumerator ChoicePattern()
         {
-            if (CheckDis() == false)
-                return;
-            if (owner.bReadyPattern && owner.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase2))
+            while (!CheckDis())
             {
-                machine.ChangeState<G_Dragon_Pattern>();
-                return;
+                yield return null;
             }
 
-            switch (PlayerPoint())
+            machine.nextPattern.Enqueue(PlayerPoint() == EPlayerPoint.Forward ? m_Attack : m_Tail);
+            var _length = Random.Range(1, 3);
+            for (var k = 0; k < _length; k++)
             {
-                case EPlayerPoint.Forward when owner.bReadyAttack:
-                    machine.ChangeState<G_Dragon_Attack>();
-                    break;
-                case EPlayerPoint.Forward when owner.bReadyBreath:
-                    machine.ChangeState<G_Dragon_Breath>();
-                    break;
-                case EPlayerPoint.Back when owner.bReadyTail:
-                    machine.ChangeState<G_Dragon_Tail>();
-                    break;
-                default:
-                    if (owner.bReadyFlyAttack)
-                    {
-                        machine.ChangeState<G_Dragon_FlyAttack>();
-                    }
-                    break;
+                var i = Random.Range(0, 4);
+                switch (i)
+                {
+                    case 0:
+                        machine.nextPattern.Enqueue(m_Attack);
+                        break;
+                    case 1:
+                        machine.nextPattern.Enqueue(m_Tail);
+                        break;
+                    case 3:
+                        machine.nextPattern.Enqueue(m_Breath);
+                        break;
+                }
             }
+
+            if (owner.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase2SetUp) &&
+                _SkillManager.FindSkill(m_Phase2).BIsActive)
+            {
+                machine.nextPattern.Enqueue(typeof(G_Dragon_Phase2));
+                _SkillManager.FindSkill(m_Phase2).BIsActive = false;
+            }
+            else
+            {
+                machine.nextPattern.Enqueue(m_FlyAttack);
+            }
+
+            machine.ChangeState(machine.nextPattern.Dequeue());
         }
 
 
@@ -85,6 +106,7 @@ namespace Script.Dragon
                 : EPlayerPoint.Back;
 
         private bool CheckDis() =>
-            (_PlayerController.transform.position - owner.transform.position).sqrMagnitude <= m_DisToCondition;
+            (_PlayerController.transform.position - m_Dragon.position).sqrMagnitude <=
+            Mathf.Pow(owner.nav.stoppingDistance, 2);
     }
 }

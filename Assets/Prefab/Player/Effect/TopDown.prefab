@@ -17096,8 +17096,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4632888203439750}
   - component: {fileID: 114685315673332836}
-  - component: {fileID: -5881042798553502175}
   - component: {fileID: -2416103094849629961}
+  - component: {fileID: -8937263531580242419}
   m_Layer: 0
   m_Name: TopDown
   m_TagString: Untagged
@@ -17148,26 +17148,6 @@ MonoBehaviour:
   Speed: 10
   AirDrag: 0.1
   UseGravity: 1
---- !u!114 &-5881042798553502175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1436447386774278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2c9b8c1cf8996241841146e33f2bbcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Type: 1
-  m_Owner: 1
-  speed: 0
-  radius: 5
-  BHasImpulse: 1
-  source: {fileID: -2416103094849629961}
-  BHasDelay: 1
-  delayTime: 2
 --- !u!114 &-2416103094849629961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17210,6 +17190,27 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 1000
     m_PropagationSpeed: 343
+--- !u!114 &-8937263531580242419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436447386774278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ba18fec41f442f9712878d9358f6b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Type: 1
+  speed: 0
+  BHasTriggerEffect: 0
+  m_TriggerEffect: 0
+  radius: 5
+  BHasDelay: 1
+  delayTime: 2.3
+  BHasImpulse: 1
+  source: {fileID: -2416103094849629961}
 --- !u!1 &1441491964992070
 GameObject:
   m_ObjectHideFlags: 0

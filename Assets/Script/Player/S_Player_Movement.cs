@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player
 {
@@ -6,12 +8,22 @@ namespace Script.Player
     {
         private readonly int m_MoveXHash = Animator.StringToHash("MoveX");
         private readonly int m_MoveZHash = Animator.StringToHash("MoveZ");
+        private Transform m_CamPos;
         private int m_RunBlend;
         private float m_RunSpeed;
-        private Transform m_CamPos;
         private float m_Hor;
         private float m_Ver;
-        protected bool bcanRun;
+        private bool m_BCanMove = false;
+        protected bool BCanRun;
+
+        private readonly Type m_MTopDown = typeof(M_Player_TopDown);
+        private readonly Type m_Shoot = typeof(M_Player_Shoot);
+        private readonly Type m_HeavyShoot = typeof(M_Player_HeavyShoot);
+        private readonly Type m_WTopDown = typeof(W_Player_TopDown);
+        private readonly Type m_Attack = typeof(W_Player_Attack);
+        private readonly Type m_Parrying = typeof(W_Player_Parrying);
+        private readonly Type m_ChangeWeapon = typeof(S_Player_ChangeWeapon);
+        private readonly Type m_Sliding = typeof(S_Player_Sliding);
 
         protected override void Init()
         {
@@ -20,52 +32,59 @@ namespace Script.Player
 
         public override void OnStateEnter()
         {
-            bcanRun = true;
+            BCanRun = true;
         }
 
         public override void OnStateChangePoint()
         {
-            if (owner.playerCurrentFlag.HasFlag(EPlayerFlag.Sword))
+            if (owner.playerFlag.HasFlag(EPlayerFlag.Sword))
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    machine.ChangeState<W_Player_Attack>();
+                    machine.ChangeState(m_Attack);
                 }
 
                 if (Input.GetMouseButtonDown(1))
                 {
-                    machine.ChangeState<W_Player_Parrying>();
+                    machine.ChangeState(m_Parrying);
                 }
 
-                if (Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetKeyDown(KeyCode.Q) && _SkillManager.FindSkill(m_WTopDown).BIsActive)
                 {
-                    machine.ChangeState<W_Player_TopDown>();
+                    _SkillManager.FindSkill(m_WTopDown).BIsActive = false;
+                    machine.ChangeState(m_WTopDown);
                 }
             }
-            else if (owner.playerCurrentFlag.HasFlag(EPlayerFlag.Magic))
+            else if (owner.playerFlag.HasFlag(EPlayerFlag.Magic))
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && _SkillManager.FindSkill(m_Shoot).BIsActive)
                 {
-                    machine.ChangeState<M_Player_Shoot>();
-                }       
-                if (Input.GetMouseButtonDown(1))
+                    _SkillManager.FindSkill(m_Shoot).BIsActive = false;
+                    machine.ChangeState(m_Shoot);
+                }
+
+                if (Input.GetMouseButtonDown(1) && _SkillManager.FindSkill(m_HeavyShoot).BIsActive)
                 {
-                    machine.ChangeState<M_Player_HeavyShoot>();
-                }   
-                if (Input.GetKeyDown(KeyCode.Q) && owner.bTopDownCoolTime)
+                    _SkillManager.FindSkill(m_HeavyShoot).BIsActive = false;
+                    machine.ChangeState(m_HeavyShoot);
+                }
+
+                if (Input.GetKeyDown(KeyCode.Q) && _SkillManager.FindSkill(m_MTopDown).BIsActive)
                 {
-                    machine.ChangeState<M_Player_TopDown>();
+                    _SkillManager.FindSkill(m_MTopDown).BIsActive = false;
+                    machine.ChangeState(m_MTopDown);
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.R))
             {
-                machine.ChangeState<S_Player_ChangeWeapon>();
+                m_BCanMove = true;
+                machine.ChangeState(m_ChangeWeapon);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                machine.ChangeState<S_Player_Sliding>();
+                machine.ChangeState(m_Sliding);
             }
         }
 
@@ -73,7 +92,7 @@ namespace Script.Player
         {
             m_Hor = Input.GetAxis("Horizontal");
             m_Ver = Input.GetAxis("Vertical");
-            if (Input.GetKey(KeyCode.LeftShift) && bcanRun)
+            if (Input.GetKey(KeyCode.LeftShift) && BCanRun)
             {
                 m_RunBlend = 2;
                 m_RunSpeed = 1;
@@ -83,6 +102,7 @@ namespace Script.Player
                 m_RunBlend = 1;
                 m_RunSpeed = 0;
             }
+
             machine.animator.SetFloat(m_MoveXHash, m_Hor * m_RunBlend, owner.PlayerStat.moveAnimDamp,
                 Time.deltaTime);
             machine.animator.SetFloat(m_MoveZHash, m_Ver * m_RunBlend, owner.PlayerStat.moveAnimDamp,
@@ -99,8 +119,15 @@ namespace Script.Player
 
         public override void OnStateExit()
         {
-            machine.animator.SetFloat(m_MoveXHash, 0f);
-            machine.animator.SetFloat(m_MoveZHash, 0f);
+            if (!m_BCanMove)
+            {
+                machine.animator.SetFloat(m_MoveXHash, 0);
+                machine.animator.SetFloat(m_MoveZHash, 0);
+            }
+            else
+            {
+                m_BCanMove = false;
+            }
         }
     }
 }

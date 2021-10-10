@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static Script.Facade;
 
 namespace Script.Dragon
@@ -8,24 +9,19 @@ namespace Script.Dragon
     {
         private readonly int m_BreathAnimHash = Animator.StringToHash("Base Layer.Breath_Idle.Breath_Idle");
         private readonly int m_BreathHash = Animator.StringToHash("Breath");
-        private readonly WaitForSeconds m_BreathCoolTime = new WaitForSeconds(30f);
-        private readonly WaitForSeconds m_BreathForceReturn = new WaitForSeconds(8f);
-        private readonly WaitForSeconds m_BreathForceDelay = new WaitForSeconds(0.3f);
+        private readonly WaitForSeconds m_ForceReturn = new WaitForSeconds(8f);
+        private readonly WaitForSeconds m_ForceDelay = new WaitForSeconds(0.3f);
         private readonly WaitForSeconds m_BreathDelay = new WaitForSeconds(2.5f);
+        private readonly Collider[] m_Result = new Collider[1];
 
         public override void OnStateEnter()
         {
             owner.currentStateFlag |= EDragonPhaseFlag.CantParry;
-            owner.bReadyBreath = false;
+            owner.StartCoroutine(machine.WaitForState(m_BreathAnimHash));
             machine.animator.SetTrigger(m_BreathHash);
-            owner.StartCoroutine(CoolTime());
-            owner.StartCoroutine(machine.WaitForIdle(m_BreathAnimHash));
-            var _position = owner.transform.position;
-            if (owner.currentStateFlag.HasFlag(EDragonPhaseFlag.DamageUp))
+            if (owner.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase2))
             {
-                _EffectManager.GetEffectOrNull(EPrefabName.BreathForce, _position, null,
-                    m_BreathForceReturn, m_BreathForceDelay);
-                _PlayerController.useFallDown.Invoke((_PlayerController.transform.position - _position).normalized, 5f);
+                Phase2(owner.transform.position);
             }
 
             _EffectManager.DragonBreath(true, m_BreathDelay);
@@ -35,12 +31,18 @@ namespace Script.Dragon
         {
             _EffectManager.DragonBreath(false);
             owner.currentStateFlag &= ~EDragonPhaseFlag.CantParry;
+            owner.nav.ResetPath();
+            owner.nav.velocity = Vector3.zero;
         }
 
-        private IEnumerator CoolTime()
+        private void Phase2(Vector3 pos)
         {
-            yield return m_BreathCoolTime;
-            owner.bReadyBreath = true;
+            _EffectManager.GetEffect(EPrefabName.BreathForce, pos, null, m_ForceReturn, m_ForceDelay);
+            var _size = Physics.OverlapSphereNonAlloc(pos, 10f, m_Result, owner.playerMask);
+            if (_size != 0)
+            {
+                _PlayerController.useFallDown.Invoke((_PlayerController.transform.position - pos).normalized, 5f);
+            }
         }
     }
 }

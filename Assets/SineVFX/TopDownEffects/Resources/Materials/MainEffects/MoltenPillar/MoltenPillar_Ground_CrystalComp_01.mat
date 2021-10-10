@@ -21,7 +21,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MoltenPillar_Ground_CrystalComp_01
-  m_Shader: {fileID: -6465566751694194690, guid: 0b0d41d48b08dfa49bb41a2ef696095e, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 0b0d41d48b08dfa49bb41a2ef696095e,
+    type: 3}
   m_ShaderKeywords: _APPEARGRADIENTENABLED_ON _DISABLE_SSR_TRANSPARENT _INNERRIMENABLED_ON
     _PARALLAXNOISEENABLED_ON
   m_LightmapFlags: 0

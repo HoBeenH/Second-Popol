@@ -9,8 +9,13 @@ namespace Script.Dragon
 
         public override void OnStateEnter()
         {
+            foreach (var pattern in machine.cancel)
+            {
+                owner.StopCoroutine(pattern);
+            }
+            
             machine.animator.SetTrigger(m_StunHash);
-            owner.StartCoroutine(machine.WaitForIdle(animToHash));
+            owner.StartCoroutine(machine.WaitForState(animToHash));
         }
     }
 }

@@ -30,25 +30,25 @@ namespace Script.Player
 
         public void WeaponAnimEvent()
         {
-            if (_PlayerController.playerCurrentFlag.HasFlag(EPlayerFlag.Sword))
+            if (_PlayerController.playerFlag.HasFlag(EPlayerFlag.Sword))
             {
                 m_ObjWeapon.SetActive(false);
-                _PlayerController.playerCurrentFlag |= EPlayerFlag.Magic;
-                _PlayerController.playerCurrentFlag &= ~EPlayerFlag.Sword;
+                _PlayerController.playerFlag |= EPlayerFlag.Magic;
+                _PlayerController.playerFlag &= ~EPlayerFlag.Sword;
                 m_Animator.SetBool(m_NowWeapon, false);
             }
-            else if (_PlayerController.playerCurrentFlag.HasFlag(EPlayerFlag.Magic))
+            else if (_PlayerController.playerFlag.HasFlag(EPlayerFlag.Magic))
             {
                 m_ObjWeapon.SetActive(true);
-                _PlayerController.playerCurrentFlag |= EPlayerFlag.Sword;
-                _PlayerController.playerCurrentFlag &= ~EPlayerFlag.Magic;
+                _PlayerController.playerFlag |= EPlayerFlag.Sword;
+                _PlayerController.playerFlag &= ~EPlayerFlag.Magic;
                 m_Animator.SetBool(m_NowWeapon, true);
             }
         }
 
-        public void WeaponCollider(int trueOrFalse)
+        public void WeaponCollider(int zeroIsFalse)
         {
-            switch (trueOrFalse)
+            switch (zeroIsFalse)
             {
                 case 0:
                     m_WeaponCollider.enabled = false;
@@ -57,7 +57,7 @@ namespace Script.Player
                     m_WeaponCollider.enabled = true;
                     break;
                 default:
-                    Debug.LogError($"{trueOrFalse} Is Unknown Num");
+                    Debug.LogError($"{zeroIsFalse} Is Unknown Num");
                     break;
             }
         }

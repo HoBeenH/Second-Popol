@@ -101,21 +101,7 @@ namespace Script.Dragon
             }
 
             Debug.Log($"Second\n{m_StatUpFlag.ToString()}");
-            PhaseChange();
-        }
-
-        private void PhaseChange()
-        {
-            if (_DragonController.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase1))
-            {
-                _DragonController.currentStateFlag |= EDragonPhaseFlag.Phase2;
-                _DragonController.currentStateFlag &= ~EDragonPhaseFlag.Phase1;
-                PhaseStatChange();
-            }
-            else if (_DragonController.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase2))
-            {
-                Debug.Log("Current Phase Is Phase 2");
-            }
+            PhaseStatChange();
         }
 
 
@@ -140,27 +126,38 @@ namespace Script.Dragon
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.SpeedUp))
             {
                 _DragonController.nav.speed += 2f;
-                _DragonController.DragonStat.animSpeed += 0.2f;
                 _EffectManager.DragonMesh = EPrefabName.SpeedUp;
-                _DragonController.currentStateFlag |= EDragonPhaseFlag.SpeedUp;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.DamageUp))
             {
                 _DragonController.DragonStat.damage += 5;
                 _EffectManager.DragonMesh = EPrefabName.DamageUp;
-                _DragonController.currentStateFlag |= EDragonPhaseFlag.DamageUp;
             }
 
             if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.HealthUp))
             {
-                _DragonController.DragonStat.health += 300;
+                _DragonController.DragonStat.health += 100;
                 _EffectManager.DragonMesh = EPrefabName.HealthUp;
-                _DragonController.currentStateFlag |= EDragonPhaseFlag.HealthUp;
+            }
+
+            PhaseChange();
+        }
+
+        private void PhaseChange()
+        {
+            if (_DragonController.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase1))
+            {
+                _DragonController.currentStateFlag |= EDragonPhaseFlag.Phase2SetUp;
+                _DragonController.currentStateFlag &= ~EDragonPhaseFlag.Phase1;
+            }
+            else if (_DragonController.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase2) ||
+                     _DragonController.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase2SetUp))
+            {
+                Debug.Log("Current Phase Is Phase 2");
             }
 
             m_StatUpFlag = EDragonStatUpFlag.End;
-
             var end = GetComponent<DragonPhaseManager>();
             end.enabled = false;
         }

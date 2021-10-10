@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Flames_01nodistortion_Example
-  m_Shader: {fileID: -6465566751694194690, guid: c444735a99fc1c64cb2c3aca113bbbe4, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: c444735a99fc1c64cb2c3aca113bbbe4,
+    type: 3}
   m_ShaderKeywords: _DOUBLESIDED_ON _ENABLE_FOG_ON_TRANSPARENT _RAMPENABLED_ON _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
