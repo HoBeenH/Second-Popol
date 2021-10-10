@@ -1,4 +1,6 @@
-﻿namespace Script
+﻿using Script.Player;
+
+namespace Script
 {
     #region DefaultStatus
 
@@ -22,7 +24,6 @@
         public PlayerStatus()
         {
             this.rotSpeed = 10f;
-            this.moveAnimDamp = 0.01f;
             this.skillDamage = 10;
             this.damage = 10;
             this.moveSpeed = 2f;
@@ -42,7 +43,6 @@
         public DragonStatus()
         {
             this.rotSpeed = 2f;
-            this.moveAnimDamp = 0.1f;
             this.health = 200;
             this.damage = 5;
             this.moveSpeed = 3.5f;

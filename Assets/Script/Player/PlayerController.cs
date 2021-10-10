@@ -41,6 +41,7 @@ namespace Script.Player
             m_Machine.SetState(new M_Player_HeavyShoot());
             m_Machine.SetState(new M_Player_TopDown());
             m_Machine.SetState(new S_Player_FallDown());
+            m_Machine.SetState(new S_Player_Dead());
         }
 
         private void Start()
@@ -58,6 +59,10 @@ namespace Script.Player
         private void Update()
         {
             m_Machine?.Update();
+            if (Input.GetKey(KeyCode.L))
+            {
+                m_Machine.ChangeState(typeof(S_Player_Dead));
+            }
         }
 
         public void TakeDamage(int damage, Vector3 dir)

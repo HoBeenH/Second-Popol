@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Script.Player;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -34,10 +35,6 @@ namespace Script.Dragon
         {
             DragonStat = new DragonStatus();
             nav = GetComponent<NavMeshAgent>();
-        }
-
-        private void Start()
-        {
             m_Anim = GetComponent<Animator>();
             m_StateMachine = new StateMachine<DragonController>(m_Anim, this, new S_Dragon_Movement());
             m_StateMachine.SetState(new G_Dragon_Attack());

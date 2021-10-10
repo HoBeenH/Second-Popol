@@ -19,7 +19,7 @@ namespace Script.Player
         {
             if (other.CompareTag("Dragon"))
             {
-                _DragonController.TakeDamage(_PlayerController.PlayerStat.damage, _PlayerController.playerFlag);
+                _DragonController.TakeDamage(_PlayerController.PlayerStat.damage, EPlayerFlag.Sword);
                 m_Source.GenerateImpulse();
                 m_Collider.enabled = false;
             }

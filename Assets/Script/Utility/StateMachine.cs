@@ -15,7 +15,6 @@ namespace Script
         private readonly T m_Owner;
         private readonly WaitUntil m_WaitIdle;
         private readonly Type m_Idle;
-        public readonly Queue<Type> nextPattern = new Queue<Type>();
 
         public readonly Animator animator;
 

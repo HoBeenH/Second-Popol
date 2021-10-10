@@ -18,19 +18,12 @@ namespace Script.Dragon
             AntiSword = 1 << 2,
             SpeedUp = 1 << 3,
             DamageUp = 1 << 4,
-            HealthUp = 1 << 5,
-            End = 1 << 6
         }
 
         private EDragonStatUpFlag m_StatUpFlag;
-        private readonly int[] m_Phase2StatUp = new int[3];
-        private const int HEALTH = 0;
-        private const int SPEED = 1;
-        private const int DAMAGE = 2;
-        private float m_WaitForSecondPhase = 60f;
+        private float m_WaitForSecondPhase = 20f;
         private int m_MagicCount;
         private int m_SwordCount;
-
 
         private void Start()
         {
@@ -51,20 +44,6 @@ namespace Script.Dragon
                 default:
                     throw new Exception($"Unknown Type : {playerFlag.ToString()}");
             }
-
-            var _randomStat = Random.Range(0, 3);
-            switch (_randomStat)
-            {
-                case 0:
-                    m_Phase2StatUp[HEALTH] += 1;
-                    break;
-                case 1:
-                    m_Phase2StatUp[SPEED] += 1;
-                    break;
-                case 2:
-                    m_Phase2StatUp[DAMAGE] += 1;
-                    break;
-            }
         }
 
         private IEnumerator SecondPhaseStart()
@@ -80,25 +59,10 @@ namespace Script.Dragon
                 yield return null;
             }
 
-            m_StatUpFlag = m_MagicCount >= m_SwordCount
-                ? m_StatUpFlag |= EDragonStatUpFlag.AntiMagic
-                : m_StatUpFlag |= EDragonStatUpFlag.AntiSword;
 
-            var _max = m_Phase2StatUp.Max();
-
-            for (var i = 0; i < m_Phase2StatUp.Length; i++)
-            {
-                if (m_Phase2StatUp[i] != _max)
-                    continue;
-                m_StatUpFlag = i switch
-                {
-                    0 => m_StatUpFlag |= EDragonStatUpFlag.HealthUp,
-                    1 => m_StatUpFlag |= EDragonStatUpFlag.SpeedUp,
-                    2 => m_StatUpFlag |= EDragonStatUpFlag.DamageUp,
-                    _ => throw new Exception($"Can't Find : {_max}")
-                };
-                break;
-            }
+            m_StatUpFlag |= m_MagicCount >= m_SwordCount
+                ? EDragonStatUpFlag.AntiMagic | EDragonStatUpFlag.SpeedUp
+                : EDragonStatUpFlag.AntiSword | EDragonStatUpFlag.DamageUp;
 
             Debug.Log($"Second\n{m_StatUpFlag.ToString()}");
             PhaseStatChange();
@@ -135,12 +99,6 @@ namespace Script.Dragon
                 _EffectManager.DragonMesh = EPrefabName.DamageUp;
             }
 
-            if (m_StatUpFlag.HasFlag(EDragonStatUpFlag.HealthUp))
-            {
-                _DragonController.DragonStat.health += 100;
-                _EffectManager.DragonMesh = EPrefabName.HealthUp;
-            }
-
             PhaseChange();
         }
 
@@ -157,9 +115,8 @@ namespace Script.Dragon
                 Debug.Log("Current Phase Is Phase 2");
             }
 
-            m_StatUpFlag = EDragonStatUpFlag.End;
-            var end = GetComponent<DragonPhaseManager>();
-            end.enabled = false;
+            var _end = GetComponent<DragonPhaseManager>();
+            Destroy(_end);
         }
     }
 }

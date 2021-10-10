@@ -103,9 +103,9 @@ namespace Script.Player
                 m_RunSpeed = 0;
             }
 
-            machine.animator.SetFloat(m_MoveXHash, m_Hor * m_RunBlend, owner.PlayerStat.moveAnimDamp,
+            machine.animator.SetFloat(m_MoveXHash, m_Hor * m_RunBlend, 0.02f,
                 Time.deltaTime);
-            machine.animator.SetFloat(m_MoveZHash, m_Ver * m_RunBlend, owner.PlayerStat.moveAnimDamp,
+            machine.animator.SetFloat(m_MoveZHash, m_Ver * m_RunBlend, 0.02f,
                 Time.deltaTime);
 
             var _lookForward = m_CamPos.forward;

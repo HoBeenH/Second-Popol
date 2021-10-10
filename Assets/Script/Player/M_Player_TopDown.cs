@@ -15,7 +15,7 @@ namespace Script.Player
 
         protected override void Init()
         {
-            _SkillManager.AddSkill(typeof(M_Player_TopDown),8f);
+            _SkillManager.AddSkill(typeof(M_Player_TopDown), 8f);
         }
 
         public override void OnStateEnter()
@@ -34,9 +34,8 @@ namespace Script.Player
             _EffectManager.GetEffect(EPrefabName.TopDownHand, leftHand.position, null, m_Return, null, leftHand);
             _EffectManager.GetEffect(EPrefabName.TopDownHand, rightHand.position, null, m_Return, null, rightHand);
 
-            yield return m_Delay;
             Physics.Raycast(pos.position, pos.up * -1, out var _hit);
-            _EffectManager.GetEffect(EPrefabName.TopDown, _hit.point, null, m_Return);
+            _EffectManager.GetEffect(EPrefabName.TopDown, _hit.point, null, m_Return, m_Delay);
         }
     }
 }
