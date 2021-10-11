@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Script.Dragon;
 using UnityEngine;
 using static Script.Facade;
@@ -18,7 +19,7 @@ namespace Script.Player
     public class PlayerController : MonoSingleton<PlayerController>
     {
         private StateMachine<PlayerController> m_Machine;
-        private Rigidbody m_Rig;
+        public Rigidbody m_Rig;
 
         public PlayerStatus PlayerStat { get; private set; }
         public EPlayerFlag playerFlag;
@@ -46,10 +47,11 @@ namespace Script.Player
 
         private void Start()
         {
-            useFallDown += (v, f) =>
+            useFallDown = (v, f) =>
             {
                 if (playerFlag.HasFlag(EPlayerFlag.FallDown))
                     return;
+
                 m_Machine.ChangeState(typeof(S_Player_FallDown));
                 m_Rig.AddForce(v * f, ForceMode.Impulse);
             };
@@ -59,10 +61,6 @@ namespace Script.Player
         private void Update()
         {
             m_Machine?.Update();
-            if (Input.GetKey(KeyCode.L))
-            {
-                m_Machine.ChangeState(typeof(S_Player_Dead));
-            }
         }
 
         public void TakeDamage(int damage, Vector3 dir)
@@ -80,21 +78,19 @@ namespace Script.Player
                 return;
             }
 
-            foreach (var pattern in m_Machine.cancel)
-            {
-                StopCoroutine(pattern);
-            }
-            
             PlayerStat.health -= damage;
-            useFallDown(dir, 5f);
+            useFallDown.Invoke(dir,5f);
 
+            Debug.Log(PlayerStat.health);
             if (PlayerStat.health <= 0)
             {
-                // 죽음
-                return;
-            }
+                foreach (var pattern in m_Machine.cancel)
+                {
+                    StopCoroutine(pattern);
+                }
 
-            Debug.Log($"Take Damage {PlayerStat.health}");
+                m_Machine.ChangeState(typeof(S_Player_Dead));
+            }
         }
     }
 }

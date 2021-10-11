@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Cinemachine;
 using UnityEngine;
+using static Script.Facade;
 
 namespace Script
 {
@@ -19,7 +20,7 @@ namespace Script
         [Header("Type : Shoot")] public float speed;
         public bool BHasTriggerEffect;
         [SerializeField] protected EPrefabName m_TriggerEffect;
-        protected Collider col;
+        private Collider m_Col;
 
         [Header("Type : Boom")] public float radius;
         public bool BHasDelay;
@@ -31,17 +32,16 @@ namespace Script
         protected LayerMask mask;
         private readonly Collider[] m_Results = new Collider[1];
 
-        protected Action impulseHandler;
         protected Action damage;
+        private readonly WaitForSeconds m_Return = new WaitForSeconds(10.0f);
 
         protected void Init()
         {
-            TryGetComponent<Collider>(out col);
+            TryGetComponent(out m_Col);
 
             if (BHasImpulse)
             {
                 source = GetComponent<CinemachineImpulseSource>();
-                impulseHandler = () => { this.source.GenerateImpulse(); };
             }
 
             if (BHasDelay)
@@ -55,7 +55,7 @@ namespace Script
             switch (m_Type)
             {
                 case ESkillType.Shoot:
-                    col.enabled = true;
+                    m_Col.enabled = true;
                     StartCoroutine(nameof(Move));
                     break;
                 case ESkillType.Boom when BHasDelay:
@@ -74,18 +74,32 @@ namespace Script
             if (m_Type == ESkillType.Shoot)
             {
                 StopCoroutine(nameof(Move));
-                col.enabled = false;
+                m_Col.enabled = false;
             }
         }
 
         protected void CheckOverlap()
         {
-            impulseHandler?.Invoke();
+            if (BHasImpulse)
+            {
+                source.GenerateImpulse();
+            }
             var _size = Physics.OverlapSphereNonAlloc(transform.position, radius, m_Results, mask);
             if (_size != 0)
             {
                 damage?.Invoke();
             }
+        }
+
+        protected void HitTrigger()
+        {
+            if (BHasTriggerEffect)
+            {
+                _EffectManager.GetEffect(m_TriggerEffect, transform.position, null, m_Return);
+            }
+
+            m_Col.enabled = false;
+            StartCoroutine(HtiDelay());
         }
 
         private IEnumerator BoomDelay()
@@ -103,7 +117,7 @@ namespace Script
             }
         }
 
-        protected IEnumerator HtiDelay()
+        private IEnumerator HtiDelay()
         {
             StopCoroutine(nameof(Move));
             yield return new WaitForSeconds(2.0f);

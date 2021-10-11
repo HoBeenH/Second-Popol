@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Script.Dragon
 {
-    public class DragonEvent : MonoBehaviour
+    public class Dragon_AnimationEvent : MonoBehaviour
     {
         public Collider m_AttackCol;
         public Collider[] tails;

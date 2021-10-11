@@ -5,7 +5,7 @@ using static Script.Facade;
 
 namespace Script.Dragon
 {
-    public class DragonAttack : MonoBehaviour
+    public class Dragon_HeadTrigger : MonoBehaviour
     {
         private Collider m_Col;
 
@@ -19,7 +19,7 @@ namespace Script.Dragon
             if (other.CompareTag("Player"))
             {
                 _PlayerController.TakeDamage(_DragonController.DragonStat.damage,
-                    (other.transform.position - transform.position).normalized);
+                    (_PlayerController.transform.position - _DragonController.transform.position).normalized);
                 m_Col.enabled = false;
             }
         }

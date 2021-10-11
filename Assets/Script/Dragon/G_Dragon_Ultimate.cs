@@ -5,7 +5,7 @@ using static Script.Facade;
 
 namespace Script.Dragon
 {
-    public class G_Dragon_Phase2 : State<DragonController>
+    public class G_Dragon_Ultimate : State<Dragon_Controller>
     {
         private readonly int m_TakeOffHash = Animator.StringToHash("Base Layer.Phase2Start.Takeoff");
         private readonly int m_PatternHash = Animator.StringToHash("Pattern");
@@ -22,7 +22,7 @@ namespace Script.Dragon
 
         protected override void Init()
         {
-            _SkillManager.AddSkill(typeof(G_Dragon_Phase2),40f);
+            _SkillManager.AddSkill(typeof(G_Dragon_Ultimate),70f);
             
             var _finds = GameObject.FindGameObjectWithTag("Pos").GetComponentsInChildren<Transform>();
             foreach (var child in _finds)
@@ -69,7 +69,7 @@ namespace Script.Dragon
                 m_BIsFirst = false;
             }
 
-            _SkillManager.FindSkill(typeof(G_Dragon_Phase2)).BIsActive = false;
+            _SkillManager.FindSkill(typeof(G_Dragon_Ultimate)).isActive = false;
             owner.nav.autoTraverseOffMeshLink = true;
             owner.currentStateFlag |= EDragonPhaseFlag.CantParry;
             owner.StartCoroutine(PatternStart());
@@ -90,6 +90,8 @@ namespace Script.Dragon
             m_Link.startPoint = from - m_LinkPos;
             m_Link.endPoint = to - m_LinkPos;
         }
+
+     
 
         private IEnumerator PatternStart()
         {

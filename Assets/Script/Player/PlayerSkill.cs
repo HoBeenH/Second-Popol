@@ -5,6 +5,8 @@ namespace Script.Player
 {
     public class PlayerSkill : SkillController
     {
+        private readonly WaitForSeconds m_Return = new WaitForSeconds(15.0f);
+
         private void Awake()
         {
             base.Init();
@@ -18,25 +20,17 @@ namespace Script.Player
             if (other.CompareTag("Dragon"))
             {
                 _DragonController.TakeDamage(_PlayerController.PlayerStat.skillDamage, EPlayerFlag.Magic);
-                impulseHandler?.Invoke();
-                if (BHasTriggerEffect)
+                if (BHasImpulse)
                 {
-                    _EffectManager.GetEffect(m_TriggerEffect, transform.position, null, new WaitForSeconds(15.0f));
+                    source.GenerateImpulse();
                 }
 
-                col.enabled = false;
-                StartCoroutine(base.HtiDelay());
+                HitTrigger();
             }
             else if (other.CompareTag("Ground"))
             {
                 CheckOverlap();
-                if (BHasTriggerEffect)
-                {
-                    _EffectManager.GetEffect(m_TriggerEffect, transform.position, null, new WaitForSeconds(15.0f));
-                }
-
-                col.enabled = false;
-                StartCoroutine(base.HtiDelay());
+                HitTrigger();
             }
         }
     }

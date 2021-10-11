@@ -6,11 +6,10 @@ using static Script.Facade;
 
 namespace Script.Dragon
 {
-    public class G_Dragon_FlyAttack : State<DragonController>
+    public class G_Dragon_FlyAttack : State<Dragon_Controller>
     {
         private readonly int m_FlyAnimHash = Animator.StringToHash("Base Layer.FlyAttack.Fly");
         private readonly int m_FlyAttackHash = Animator.StringToHash("FlyAttack");
-        private readonly int m_BNowFly = Animator.StringToHash("NowFly");
         private readonly WaitForSeconds m_SmokeReturn = new WaitForSeconds(5.0f);
         private readonly WaitForSeconds m_FlyDelay = new WaitForSeconds(3.5f);
         private WaitUntil m_CurrentAnimIsFly;
@@ -80,6 +79,11 @@ namespace Script.Dragon
             owner.nav.SetDestination(_endPos);
             yield return m_FlyDelay;
         }
+        public override void OnStateUpdate()
+        {
+            var temp = machine.animator.GetCurrentAnimatorStateInfo(0).fullPathHash == m_FlyAnimHash;
+            Debug.Log(temp);
+        }
 
         private IEnumerator FallDown()
         {
@@ -105,6 +109,7 @@ namespace Script.Dragon
         private IEnumerator Damage()
         {
             var _position = m_DragonTr.position;
+            _position.y = 1f;
             _EffectManager.GetEffect(EPrefabName.DragonDownSmoke, _position, null, m_SmokeReturn);
             _EffectManager.GetEffect(EPrefabName.DragonDownSmoke2, _position, null, m_SmokeReturn, null,
                 owner.transform);

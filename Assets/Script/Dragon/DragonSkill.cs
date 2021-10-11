@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using static Script.Facade;
 using Random = UnityEngine.Random;
 
@@ -7,13 +6,14 @@ namespace Script.Dragon
 {
     public class DragonSkill : SkillController
     {
+        private readonly WaitForSeconds m_Return = new WaitForSeconds(5.0f);
+
         private void Awake()
         {
             base.Init();
             base.mask = 1 << 10;
             base.damage = () => _PlayerController.TakeDamage(_DragonController.DragonStat.damage,
                 (_PlayerController.transform.position - transform.position).normalized);
-
 
             if (this.gameObject.name.Equals("Fire(Clone)"))
             {
@@ -35,25 +35,16 @@ namespace Script.Dragon
                 _PlayerController.TakeDamage(_DragonController.DragonStat.damage,
                     (_PlayerController.transform.position - transform.position).normalized);
 
-                impulseHandler?.Invoke();
-                if (BHasTriggerEffect)
+                if (BHasImpulse)
                 {
-                    _EffectManager.GetEffect(m_TriggerEffect, transform.position, null, new WaitForSeconds(5.0f));
+                    source.GenerateImpulse();
                 }
-
-                col.enabled = false;
-                StartCoroutine(base.HtiDelay());
+                HitTrigger();
             }
             else if (other.CompareTag("Ground"))
             {
                 CheckOverlap();
-                if (BHasTriggerEffect)
-                {
-                    _EffectManager.GetEffect(m_TriggerEffect, transform.position, null, new WaitForSeconds(5.0f));
-                }
-
-                col.enabled = false;
-                StartCoroutine(base.HtiDelay());
+                HitTrigger();
             }
         }
     }

@@ -5,7 +5,7 @@ using static Script.Facade;
 
 namespace Script.Dragon
 {
-    public class G_Dragon_Breath : State<DragonController>
+    public class G_Dragon_Breath : State<Dragon_Controller>
     {
         private readonly int m_BreathAnimHash = Animator.StringToHash("Base Layer.Breath_Idle.Breath_Idle");
         private readonly int m_BreathHash = Animator.StringToHash("Breath");

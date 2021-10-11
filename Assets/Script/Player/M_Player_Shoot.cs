@@ -13,11 +13,6 @@ namespace Script.Player
 
         public M_Player_Shoot() : base("Base Layer.Skill.Shoot") => m_ShootHash = Animator.StringToHash("Shoot");
 
-        protected override void Init()
-        {
-            _SkillManager.AddSkill(typeof(M_Player_Shoot),7f);
-        }
-
         public override void OnStateEnter()
         {
             machine.animator.SetTrigger(m_ShootHash);

@@ -4,16 +4,16 @@ using static Script.Facade;
 
 namespace Script.Dragon
 {
-    public class S_Dragon_Movement : State<DragonController>
+    public class S_Dragon_Movement : State<Dragon_Controller>
     {
         private readonly int m_MovementFloatHash = Animator.StringToHash("Move");
-        private float m_DisCondition;
+        private float m_Dis;
 
         protected override void Init()
         {
-            m_DisCondition = Mathf.Pow(owner.nav.stoppingDistance, 2);
+            m_Dis = Mathf.Pow(owner.nav.stoppingDistance, 2);
         }
-        
+
         public override void OnStateUpdate()
         {
             machine.animator.SetFloat(m_MovementFloatHash, owner.nav.desiredVelocity.magnitude,
@@ -23,9 +23,9 @@ namespace Script.Dragon
 
         public override void OnStateChangePoint()
         {
-            if (CheckCondition())
+            if (CheckDis())
             {
-                machine.ChangeState(_DragonPattern.StartPattern());
+                machine.ChangeState(_DragonPattern.SetPattern());
             }
         }
 
@@ -36,9 +36,9 @@ namespace Script.Dragon
             machine.animator.SetFloat(m_MovementFloatHash, 0f);
         }
 
-        private bool CheckCondition()
+        public bool CheckDis()
         {
-            return (_PlayerController.transform.position - owner.transform.position).sqrMagnitude <= m_DisCondition;
+            return (_PlayerController.transform.position - owner.transform.position).sqrMagnitude <= m_Dis;
         }
     }
 }

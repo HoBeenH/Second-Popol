@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Script.Dragon
 {
-    public class D_PatternSpawner : MonoBehaviour
+    public class Dragon_UltimateSpawn : MonoBehaviour
     {
         // 소환되는 패턴의 위치
         private enum ESetType
@@ -16,13 +16,14 @@ namespace Script.Dragon
         }
 
         [SerializeField] private ESetType type;
-        private bool bIsAwake = true;
+        public int loop = 10;
         private Vector3 m_Size;
         private readonly WaitForSeconds m_DownReturn = new WaitForSeconds(10.0f);
         private readonly WaitForSeconds m_DownSpawnDelay = new WaitForSeconds(0.5f);
         private readonly WaitForSeconds m_DownExDelay = new WaitForSeconds(3.8f);
         private readonly WaitForSeconds m_BackReturn = new WaitForSeconds(30.0f);
         private readonly WaitForSeconds m_PatternDelay = new WaitForSeconds(1.5f);
+        private bool BisAwake = true;
 
         private void Awake()
         {
@@ -33,13 +34,11 @@ namespace Script.Dragon
 
         private void OnEnable()
         {
-            // 게임 첫시작시 무시
-            if (bIsAwake)
+            if (BisAwake)
             {
-                bIsAwake = false;
+                BisAwake = false;
                 return;
             }
-
             switch (type)
             {
                 case ESetType.Down:
@@ -57,7 +56,7 @@ namespace Script.Dragon
         {
             for (int i = 0; i < 10; i++)
             {
-                yield return StartCoroutine(Spawn(10, ESetType.Down));
+                yield return StartCoroutine(Spawn(loop, ESetType.Down));
             }
 
             yield return null;
@@ -67,7 +66,7 @@ namespace Script.Dragon
         {
             for (var i = 0; i < 5; i++)
             {
-                yield return StartCoroutine(Spawn(10, ESetType.Back));
+                yield return StartCoroutine(Spawn(loop, ESetType.Back));
             }
         }
 
@@ -92,8 +91,8 @@ namespace Script.Dragon
                     case ESetType.Back:
                         _spawnOffset = new Vector3(Random.Range(-m_Size.x * 0.5f, m_Size.x * 0.5f),
                             Random.Range(-m_Size.y * 0.5f, m_Size.y * 0.5f), 0f) + _pivot;
-                        _EffectManager.GetEffect(EPrefabName.Fire, _spawnOffset, out var _obj, null, m_BackReturn);
-                        _obj.transform.LookAt(_PlayerController.transform); 
+                        _EffectManager.GetEffect(EPrefabName.Fire, _spawnOffset, m_BackReturn)
+                            .transform.LookAt(_PlayerController.transform);
                         break;
 
                     default:

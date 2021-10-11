@@ -15,7 +15,7 @@ namespace Script.Player
 
         protected override void Init()
         {
-            _SkillManager.AddSkill(typeof(M_Player_TopDown), 8f);
+            _SkillManager.AddSkill(typeof(M_Player_TopDown), 10f);
         }
 
         public override void OnStateEnter()

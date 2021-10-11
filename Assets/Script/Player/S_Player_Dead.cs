@@ -7,7 +7,9 @@ namespace Script.Player
         private Collider[] m_Collider;
         private Collider m_MainCol;
         private Rigidbody[] m_Rig;
-        private GameObject root;
+        private Rigidbody m_MainRig;
+        private GameObject m_Root;
+
         protected override void Init()
         {
             var temp = owner.GetComponentsInChildren<Transform>();
@@ -15,32 +17,35 @@ namespace Script.Player
             {
                 if (_temp.name == "root")
                 {
-                    root = _temp.gameObject;
+                    m_Root = _temp.gameObject;
                 }
             }
-            m_Collider = root.GetComponentsInChildren<Collider>();
-            foreach (var collider in m_Collider)
-            {
-                collider.enabled = false;
-            }
-            m_Rig = root.GetComponentsInChildren<Rigidbody>();
-            foreach (var rig in m_Rig)
-            {
-                rig.isKinematic = true;
-            }
+            m_Collider = m_Root.GetComponentsInChildren<Collider>();
+            m_Rig = m_Root.GetComponentsInChildren<Rigidbody>();
             m_MainCol = owner.GetComponent<CapsuleCollider>();
+            m_MainRig = owner.GetComponent<Rigidbody>();
+            IsRagDoll(false);
         }
 
         public override void OnStateEnter()
         {
-            m_MainCol.enabled = false;
+            owner.StopAllCoroutines();
+            IsRagDoll(true);
+        }
+
+        private void IsRagDoll(bool doRagDoll)
+        {
+            m_MainCol.enabled = !doRagDoll;
+            machine.animator.enabled = !doRagDoll;
+            m_MainRig.isKinematic = doRagDoll;
             foreach (var col in m_Collider)
             {
-                col.enabled = true;
+                col.enabled = doRagDoll;
             }
+
             foreach (var col in m_Rig)
             {
-                col.isKinematic = false;
+                col.isKinematic = !doRagDoll;
             }
         }
     }

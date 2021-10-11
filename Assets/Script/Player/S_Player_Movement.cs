@@ -49,29 +49,29 @@ namespace Script.Player
                     machine.ChangeState(m_Parrying);
                 }
 
-                if (Input.GetKeyDown(KeyCode.Q) && _SkillManager.FindSkill(m_WTopDown).BIsActive)
+                if (Input.GetKeyDown(KeyCode.Q) && _SkillManager.IsActive(m_WTopDown))
                 {
-                    _SkillManager.FindSkill(m_WTopDown).BIsActive = false;
+                    _SkillManager.FindSkill(m_WTopDown).isActive = false;
                     machine.ChangeState(m_WTopDown);
                 }
             }
             else if (owner.playerFlag.HasFlag(EPlayerFlag.Magic))
             {
-                if (Input.GetMouseButtonDown(0) && _SkillManager.FindSkill(m_Shoot).BIsActive)
+                if (Input.GetMouseButtonDown(0) && _SkillManager.IsActive(m_Shoot))
                 {
-                    _SkillManager.FindSkill(m_Shoot).BIsActive = false;
+                    _SkillManager.FindSkill(m_Shoot).isActive = false;
                     machine.ChangeState(m_Shoot);
                 }
 
-                if (Input.GetMouseButtonDown(1) && _SkillManager.FindSkill(m_HeavyShoot).BIsActive)
+                if (Input.GetMouseButtonDown(1) && _SkillManager.IsActive(m_HeavyShoot))
                 {
-                    _SkillManager.FindSkill(m_HeavyShoot).BIsActive = false;
+                    _SkillManager.FindSkill(m_HeavyShoot).isActive = false;
                     machine.ChangeState(m_HeavyShoot);
                 }
 
-                if (Input.GetKeyDown(KeyCode.Q) && _SkillManager.FindSkill(m_MTopDown).BIsActive)
+                if (Input.GetKeyDown(KeyCode.Q) && _SkillManager.IsActive(m_MTopDown))
                 {
-                    _SkillManager.FindSkill(m_MTopDown).BIsActive = false;
+                    _SkillManager.FindSkill(m_MTopDown).isActive = false;
                     machine.ChangeState(m_MTopDown);
                 }
             }

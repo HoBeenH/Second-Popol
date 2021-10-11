@@ -4,7 +4,7 @@ using static Script.Facade;
 
 namespace Script.Dragon
 {
-    public class G_Dragon_Attack : State<DragonController>
+    public class G_Dragon_Bite : State<Dragon_Controller>
     {
         private readonly int m_AttackTriggerHash = Animator.StringToHash("Attack");
         private readonly int m_AttackAnimHash = Animator.StringToHash("Base Layer.Attack_Idle.Attack 1");

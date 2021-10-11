@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace Script.Dragon
 {
-    public class S_Dragon_Dead : State<DragonController>
+    public class S_Dragon_Dead : State<Dragon_Controller>
     {
         private readonly int m_DeathHash = Animator.StringToHash("Death");
         private readonly int m_FlyDeathHash = Animator.StringToHash("FlyDeath");

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Script.Dragon;
 using UnityEngine;
 using static Script.Facade;
 
@@ -20,7 +21,7 @@ namespace Script
         [HideInInspector] public Transform rightHand;
         [HideInInspector] public Transform spawnPosUp;
         [HideInInspector] public Transform spawnPosFw;
-        public Transform _dragonHead;
+        public Dragon_BreathTrigger dragonBreath;
 
         public EPrefabName DragonMesh;
 
@@ -104,59 +105,29 @@ namespace Script
                 obj.transform.SetParent(owner.transform);
             }
         }
-
-        public void GetEffect(EPrefabName effectName, Vector3 position, out GameObject objReturn,
-            Quaternion? rotPos = null, WaitForSeconds returnTime = null, float? delay = null, Transform owner = null)
+        
+        public GameObject GetEffect(EPrefabName effectName, Vector3 position, WaitForSeconds returnTime = null)
         {
-            if (delay != null)
-            {
-                var _time = 0f;
-                var _maxTime = (float) delay;
-                while (_maxTime >= _time)
-                {
-                    _time += Time.deltaTime;
-                }
-            }
-
             var obj = _ObjPool.GetObj(effectName);
-
+        
             if (returnTime != null)
             {
                 _ObjPool.ReTurnObj(obj, effectName, returnTime);
             }
-
+        
             obj.transform.position = position;
-            if (rotPos != null)
-            {
-                obj.transform.rotation = (Quaternion) rotPos;
-            }
-
-            if (owner != null)
-            {
-                obj.transform.SetParent(owner.transform);
-            }
-
-            objReturn = obj;
+            return obj;
         }
 
-        public PSMeshRendererUpdater GetMeshEffect(EPrefabName effectName, Vector3 position,
-            GameObject owner, WaitForSeconds returnTime = null, WaitForSeconds fadeTime = null)
+        public PSMeshRendererUpdater GetMeshEffect(EPrefabName effectName, Vector3 position, GameObject owner)
         {
             var obj = _ObjPool.GetObj(effectName);
-            if (returnTime != null)
-            {
-                _ObjPool.ReTurnObj(obj, effectName, returnTime);
-            }
 
             obj.transform.position = position;
             obj.transform.SetParent(owner.transform);
 
             var rendererUpdater = obj.GetComponent<PSMeshRendererUpdater>();
             rendererUpdater.UpdateMeshEffect(owner);
-            if (fadeTime != null)
-            {
-                StartCoroutine(PsFade(rendererUpdater, fadeTime));
-            }
 
             return rendererUpdater;
         }
@@ -168,12 +139,6 @@ namespace Script
             GetEffect(effectName, position, rotPos, returnTime, null, owner);
         }
 
-        private IEnumerator PsFade(PSMeshRendererUpdater updater, WaitForSeconds time)
-        {
-            yield return time;
-            updater.IsActive = false;
-        }
-
         public void DragonBreath(bool isActive, WaitForSeconds time = null)
         {
             if (time != null)
@@ -182,13 +147,18 @@ namespace Script
                 return;
             }
 
-            _dragonHead.gameObject.SetActive(isActive);
+            dragonBreath.SetEnable(isActive,1);
+        }
+
+        public void DragonFlyBreath(bool isActive)
+        {
+            dragonBreath.SetEnable(isActive,2);
         }
 
         private IEnumerator DragonDelayBreath(bool isActive, WaitForSeconds time)
         {
             yield return time;
-            _dragonHead.gameObject.SetActive(isActive);
+            dragonBreath.SetEnable(isActive,1);
         }
 
         #endregion

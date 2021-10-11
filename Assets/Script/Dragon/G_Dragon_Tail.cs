@@ -4,7 +4,7 @@ using static Script.Facade;
 
 namespace Script.Dragon
 {
-    public class G_Dragon_Tail : State<DragonController>
+    public class G_Dragon_Tail : State<Dragon_Controller>
     {
         private readonly int m_AttackLAnimHash = Animator.StringToHash("Base Layer.Tail_Idle.Attack L");
         private readonly int m_TailHash = Animator.StringToHash("Tail");

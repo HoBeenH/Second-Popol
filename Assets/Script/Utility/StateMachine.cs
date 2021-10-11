@@ -31,7 +31,7 @@ namespace Script
             m_WaitIdle = new WaitUntil(() =>
                 animator.GetCurrentAnimatorStateInfo(0).fullPathHash == Animator.StringToHash("Base Layer.Move"));
 
-            if (currentOwner.GetType() == typeof(DragonController))
+            if (currentOwner.GetType() == typeof(Dragon_Controller))
             {
                 m_Idle = typeof(S_Dragon_Movement);
             }

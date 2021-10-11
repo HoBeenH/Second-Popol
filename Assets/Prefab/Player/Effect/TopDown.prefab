@@ -17163,8 +17163,8 @@ MonoBehaviour:
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
     m_RawSignal: {fileID: 11400000, guid: 36d3c50fdc46f6d4d82386f5340c88f0, type: 2}
-    m_AmplitudeGain: 3
-    m_FrequencyGain: 3
+    m_AmplitudeGain: 2
+    m_FrequencyGain: 2
     m_RepeatMode: 0
     m_Randomize: 1
     m_TimeEnvelope:

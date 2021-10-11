@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using Script.Player;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using static Script.Facade;
 
 namespace Script.Dragon

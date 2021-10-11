@@ -1,89 +1,93 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using static Script.Facade;
-using Random = UnityEngine.Random;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Script.Dragon
 {
-    public enum EPosAngle
-    {
-        Forward,
-        Back,
-        Any
-    }
-
     public class DragonPattern : MonoSingleton<DragonPattern>
     {
-        private Transform m_Dragon;
-        private readonly Type m_Attack = typeof(G_Dragon_Attack);
-        private readonly Type m_Breath = typeof(G_Dragon_Breath);
-        private readonly Type m_Phase2 = typeof(G_Dragon_Phase2);
-        private readonly Type m_Tail = typeof(G_Dragon_Tail);
-        private readonly Type m_FlyAttack = typeof(G_Dragon_FlyAttack);
-        private readonly Queue<Type> m_NextPattern = new Queue<Type>();
-        public int patternMin = 1;
-        public int patternMax = 3;
+        public enum EPattern
+        {
+            Bite,
+            Tail,
+            Breath,
+            FlyBreath,
+            FlyAttack,
+            Ultimate
+        }
+
+        private readonly Dictionary<EPattern, Type> m_FindType = new Dictionary<EPattern, Type>
+        {
+            {EPattern.Bite, typeof(G_Dragon_Bite)},
+            {EPattern.Tail, typeof(G_Dragon_Tail)},
+            {EPattern.Breath, typeof(G_Dragon_Breath)},
+            {EPattern.FlyBreath, typeof(G_Dragon_FlyBreath)},
+            {EPattern.FlyAttack, typeof(G_Dragon_FlyAttack)},
+            {EPattern.Ultimate, typeof(G_Dragon_Ultimate)},
+        };
+
+        public List<Pattern> patternList;
+
+        [System.Serializable]
+        public class Pattern
+        {
+            public EPattern[] enumState;
+            public List<Type> nextPattern;
+            [HideInInspector] public bool isEnd;
+            [HideInInspector] public int index;
+            [HideInInspector] public int length;
+
+            public void Init(Dictionary<EPattern, Type> state)
+            {
+                nextPattern = new List<Type>();
+                foreach (var i in enumState)
+                {
+                    nextPattern.Add(state[i]);
+                }
+
+                isEnd = false;
+                index = 0;
+                length = nextPattern.Count;
+            }
+
+            public Type GetPattern()
+            {
+                var _pattern = nextPattern[index];
+                index += 1;
+                if (length == index)
+                {
+                    index = 0;
+                    isEnd = true;
+                }
+
+                return _pattern;
+            }
+        }
+
+        private int m_PatternIndex = 0;
 
         private void Awake()
         {
-            m_Dragon = _DragonController.GetComponent<Transform>();
-        }
-
-        private void Start()
-        {
-            GetPattern();
-        }
-
-        public Type StartPattern()
-        {
-            if (m_NextPattern.Count != 0)
+            foreach (var x in patternList)
             {
-                return m_NextPattern.Dequeue();
-            }
-            else
-            {
-                GetPattern();
-                return m_NextPattern.Dequeue();
+                x.Init(m_FindType);
             }
         }
 
-        private void GetPattern()
+        public Type SetPattern()
         {
-            m_NextPattern.Enqueue(PlayerPoint() == EPosAngle.Forward ? m_Attack : m_Tail);
-            var _length = Random.Range(patternMin, patternMax);
-            for (var k = 0; k < _length; k++)
+            if (patternList[m_PatternIndex].isEnd)
             {
-                var i = Random.Range(0, 4);
-                switch (i)
+                patternList[m_PatternIndex].isEnd = false;
+                m_PatternIndex += 1;
+                if (m_PatternIndex == patternList.Count)
                 {
-                    case 0:
-                        m_NextPattern.Enqueue(m_Attack);
-                        break;
-                    case 1:
-                        m_NextPattern.Enqueue(m_Tail);
-                        break;
-                    case 3:
-                        m_NextPattern.Enqueue(m_Breath);
-                        break;
+                    m_PatternIndex = 0;
                 }
             }
 
-            if (_DragonController.currentStateFlag.HasFlag(EDragonPhaseFlag.Phase2SetUp) &&
-                _SkillManager.FindSkill(m_Phase2).BIsActive)
-            {
-                m_NextPattern.Enqueue(m_Phase2);
-            }
-            else if (_SkillManager.FindSkill(m_FlyAttack).BIsActive)
-            {
-                m_NextPattern.Enqueue(m_FlyAttack);
-            }
+            return patternList[m_PatternIndex].GetPattern();
         }
-
-        private EPosAngle PlayerPoint() =>
-            Vector3.Dot(m_Dragon.forward,
-                (_PlayerController.transform.position - m_Dragon.position).normalized) >= 0f
-                ? EPosAngle.Forward
-                : EPosAngle.Back;
     }
 }

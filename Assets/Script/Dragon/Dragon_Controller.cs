@@ -20,10 +20,9 @@ namespace Script.Dragon
         Dead = 1 << 5
     }
 
-    public class DragonController : MonoSingleton<DragonController>
+    public class Dragon_Controller : MonoSingleton<Dragon_Controller>
     {
-        private StateMachine<DragonController> m_StateMachine;
-        private Animator m_Anim;
+        private StateMachine<Dragon_Controller> m_StateMachine;
 
         [HideInInspector] public NavMeshAgent nav;
 
@@ -35,21 +34,21 @@ namespace Script.Dragon
         {
             DragonStat = new DragonStatus();
             nav = GetComponent<NavMeshAgent>();
-            m_Anim = GetComponent<Animator>();
-            m_StateMachine = new StateMachine<DragonController>(m_Anim, this, new S_Dragon_Movement());
-            m_StateMachine.SetState(new G_Dragon_Attack());
+            var anim = GetComponent<Animator>();
+            m_StateMachine = new StateMachine<Dragon_Controller>(anim, this, new S_Dragon_Movement());
+            m_StateMachine.SetState(new G_Dragon_Bite());
             m_StateMachine.SetState(new G_Dragon_Tail());
             m_StateMachine.SetState(new G_Dragon_Breath());
             m_StateMachine.SetState(new G_Dragon_FlyAttack());
             m_StateMachine.SetState(new S_Dragon_Stun());
             m_StateMachine.SetState(new S_Dragon_Dead());
-            m_StateMachine.SetState(new G_Dragon_Phase2());
+            m_StateMachine.SetState(new G_Dragon_Ultimate());
+            m_StateMachine.SetState(new G_Dragon_FlyBreath());
         }
 
         private void Update()
         {
             m_StateMachine?.Update();
-
         }
 
         public void TakeDamage(int damage, EPlayerFlag weapon)
@@ -91,7 +90,12 @@ namespace Script.Dragon
         }
         
         [Button]
-        public void Fly()
+        public void FlyBreath()
+        {
+            m_StateMachine.ChangeState(typeof(G_Dragon_FlyBreath));
+        }
+        [Button]
+        public void FlyAttack()
         {
             m_StateMachine.ChangeState(typeof(G_Dragon_FlyAttack));
         }
