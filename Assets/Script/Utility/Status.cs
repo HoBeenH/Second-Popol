@@ -12,7 +12,6 @@ namespace Script
         public int damage;
         public int skillDamage;
         public float moveSpeed;
-        public float moveAnimDamp;
     }
 
     #endregion
@@ -37,9 +36,6 @@ namespace Script
 
     public class DragonStatus : Status
     {
-        public int magicDefence = 3;
-        public int defence = 3;
-
         public DragonStatus()
         {
             this.rotSpeed = 2f;

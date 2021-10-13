@@ -11,11 +11,11 @@ namespace Script.Dragon
 
         private void Awake()
         {
-            var temp = GetComponentInChildren<DragonTail>();
+            var temp = GetComponentInChildren<Dragon_TailCollider>();
             tails = temp.GetComponentsInChildren<Collider>();
         }
 
-        public void AttackCol(int trueOrFalse)
+        public void BiteCol(int trueOrFalse)
         {
             switch (trueOrFalse)
             {

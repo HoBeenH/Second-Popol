@@ -17203,13 +17203,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Type: 1
-  speed: 0
-  BHasTriggerEffect: 0
   m_TriggerEffect: 0
+  speed: 0
   radius: 5
-  BHasDelay: 1
+  hasDelay: 1
   delayTime: 2.3
-  BHasImpulse: 1
+  HasImpulseSource: 0
   source: {fileID: -2416103094849629961}
 --- !u!1 &1441491964992070
 GameObject:

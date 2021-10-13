@@ -9532,13 +9532,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Type: 0
-  speed: 5
-  BHasTriggerEffect: 1
   m_TriggerEffect: 20
-  radius: 0
+  speed: 5
+  radius: 2
   BHasDelay: 0
   delayTime: 0
-  BHasImpulse: 0
+  HasImpulseSource: 0
   source: {fileID: 0}
 --- !u!54 &9043268607329599389
 Rigidbody:

@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Script.Dragon;
+using Script.Dragon.FSM;
 using Script.Player;
+using Script.Player.FSM;
 using UnityEngine;
 
 namespace Script
@@ -33,16 +35,16 @@ namespace Script
 
             if (currentOwner.GetType() == typeof(Dragon_Controller))
             {
-                m_Idle = typeof(S_Dragon_Movement);
+                m_Idle = typeof(Dragon_Movement);
             }
 
-            if (currentOwner.GetType() == typeof(PlayerController))
+            if (currentOwner.GetType() == typeof(Player_Controller))
             {
-                m_Idle = typeof(S_Player_Movement);
+                m_Idle = typeof(Player_Movement);
             }
         }
 
-        // 변수의 상태가 종료되면 자동으로 다음으로 전환된다
+        // 변수의 상태가 종료되면 자동으로 Idle로 전환된다
         public IEnumerator WaitForState(params int[] hash)
         {
             foreach (var currentAnim in hash)

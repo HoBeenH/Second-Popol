@@ -60,19 +60,33 @@ namespace Script
 
         private void CreatParent()
         {
-            for (var i = 0; i < m_PlayerPrefab.Length; i++)
+            var _transform = transform;
+            foreach (var _t in m_PlayerPrefab)
             {
-                var _currentPrefabParent = new GameObject(m_PlayerPrefab[i].name.ToString());
-                _currentPrefabParent.transform.SetParent(this.transform);
-                m_PlayerPrefab[i].prefabParent = _currentPrefabParent.transform;
-                EnqueueObj(m_PlayerPrefab[i]);
-            }     
-            for (var i = 0; i < m_EnemyPrefab.Length; i++)
+                var _currentPrefabParent = new GameObject(_t.name.ToString())
+                {
+                    transform =
+                    {
+                        position = _transform.position
+                    }
+                };
+                _currentPrefabParent.transform.SetParent(_transform);
+                _t.prefabParent = _currentPrefabParent.transform;
+                EnqueueObj(_t);
+            }
+
+            foreach (var _t in m_EnemyPrefab)
             {
-                var _currentPrefabParent = new GameObject(m_EnemyPrefab[i].name.ToString());
-                _currentPrefabParent.transform.SetParent(this.transform);
-                m_EnemyPrefab[i].prefabParent = _currentPrefabParent.transform;
-                EnqueueObj(m_EnemyPrefab[i]);
+                var _currentPrefabParent = new GameObject(_t.name.ToString())
+                {
+                    transform =
+                    {
+                        position = _transform.position
+                    }
+                };
+                _currentPrefabParent.transform.SetParent(_transform);
+                _t.prefabParent = _currentPrefabParent.transform;
+                EnqueueObj(_t);
             }
         }
 
@@ -86,25 +100,26 @@ namespace Script
 
         private GameObject CreatNewObj(Prefabs prefabName)
         {
-            var _obj = Instantiate(prefabName.prefabObj, prefabName.prefabParent, true);
+            var _obj = Instantiate(prefabName.prefabObj, prefabName.prefabParent);
             _obj.SetActive(false);
             return _obj;
         }
 
         private Prefabs FindObjName(EPrefabName prefabName)
         {
-            for (var i = 0; i < m_PlayerPrefab.Length; i++)
+            foreach (var _t in m_PlayerPrefab)
             {
-                if (m_PlayerPrefab[i].name == prefabName)
+                if (_t.name == prefabName)
                 {
-                    return m_PlayerPrefab[i];
+                    return _t;
                 }
-            }     
-            for (var i = 0; i < m_EnemyPrefab.Length; i++)
+            }
+
+            foreach (var _t in m_EnemyPrefab)
             {
-                if (m_EnemyPrefab[i].name == prefabName)
+                if (_t.name == prefabName)
                 {
-                    return m_EnemyPrefab[i];
+                    return _t;
                 }
             }
 

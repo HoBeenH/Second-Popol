@@ -18565,8 +18565,8 @@ GameObject:
   - component: {fileID: 6999918479136107402}
   - component: {fileID: 7188004496898716674}
   - component: {fileID: 4612530385527008671}
-  - component: {fileID: 4719446810224442681}
   - component: {fileID: -137407526231978022}
+  - component: {fileID: 2000936707882356408}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -18618,7 +18618,28 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4719446810224442681
+--- !u!114 &-137407526231978022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7004941711044002402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e23dbe0a3c2474f987c0af2677d7a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Type: 0
+  m_TriggerEffect: 0
+  speed: 15
+  radius: 2
+  hasDelay: 0
+  delayTime: 0
+  HasImpulseSource: 1
+  source: {fileID: 2000936707882356408}
+  hasDamage: 0
+--- !u!114 &2000936707882356408
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18660,27 +18681,6 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 1000
     m_PropagationSpeed: 343
---- !u!114 &-137407526231978022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7004941711044002402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e23dbe0a3c2474f987c0af2677d7a9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Type: 0
-  speed: 15
-  BHasTriggerEffect: 1
-  m_TriggerEffect: 0
-  radius: 2
-  BHasDelay: 0
-  delayTime: 0
-  BHasImpulse: 1
-  source: {fileID: 4719446810224442681}
 --- !u!1 &7004997695401649288
 GameObject:
   m_ObjectHideFlags: 0

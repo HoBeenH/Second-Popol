@@ -1,4 +1,5 @@
 using Cinemachine;
+using Script.Player.FSM;
 using UnityEngine;
 using static Script.Facade;
 
@@ -19,7 +20,7 @@ namespace Script.Player
         {
             if (other.CompareTag("Dragon"))
             {
-                _DragonController.TakeDamage(_PlayerController.PlayerStat.damage, EPlayerFlag.Sword);
+                _DragonController.TakeDamage(_PlayerController.PlayerStat.damage);
                 m_Source.GenerateImpulse();
                 m_Collider.enabled = false;
             }

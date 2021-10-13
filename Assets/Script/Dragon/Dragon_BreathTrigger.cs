@@ -6,24 +6,24 @@ namespace Script.Dragon
 {
     public class Dragon_BreathTrigger : MonoBehaviour
     {
-        public ParticleSystem m_Breath1;
-        public ParticleSystem m_Breath2;
-        private bool bIsStart = true;
+        public ParticleSystem breath;
+        public ParticleSystem flyBreath;
+        private bool isStart = true;
 
         public void SetEnable(bool isActive, int index)
         {
             if (isActive)
             {
-                bIsStart = true;
+                isStart = true;
                 switch (index)
                 {
                     case 1:
-                        m_Breath1.gameObject.SetActive(true);
-                        m_Breath1.Play();
+                        breath.gameObject.SetActive(true);
+                        breath.Play();
                         break;
                     case 2:
-                        m_Breath2.gameObject.SetActive(true);
-                        m_Breath2.Play();
+                        flyBreath.gameObject.SetActive(true);
+                        flyBreath.Play();
                         break;
                 }
             }
@@ -32,10 +32,10 @@ namespace Script.Dragon
                 switch (index)
                 {
                     case 1:
-                        m_Breath1.gameObject.SetActive(false);
+                        breath.gameObject.SetActive(false);
                         break;
                     case 2:
-                        m_Breath2.gameObject.SetActive(false);
+                        flyBreath.gameObject.SetActive(false);
                         break;
                 }
             }
@@ -43,11 +43,11 @@ namespace Script.Dragon
 
         private void OnParticleTrigger()
         {
-            if (bIsStart)
+            if (isStart)
             {
                 _PlayerController.TakeDamage(_DragonController.DragonStat.skillDamage,
                     (_PlayerController.transform.position - transform.position).normalized);
-                bIsStart = false;
+                isStart = false;
             }
         }
     }

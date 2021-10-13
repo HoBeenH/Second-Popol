@@ -13,17 +13,14 @@ namespace Script
         // 무기 이펙트의 자연스러운 전환을 위한 큐
         private readonly Queue<PSMeshRendererUpdater> m_WeaponEffectsPs = new Queue<PSMeshRendererUpdater>();
         private readonly Queue<GameObject> m_WeaponEffects = new Queue<GameObject>();
-        private readonly WaitForSeconds m_WeaponDelay = new WaitForSeconds(3.0f);
+        private readonly WaitForSeconds m_ReturnDelay = new WaitForSeconds(3.0f);
 
         // 이펙트 스폰 위치
         private Transform m_ObjWeapon;
-        [HideInInspector] public Transform leftHand;
-        [HideInInspector] public Transform rightHand;
-        [HideInInspector] public Transform spawnPosUp;
-        [HideInInspector] public Transform spawnPosFw;
-        public Dragon_BreathTrigger dragonBreath;
-
-        public EPrefabName DragonMesh;
+        [HideInInspector] public Transform playerLeftHand;
+        [HideInInspector] public Transform playerRightHand;
+        [HideInInspector] public Transform playerSpawnPosUp;
+        [HideInInspector] public Transform playerSpawnPosFW;
 
         private void Awake()
         {
@@ -37,22 +34,22 @@ namespace Script
 
                 if (t.name.Equals("SpawnPos"))
                 {
-                    spawnPosUp = t;
+                    playerSpawnPosUp = t;
                 }
 
                 if (t.name.Equals("SpawnPosFw"))
                 {
-                    spawnPosFw = t;
+                    playerSpawnPosFW = t;
                 }
 
                 if (t.name.Equals("ik_hand_l"))
                 {
-                    leftHand = t;
+                    playerLeftHand = t;
                 }
 
                 if (t.name.Equals("ik_hand_r"))
                 {
-                    rightHand = t;
+                    playerRightHand = t;
                 }
             }
         }
@@ -69,7 +66,7 @@ namespace Script
             else
             {
                 m_WeaponEffectsPs.Dequeue().IsActive = false;
-                _ObjPool.ReTurnObj(m_WeaponEffects.Dequeue(), EPrefabName.PlayerWeaponEffect, m_WeaponDelay);
+                _ObjPool.ReTurnObj(m_WeaponEffects.Dequeue(), EPrefabName.PlayerWeaponEffect, m_ReturnDelay);
             }
         }
 
@@ -105,16 +102,16 @@ namespace Script
                 obj.transform.SetParent(owner.transform);
             }
         }
-        
+
         public GameObject GetEffect(EPrefabName effectName, Vector3 position, WaitForSeconds returnTime = null)
         {
             var obj = _ObjPool.GetObj(effectName);
-        
+
             if (returnTime != null)
             {
                 _ObjPool.ReTurnObj(obj, effectName, returnTime);
             }
-        
+
             obj.transform.position = position;
             return obj;
         }
@@ -139,6 +136,29 @@ namespace Script
             GetEffect(effectName, position, rotPos, returnTime, null, owner);
         }
 
+        #endregion
+
+        #region DragonEffect
+
+        private readonly Queue<PSMeshRendererUpdater> m_MeshPS = new Queue<PSMeshRendererUpdater>();
+        private readonly Queue<GameObject> m_MeshEffect = new Queue<GameObject>();
+        public Dragon_BreathTrigger dragonBreath;
+        public GameObject backPos;
+        public GameObject upPos;
+
+        public void ActiveDragonsMesh(EPrefabName meshName)
+        {
+            var obj = GetMeshEffect(meshName, _DragonController.transform.position, _DragonController.gameObject);
+            m_MeshEffect.Enqueue(obj.gameObject);
+            m_MeshPS.Enqueue(obj);
+        }
+
+        public void DeActiveDragonMesh()
+        {
+            m_MeshPS.Dequeue().IsActive = false;
+            m_MeshEffect.Dequeue();
+        }
+
         public void DragonBreath(bool isActive, WaitForSeconds time = null)
         {
             if (time != null)
@@ -147,18 +167,24 @@ namespace Script
                 return;
             }
 
-            dragonBreath.SetEnable(isActive,1);
+            dragonBreath.SetEnable(isActive, 1);
         }
 
-        public void DragonFlyBreath(bool isActive)
+        public void SetActiveDragonFlyBreath(bool isActive)
         {
-            dragonBreath.SetEnable(isActive,2);
+            dragonBreath.SetEnable(isActive, 2);
+        }
+
+        public void SetActiveUltimate(bool isActive)
+        {
+            upPos.SetActive(isActive);
+            backPos.SetActive(isActive);
         }
 
         private IEnumerator DragonDelayBreath(bool isActive, WaitForSeconds time)
         {
             yield return time;
-            dragonBreath.SetEnable(isActive,1);
+            dragonBreath.SetEnable(isActive, 1);
         }
 
         #endregion

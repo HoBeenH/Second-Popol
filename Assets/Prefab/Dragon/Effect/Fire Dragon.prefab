@@ -5422,14 +5422,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Type: 1
-  speed: 0
-  BHasTriggerEffect: 0
   m_TriggerEffect: 0
-  radius: 5
-  BHasDelay: 1
+  speed: 0
+  radius: 3
+  hasDelay: 1
   delayTime: 3.8
-  BHasImpulse: 1
+  HasImpulseSource: 1
   source: {fileID: -6773811469669125640}
+  hasDamage: 0
 --- !u!1 &8422054513448036307
 GameObject:
   m_ObjectHideFlags: 0
