@@ -8,25 +8,15 @@ namespace Script.Player
     {
         private readonly int m_NowWeapon = Animator.StringToHash("NowWeapon");
         private Collider m_WeaponCollider;
-        private GameObject m_ObjWeapon;
+        [SerializeField] private GameObject m_ObjWeapon;
         private Animator m_Animator;
 
         #region Animation Event
 
         private void Awake()
         {
-            var _findWeapon = GetComponentsInChildren<Transform>();
-            foreach (var _transform in _findWeapon)
-            {
-                if (_transform.name == "Weapon_r")
-                {
-                    m_ObjWeapon = _transform.gameObject;
-                    m_WeaponCollider = m_ObjWeapon.GetComponent<BoxCollider>();
-                    break;
-                }
-            }
-
             m_Animator = GetComponent<Animator>();
+            m_WeaponCollider = m_ObjWeapon.GetComponent<BoxCollider>();
         }
 
         public void WeaponAnimEvent()

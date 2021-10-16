@@ -17,8 +17,8 @@ namespace Script
         Fire,
         FireEx,
         HealthUp,
-        DamageUp,
-        SpeedUp,
+        Ultimate,
+        FlyAttack,
         FireDragon,
         FireDragonSpawn,
         FireEx2,
@@ -32,6 +32,24 @@ namespace Script
         LastHeavyShootEx,
         SecondHeavyShoot,
         SecondHeavyShootEx,
+        Blood1,
+        Blood2,
+        Blood3,
+        Blood4,
+        Blood5,
+        Blood6,
+        Blood7,
+        Blood8,
+        Blood9,
+        Blood10,
+        Blood11,
+        Blood12,
+        Blood13,
+        Blood14,
+        Blood15,
+        Blood16,
+        Blood17,
+        BloodDecal
     }
 
     public class ObjPool : MonoSingleton<ObjPool>
@@ -63,13 +81,7 @@ namespace Script
             var _transform = transform;
             foreach (var _t in m_PlayerPrefab)
             {
-                var _currentPrefabParent = new GameObject(_t.name.ToString())
-                {
-                    transform =
-                    {
-                        position = _transform.position
-                    }
-                };
+                var _currentPrefabParent = new GameObject(_t.name.ToString());
                 _currentPrefabParent.transform.SetParent(_transform);
                 _t.prefabParent = _currentPrefabParent.transform;
                 EnqueueObj(_t);
@@ -77,13 +89,7 @@ namespace Script
 
             foreach (var _t in m_EnemyPrefab)
             {
-                var _currentPrefabParent = new GameObject(_t.name.ToString())
-                {
-                    transform =
-                    {
-                        position = _transform.position
-                    }
-                };
+                var _currentPrefabParent = new GameObject(_t.name.ToString());
                 _currentPrefabParent.transform.SetParent(_transform);
                 _t.prefabParent = _currentPrefabParent.transform;
                 EnqueueObj(_t);

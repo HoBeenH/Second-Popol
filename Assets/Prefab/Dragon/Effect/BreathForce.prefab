@@ -25823,7 +25823,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4403731156159114}
   - component: {fileID: 114520069157533192}
-  - component: {fileID: -6368044445509938023}
+  - component: {fileID: -858242648585551416}
   m_Layer: 0
   m_Name: BreathForce
   m_TagString: Untagged
@@ -25874,7 +25874,7 @@ MonoBehaviour:
   Speed: 10
   AirDrag: 0.1
   UseGravity: 1
---- !u!114 &-6368044445509938023
+--- !u!114 &-858242648585551416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -25883,17 +25883,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1614648838348040}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e23dbe0a3c2474f987c0af2677d7a9b, type: 3}
+  m_Script: {fileID: 11500000, guid: da7b0cbd6a294e20b85cd136fef8a878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Type: 1
-  m_TriggerEffect: 0
-  speed: 0
   radius: 5
-  hasDelay: 0
-  delayTime: 0
-  HasImpulseSource: 0
+  hasImpulse: 0
   source: {fileID: 0}
+  delayTime: 0
   hasDamage: 0
 --- !u!1 &1638347158907328
 GameObject:

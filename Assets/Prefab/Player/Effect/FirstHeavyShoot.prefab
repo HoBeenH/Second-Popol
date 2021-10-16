@@ -9494,9 +9494,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2558703896800673276}
-  - component: {fileID: 5556967147559654999}
   - component: {fileID: 9043268607329599389}
   - component: {fileID: 9100450707700278613}
+  - component: {fileID: -2851802776964357965}
   m_Layer: 0
   m_Name: FirstHeavyShoot
   m_TagString: Untagged
@@ -9519,26 +9519,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &5556967147559654999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2562452717813215240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94ba18fec41f442f9712878d9358f6b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Type: 0
-  m_TriggerEffect: 20
-  speed: 5
-  radius: 2
-  BHasDelay: 0
-  delayTime: 0
-  HasImpulseSource: 0
-  source: {fileID: 0}
 --- !u!54 &9043268607329599389
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9568,6 +9548,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: -0.98}
+--- !u!114 &-2851802776964357965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2562452717813215240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd7d6f23d61463098cfe24f8e95edf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggerEffect: 20
+  speed: 5
 --- !u!1 &2562462265562765118
 GameObject:
   m_ObjectHideFlags: 0

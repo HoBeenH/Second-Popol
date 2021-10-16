@@ -4,8 +4,9 @@ namespace Script.Dragon.FSM
 {
     public class Dragon_Stun : State<Dragon_Controller>
     {
-        public Dragon_Stun() : base("Base Layer.Stun") => m_StunHash = Animator.StringToHash("Stun");
         private readonly int m_StunHash;
+        
+        public Dragon_Stun() : base("Base Layer.Stun") => m_StunHash = Animator.StringToHash("Stun");
 
         public override void OnStateEnter()
         {
@@ -14,7 +15,7 @@ namespace Script.Dragon.FSM
                 owner.StopCoroutine(pattern);
             }
             
-            machine.animator.SetTrigger(m_StunHash);
+            machine.anim.SetTrigger(m_StunHash);
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
         }
     }

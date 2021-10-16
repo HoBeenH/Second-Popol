@@ -133,7 +133,7 @@ I can't find the correct ground/floor height because some object doesn't have a 
 In other cases (when you use a character/monster with a collider) I can't find a correct height because the "raycast" can intersect the monster collider instead of floor collider.
 So you need to set this height manually.
 In some cases you can use the "layer" mask for project decals on the floor/ground only (without monster/characters/..., etc). And then you can just increase the scale of "bloodPrefab -> decal" (transform -> scale.y).
-For example instead of the default 2 meters you can use 6 meters or more. In this case the decal will be projected  to world height position from -3 to 3 meters.
+For example instead of the default 2 meters you can use 6 meters or more. In this case the decal will be projected ìŸ´o world height position from -3 to 3 meters.
 
 3) LightIntensityMultiplier [0 - 1]
 Brightness intensity  of blood and light glare. For day light use 1, for night use 0, etc.

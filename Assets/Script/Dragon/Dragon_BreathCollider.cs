@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 using static Script.Facade;
 
 namespace Script.Dragon
 {
-    public class Dragon_BreathTrigger : MonoBehaviour
+    public class Dragon_BreathCollider : MonoBehaviour
     {
         public ParticleSystem breath;
         public ParticleSystem flyBreath;
@@ -45,7 +44,7 @@ namespace Script.Dragon
         {
             if (isStart)
             {
-                _PlayerController.TakeDamage(_DragonController.DragonStat.skillDamage,
+                _PlayerController.TakeDamage(_DragonController.DragonStat.damage,
                     (_PlayerController.transform.position - transform.position).normalized);
                 isStart = false;
             }

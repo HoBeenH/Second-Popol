@@ -5317,7 +5317,7 @@ GameObject:
   - component: {fileID: 8424785115181532755}
   - component: {fileID: 8462500295494064929}
   - component: {fileID: -6773811469669125640}
-  - component: {fileID: -7768760560302974991}
+  - component: {fileID: -1955404382844318195}
   m_Layer: 0
   m_Name: Fire Dragon
   m_TagString: Untagged
@@ -5409,7 +5409,7 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 1000
     m_PropagationSpeed: 343
---- !u!114 &-7768760560302974991
+--- !u!114 &-1955404382844318195
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5418,18 +5418,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8422039498977389871}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e23dbe0a3c2474f987c0af2677d7a9b, type: 3}
+  m_Script: {fileID: 11500000, guid: da7b0cbd6a294e20b85cd136fef8a878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Type: 1
-  m_TriggerEffect: 0
-  speed: 0
   radius: 3
+  hasImpulse: 0
+  source: {fileID: -6773811469669125640}
   hasDelay: 1
   delayTime: 3.8
-  HasImpulseSource: 1
-  source: {fileID: -6773811469669125640}
-  hasDamage: 0
+  hasDamage: 1
 --- !u!1 &8422054513448036307
 GameObject:
   m_ObjectHideFlags: 0

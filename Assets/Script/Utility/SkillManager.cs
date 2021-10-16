@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,9 +7,9 @@ using UnityEngine;
 namespace Script
 {
     // 스킬 쿨타임 계산 스크립트
-    public class SkillManager : MonoBehaviour
+    public class SkillManager : MonoSingleton<SkillManager>
     {
-        private static readonly List<Skill> SkillList = new List<Skill>();
+        private readonly List<Skill> m_SkillList = new List<Skill>();
 
         public class Skill
         {
@@ -29,20 +30,10 @@ namespace Script
         {
             CheckCoolDown();
         }
-
-        public static void AddSkill(Type type, float time)
-        {
-            SkillList.Add(new Skill(type, time));
-        }
-
-        public static Skill FindSkill(Type type)
-        {
-            return SkillList.FirstOrDefault(value => value.name == type);
-        }
-
+        
         private void CheckCoolDown()
         {
-            foreach (var skill in SkillList.Where(skill => skill.isActive == false))
+            foreach (var skill in m_SkillList.Where(skill => skill.isActive == false))
             {
                 skill.coolTime -= Time.deltaTime;
                 if (skill.coolTime <= 0f)
@@ -51,6 +42,16 @@ namespace Script
                     skill.isActive = true;
                 }
             }
+        }
+
+        public void AddSkill(Type type, float time)
+        {
+            m_SkillList.Add(new Skill(type, time));
+        }
+
+        public Skill FindSkill(Type type)
+        {
+            return m_SkillList.FirstOrDefault(value => value.name == type);
         }
     }
 }

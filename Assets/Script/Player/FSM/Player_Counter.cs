@@ -6,8 +6,8 @@ namespace Script.Player.FSM
 {
     public class Player_Counter : State<Player_Controller>
     {
-        private CinemachineImpulseSource m_Source;
         private readonly int m_WSkillHash;
+        private CinemachineImpulseSource m_Source;
 
         public Player_Counter() : base("Base Layer.Skill.Parrying.WSkill") =>
             m_WSkillHash = Animator.StringToHash("WSkill");
@@ -22,7 +22,7 @@ namespace Script.Player.FSM
             m_Source.GenerateImpulse();
             _EffectManager.EffectPlayerWeapon(true);
             _DragonController.TakeDamage(owner.PlayerStat.damage);
-            machine.animator.SetTrigger(m_WSkillHash);
+            machine.anim.SetTrigger(m_WSkillHash);
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
         }
 

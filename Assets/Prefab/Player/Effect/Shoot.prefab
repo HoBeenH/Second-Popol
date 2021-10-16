@@ -22920,9 +22920,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7363226228167791448}
-  - component: {fileID: -6837764284999698105}
   - component: {fileID: 694254644173476683}
   - component: {fileID: -5252343163914032732}
+  - component: {fileID: 3629434022599399013}
   m_Layer: 0
   m_Name: Shoot
   m_TagString: Untagged
@@ -22945,26 +22945,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &-6837764284999698105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7360443774671264232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94ba18fec41f442f9712878d9358f6b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Type: 0
-  m_TriggerEffect: 17
-  speed: 5
-  radius: 2
-  BHasDelay: 0
-  delayTime: 2
-  HasImpulseSource: 0
-  source: {fileID: 0}
 --- !u!54 &694254644173476683
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -22994,6 +22974,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3629434022599399013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7360443774671264232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd7d6f23d61463098cfe24f8e95edf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggerEffect: 17
+  speed: 5
 --- !u!1 &7360488533245323636
 GameObject:
   m_ObjectHideFlags: 0

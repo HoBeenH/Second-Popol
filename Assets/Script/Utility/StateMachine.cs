@@ -1,15 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Script.Dragon;
 using Script.Dragon.FSM;
-using Script.Player;
 using Script.Player.FSM;
 using UnityEngine;
 
 namespace Script
 {
-    // 스테이트 머신
     public class StateMachine<T>
     {
         private readonly Dictionary<Type, State<T>> m_States = new Dictionary<Type, State<T>>();
@@ -18,20 +15,20 @@ namespace Script
         private readonly WaitUntil m_WaitIdle;
         private readonly Type m_Idle;
 
-        public readonly Animator animator;
+        public readonly Animator anim;
 
         // 공격이 끊길때 사용할 코루틴 리스트
         public readonly List<Coroutine> cancel = new List<Coroutine>();
 
         public StateMachine(Animator anim, T currentOwner, State<T> state)
         {
-            this.animator = anim;
+            this.anim = anim;
             this.CurrentState = state;
             this.m_Owner = currentOwner;
             SetState(state);
             CurrentState?.OnStateEnter();
             m_WaitIdle = new WaitUntil(() =>
-                animator.GetCurrentAnimatorStateInfo(0).fullPathHash == Animator.StringToHash("Base Layer.Move"));
+                this.anim.GetCurrentAnimatorStateInfo(0).fullPathHash == Animator.StringToHash("Base Layer.Move"));
 
             if (currentOwner.GetType() == typeof(Dragon_Controller))
             {
@@ -49,7 +46,7 @@ namespace Script
         {
             foreach (var currentAnim in hash)
             {
-                yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).fullPathHash == currentAnim);
+                yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).fullPathHash == currentAnim);
             }
 
             yield return m_WaitIdle;
@@ -65,9 +62,9 @@ namespace Script
             m_States[state.GetType()] = state;
         }
 
-        public void Update()
+        public void OnUpdate()
         {
-            var _currentAnim = animator.GetCurrentAnimatorStateInfo(0);
+            var _currentAnim = anim.GetCurrentAnimatorStateInfo(0);
 
             if (CurrentState.animToHash == _currentAnim.fullPathHash || CurrentState.animToHash == 0)
             {

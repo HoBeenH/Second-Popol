@@ -1,11 +1,9 @@
-using System;
-using Script.Player;
 using UnityEngine;
 using static Script.Facade;
 
 namespace Script.Dragon
 {
-    public class Dragon_BiteTrigger : MonoBehaviour
+    public class Dragon_BiteCollider : MonoBehaviour
     {
         private Collider m_Col;
 

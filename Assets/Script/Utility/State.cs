@@ -4,10 +4,11 @@ namespace Script
 {
     public abstract class State<T>
     {
+        // 상태의 애니메이션 해쉬
         public readonly int animToHash;
         protected StateMachine<T> machine;
         protected T owner;
-        
+
         protected State()
         {
         }

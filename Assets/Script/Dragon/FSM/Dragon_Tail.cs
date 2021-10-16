@@ -10,7 +10,7 @@ namespace Script.Dragon.FSM
         public override void OnStateEnter()
         {
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(m_AttackLAnimHash)));
-            machine.animator.SetTrigger(m_TailHash);
+            machine.anim.SetTrigger(m_TailHash);
         }
     }
 }

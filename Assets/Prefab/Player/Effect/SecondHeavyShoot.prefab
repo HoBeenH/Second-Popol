@@ -4582,9 +4582,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 437396569275957531}
-  - component: {fileID: 3296039736003165024}
   - component: {fileID: 6667657748560677561}
   - component: {fileID: 7720566907890853738}
+  - component: {fileID: -3094089573274821246}
   m_Layer: 0
   m_Name: SecondHeavyShoot
   m_TagString: Untagged
@@ -4607,26 +4607,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &3296039736003165024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 439177134686869407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94ba18fec41f442f9712878d9358f6b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Type: 0
-  m_TriggerEffect: 24
-  speed: 5
-  radius: 2
-  BHasDelay: 0
-  delayTime: 0
-  HasImpulseSource: 0
-  source: {fileID: 0}
 --- !u!135 &6667657748560677561
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4656,6 +4636,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-3094089573274821246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439177134686869407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd7d6f23d61463098cfe24f8e95edf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TriggerEffect: 24
+  speed: 5
 --- !u!1 &439363492705005075
 GameObject:
   m_ObjectHideFlags: 0

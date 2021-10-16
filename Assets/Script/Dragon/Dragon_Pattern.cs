@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Script.Dragon.FSM;
 using UnityEngine;
@@ -28,6 +29,8 @@ namespace Script.Dragon
         };
 
         public Pattern[] patternList;
+        [HideInInspector]public bool nowDelay = false;
+        private readonly WaitForSeconds m_Delay = new WaitForSeconds(6f);
 
         [System.Serializable]
         public class Pattern
@@ -76,17 +79,26 @@ namespace Script.Dragon
 
         public Type NextPattern()
         {
+            var _nextPattern = patternList[m_Index].GetPattern();
             if (patternList[m_Index].isEnd)
             {
-                patternList[m_Index].isEnd = false;
-                m_Index += 1;
-                if (m_Index == patternList.Length)
-                {
-                    m_Index = 0;
-                }
+                nowDelay = true;
+                StartCoroutine(Delay());
             }
 
-            return patternList[m_Index].GetPattern();
+            return _nextPattern;
+        }
+
+        private IEnumerator Delay()
+        {
+            yield return m_Delay;
+            patternList[m_Index].isEnd = false;
+            m_Index += 1;
+            if (m_Index == patternList.Length)
+            {
+                m_Index = 0;
+            }
+            nowDelay = false;
         }
     }
 }

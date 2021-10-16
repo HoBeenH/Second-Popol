@@ -10,7 +10,6 @@ namespace Script
         public float rotSpeed;
         public int health;
         public int damage;
-        public int skillDamage;
         public float moveSpeed;
     }
 
@@ -23,7 +22,6 @@ namespace Script
         public PlayerStatus()
         {
             this.rotSpeed = 10f;
-            this.skillDamage = 10;
             this.damage = 10;
             this.moveSpeed = 2f;
             this.health = 100;

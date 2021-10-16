@@ -6,58 +6,67 @@ namespace Script.Dragon.FSM
 {
     public class Dragon_FlyBreath : State<Dragon_Controller>
     {
-        private readonly int m_FlyAnimHash = Animator.StringToHash("Base Layer.FlyBreath.Fly");
         private readonly int m_BreathHash = Animator.StringToHash("HeadFire");
         private readonly int m_FlyHash = Animator.StringToHash("FlyBreath");
         private readonly WaitForSeconds m_ForceDelay = new WaitForSeconds(0.3f);
-        private readonly WaitForSeconds m_ForceReturn = new WaitForSeconds(8f);
-        private WaitUntil m_CurrentAnimIsFly;
+        private readonly WaitForSeconds m_BreathTime = new WaitForSeconds(7f);
+        private WaitUntil m_WaitFly;
 
         protected override void Init()
         {
-            m_CurrentAnimIsFly = new WaitUntil(() =>
-                machine.animator.GetCurrentAnimatorStateInfo(0).fullPathHash == m_FlyAnimHash);
+            m_WaitFly = new WaitUntil(() =>
+                machine.anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.FlyBreath.Fly"));
         }
-        
+
         public override void OnStateEnter()
         {
+            owner.stateFlag |= EDragonFlag.CantParry;
+            owner.stateFlag |= EDragonFlag.Fly;
+            owner.StartCoroutine(FlyBreath());
+            machine.anim.SetTrigger(m_FlyHash);
             owner.nav.enabled = false;
-            machine.animator.SetTrigger(m_FlyHash);
-            machine.cancel.Add(owner.StartCoroutine(FlyBreath()));
+        }
+
+        public override void OnStateExit()
+        {
+            owner.stateFlag &= ~EDragonFlag.CantParry;
+            owner.stateFlag &= ~EDragonFlag.Fly;
         }
 
         private IEnumerator FlyBreath()
         {
-            yield return owner.StartCoroutine(Fly());
-            yield return owner.StartCoroutine(Breath());
+            var _pos = owner.transform.position;
+            _EffectManager.GetEffect(EPrefabName.BreathForce, _pos, null, m_BreathTime, m_ForceDelay);
+            yield return m_WaitFly;
+
+            _pos.y += 6.1f;
+            while ((_pos - owner.transform.position).sqrMagnitude >= 1)
+            {
+                owner.transform.position = Vector3.Lerp(owner.transform.position, _pos, 2 * Time.deltaTime);
+                yield return null;
+            }
+            Breath(true);
+            yield return m_BreathTime;
+            Breath(false);
+
             yield return machine.WaitForState();
             owner.nav.enabled = true;
         }
 
-        private IEnumerator Fly()
+        private void Breath(bool isActive)
         {
-            var pos = owner.transform.position;
-            _EffectManager.GetEffect(EPrefabName.BreathForce, pos, null, m_ForceReturn, m_ForceDelay);
-            yield return m_CurrentAnimIsFly;
-            pos = pos.SetOffsetY(5.5f);
-            yield return owner.StartCoroutine(owner.transform.CheckDis(pos, 1, () =>
-                owner.transform.position = Vector3.Lerp(owner.transform.position, pos, 2 * Time.deltaTime)));
-        }
-
-        private IEnumerator Breath()
-        {
-            machine.animator.SetLayerWeight(1, 1);
-            machine.animator.SetTrigger(m_BreathHash);
-            _EffectManager.SetActiveDragonFlyBreath(true);
-            var _runningTime = 0f;
-            yield return owner.StartCoroutine(DragonLibrary.CheckTime(7f, () =>
+            if (isActive)
             {
-                owner.transform.LookAt(_PlayerController.transform);
-                owner.transform.SinMove(2f,0.01f,ref _runningTime);
-            }));
-            machine.animator.SetLayerWeight(1, 0);
-            _EffectManager.SetActiveDragonFlyBreath(false);
-            machine.animator.SetTrigger(m_FlyHash);
+                machine.anim.SetLayerWeight(1, 0.5f);
+                machine.anim.SetTrigger(m_BreathHash);
+                _EffectManager.SetActiveDragonFlyBreath(true);
+            }
+            else
+            {
+                machine.anim.SetLayerWeight(1, 0);
+                _EffectManager.SetActiveDragonFlyBreath(false);
+                machine.anim.SetTrigger(m_FlyHash);
+            }
         }
     }
 }

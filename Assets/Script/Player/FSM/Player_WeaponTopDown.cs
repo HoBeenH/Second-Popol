@@ -12,13 +12,13 @@ namespace Script.Player.FSM
 
         protected override void Init()
         {
-            SkillManager.AddSkill(typeof(Player_WeaponTopDown),6f);
+            _SkillManager.AddSkill(typeof(Player_WeaponTopDown),6f);
         }
 
         public override void OnStateEnter()
         {
             _EffectManager.EffectPlayerWeapon(true);
-            machine.animator.SetTrigger(m_WTopDownHash);
+            machine.anim.SetTrigger(m_WTopDownHash);
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
         }
 

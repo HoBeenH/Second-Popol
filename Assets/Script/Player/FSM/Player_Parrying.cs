@@ -12,7 +12,7 @@ namespace Script.Player.FSM
         public override void OnStateEnter()
         {
             owner.playerFlag |= EPlayerFlag.Parry;
-            machine.animator.SetTrigger(m_ParryingHash);
+            machine.anim.SetTrigger(m_ParryingHash);
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
         }
 

@@ -16,43 +16,11 @@ namespace Script
         private readonly WaitForSeconds m_ReturnDelay = new WaitForSeconds(3.0f);
 
         // 이펙트 스폰 위치
-        private Transform m_ObjWeapon;
-        [HideInInspector] public Transform playerLeftHand;
-        [HideInInspector] public Transform playerRightHand;
-        [HideInInspector] public Transform playerSpawnPosUp;
-        [HideInInspector] public Transform playerSpawnPosFW;
-
-        private void Awake()
-        {
-            var _find = GameObject.FindGameObjectWithTag("Player").GetComponentsInChildren<Transform>();
-            foreach (var t in _find)
-            {
-                if (t.name.Equals("Weapon_r"))
-                {
-                    m_ObjWeapon = t;
-                }
-
-                if (t.name.Equals("SpawnPos"))
-                {
-                    playerSpawnPosUp = t;
-                }
-
-                if (t.name.Equals("SpawnPosFw"))
-                {
-                    playerSpawnPosFW = t;
-                }
-
-                if (t.name.Equals("ik_hand_l"))
-                {
-                    playerLeftHand = t;
-                }
-
-                if (t.name.Equals("ik_hand_r"))
-                {
-                    playerRightHand = t;
-                }
-            }
-        }
+        [SerializeField] private Transform m_ObjWeapon;
+        public Transform playerLeftHand;
+        public Transform playerRightHand;
+        public Transform playerSpawnPosUp;
+        public Transform playerSpawnPosFW;
 
         // 무기 이펙트 소환
         public void EffectPlayerWeapon(bool isActive)
@@ -116,7 +84,7 @@ namespace Script
             return obj;
         }
 
-        public PSMeshRendererUpdater GetMeshEffect(EPrefabName effectName, Vector3 position, GameObject owner)
+        private PSMeshRendererUpdater GetMeshEffect(EPrefabName effectName, Vector3 position, GameObject owner)
         {
             var obj = _ObjPool.GetObj(effectName);
 
@@ -142,18 +110,18 @@ namespace Script
 
         private readonly Queue<PSMeshRendererUpdater> m_MeshPS = new Queue<PSMeshRendererUpdater>();
         private readonly Queue<GameObject> m_MeshEffect = new Queue<GameObject>();
-        public Dragon_BreathTrigger dragonBreath;
-        public GameObject backPos;
-        public GameObject upPos;
+        [SerializeField] private Dragon_BreathCollider dragonBreath;
+        [SerializeField] private GameObject backPos;
+        [SerializeField] private GameObject upPos;
 
-        public void ActiveDragonsMesh(EPrefabName meshName)
+        public void ActiveDragonMeshEffect(EPrefabName meshName)
         {
             var obj = GetMeshEffect(meshName, _DragonController.transform.position, _DragonController.gameObject);
             m_MeshEffect.Enqueue(obj.gameObject);
             m_MeshPS.Enqueue(obj);
         }
 
-        public void DeActiveDragonMesh()
+        public void DeActiveDragonMeshEffect()
         {
             m_MeshPS.Dequeue().IsActive = false;
             m_MeshEffect.Dequeue();

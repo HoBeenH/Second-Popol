@@ -15,16 +15,16 @@ namespace Script.Dragon.FSM
 
         public override void OnStateEnter()
         {
-            owner.currentStateFlag |= EDragonFlag.CantParry;
-            machine.animator.SetTrigger(m_BreathHash);
-            machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
+            owner.stateFlag |= EDragonFlag.CantParry;
+            machine.anim.SetTrigger(m_BreathHash);
+            owner.StartCoroutine(machine.WaitForState(animToHash));
             SetEffect();
         }
 
         public override void OnStateExit()
         {
             _EffectManager.DragonBreath(false);
-            owner.currentStateFlag &= ~EDragonFlag.CantParry;
+            owner.stateFlag &= ~EDragonFlag.CantParry;
         }
 
         private void SetEffect()

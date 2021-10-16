@@ -7,30 +7,26 @@ namespace Script.Player.FSM
     {
         private readonly int m_WeaponChangeHash = Animator.StringToHash("WeaponChange");
         private readonly int m_Weapon = Animator.StringToHash("Base Layer.Weapon.Weapon");
-        private readonly int m_Skill = Animator.StringToHash("Base Layer.Weapon.Skill");
+        private readonly int m_Magic = Animator.StringToHash("Base Layer.Weapon.Skill");
 
         public override void OnStateEnter()
         {
-            machine.animator.SetTrigger(m_WeaponChangeHash);
+            machine.anim.SetLayerWeight(1, 1);
+            isMove = true;
+            machine.anim.SetTrigger(m_WeaponChangeHash);
 
             machine.cancel.Add(owner.playerFlag.HasFlag(EPlayerFlag.Magic)
                 ? owner.StartCoroutine(machine.WaitForState(m_Weapon))
-                : owner.StartCoroutine(machine.WaitForState(m_Skill)));
-
-            canMove = false;
-            owner.PlayerStat.moveSpeed -= 1f;
-            machine.animator.SetLayerWeight(1, 0.5f);
+                : owner.StartCoroutine(machine.WaitForState(m_Magic)));
         }
 
         public override void OnStateExit()
         {
-            owner.PlayerStat.moveSpeed += 1f;
-            machine.animator.SetLayerWeight(1, 0);
+            machine.anim.SetLayerWeight(1, 0);
         }
 
         public override void OnStateChangePoint()
         {
-            return;
         }
     }
 }

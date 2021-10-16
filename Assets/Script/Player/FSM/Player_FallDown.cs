@@ -24,12 +24,12 @@ namespace Script.Player.FSM
                 (_DragonController.transform.position - _transform.position).normalized);
             if (_point >= 0)
             {
-                machine.animator.SetTrigger(m_BkHash);
+                machine.anim.SetTrigger(m_BkHash);
                 machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(m_BkAnimHash)));
             }
             else
             {
-                machine.animator.SetTrigger(m_FwHash);
+                machine.anim.SetTrigger(m_FwHash);
                 machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(m_FwAnimHash)));
             }
         }

@@ -1,12 +1,11 @@
 using System;
-using Script.Dragon.FSM;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using Script.Dragon.FSM;
 using static Script.Facade;
 
 namespace Script.Player.FSM
 {
-    // 플레이어 상태 플래그
+    // 플레이어의 상태를 표시하는 플래그
     [Flags]
     public enum EPlayerFlag
     {
@@ -22,15 +21,14 @@ namespace Script.Player.FSM
         private Rigidbody m_Rig;
 
         public PlayerStatus PlayerStat { get; private set; }
-        public EPlayerFlag playerFlag;
+        [HideInInspector] public EPlayerFlag playerFlag;
 
         private void Awake()
         {
             m_Rig = GetComponent<Rigidbody>();
             PlayerStat = new PlayerStatus();
 
-            var anim = GetComponent<Animator>();
-            m_Machine = new StateMachine<Player_Controller>(anim, this, new Player_Movement());
+            m_Machine = new StateMachine<Player_Controller>(GetComponent<Animator>(), this, new Player_Movement());
             m_Machine.SetState(new Player_WeaponChange());
             m_Machine.SetState(new Player_SwordAttack());
             m_Machine.SetState(new Player_WeaponTopDown());
@@ -42,27 +40,16 @@ namespace Script.Player.FSM
             m_Machine.SetState(new Player_MagicTopDown());
             m_Machine.SetState(new Player_FallDown());
             m_Machine.SetState(new Player_Dead());
-        }
 
-        private void Start()
-        {
             playerFlag |= EPlayerFlag.Sword;
+            Cursor.visible = false;
         }
 
-        private void Update()
-        {
-            m_Machine?.Update();
-        }
+        private void Update() => m_Machine?.OnUpdate();
 
         public void TakeDamage(int damage, Vector3 dir)
         {
-            if (playerFlag.HasFlag(EPlayerFlag.FallDown))
-            {
-                return;
-            }
-
-            if (playerFlag.HasFlag(EPlayerFlag.Parry) &&
-                !_DragonController.currentStateFlag.HasFlag(EDragonFlag.CantParry))
+            if (playerFlag.HasFlag(EPlayerFlag.Parry) && !_DragonController.stateFlag.HasFlag(EDragonFlag.CantParry))
             {
                 m_Machine.ChangeState(typeof(Player_Counter));
                 _DragonController.Stun();
@@ -70,7 +57,7 @@ namespace Script.Player.FSM
             }
 
             PlayerStat.health -= damage;
-            UseFallDown(dir,5f);
+            UseFallDown(dir, 5f);
 
             if (PlayerStat.health <= 0)
             {
@@ -84,12 +71,6 @@ namespace Script.Player.FSM
                 return;
             m_Machine.ChangeState(typeof(Player_FallDown));
             m_Rig.AddForce(dir * force, ForceMode.Impulse);
-        }
-
-        [Button]
-        public void Dead()
-        {
-            m_Machine.ChangeState(typeof(Player_Dead));
         }
     }
 }

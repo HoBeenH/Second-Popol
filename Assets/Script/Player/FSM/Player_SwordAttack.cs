@@ -11,7 +11,7 @@ namespace Script.Player.FSM
         public override void OnStateEnter()
         {
             _EffectManager.EffectPlayerWeapon(true);
-            machine.animator.SetTrigger(m_AttackHash);
+            machine.anim.SetTrigger(m_AttackHash);
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(m_AttackLAnimHash)));
         }
 
@@ -19,13 +19,14 @@ namespace Script.Player.FSM
         {
             if (Input.GetMouseButtonDown(0))
             {
-                machine.animator.SetTrigger(m_AttackHash);
+                machine.anim.SetTrigger(m_AttackHash);
             }
+            
         }
 
         public override void OnStateExit()
         {
-            machine.animator.ResetTrigger(m_AttackHash);
+            machine.anim.ResetTrigger(m_AttackHash);
             _EffectManager.EffectPlayerWeapon(false);
         }
     }

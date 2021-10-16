@@ -17,12 +17,12 @@ namespace Script.Player.FSM
 
         protected override void Init()
         {
-            SkillManager.AddSkill(typeof(Player_HeavyShoot),15f);
+            _SkillManager.AddSkill(typeof(Player_HeavyShoot),15f);
         }
 
         public override void OnStateEnter()
         {
-            machine.animator.SetTrigger(m_HeavyShootHash);
+            machine.anim.SetTrigger(m_HeavyShootHash);
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
             machine.cancel.Add(owner.StartCoroutine(SetEffect()));
         }

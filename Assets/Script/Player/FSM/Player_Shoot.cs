@@ -15,7 +15,7 @@ namespace Script.Player.FSM
 
         public override void OnStateEnter()
         {
-            machine.animator.SetTrigger(m_ShootHash);
+            machine.anim.SetTrigger(m_ShootHash);
             machine.cancel.Add(owner.StartCoroutine(SetEffect()));
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
         }

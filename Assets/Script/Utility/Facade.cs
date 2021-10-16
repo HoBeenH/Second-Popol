@@ -12,5 +12,6 @@ namespace Script
         public static ObjPool _ObjPool => ObjPool.Instance;
         public static EffectManager _EffectManager => EffectManager.Instance;
         public static Dragon_Pattern _DragonPattern => Dragon_Pattern.Instance;
+        public static SkillManager _SkillManager => SkillManager.Instance;
     }
 }

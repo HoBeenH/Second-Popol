@@ -12,40 +12,39 @@ namespace Script.Player.FSM
 
         protected override void Init()
         {
-            var temp = owner.GetComponentsInChildren<Transform>();
-            foreach (var _temp in temp)
+            var _find = owner.GetComponentsInChildren<Transform>();
+            foreach (var _child in _find)
             {
-                if (_temp.name == "root")
+                if (_child.name == "root")
                 {
-                    m_Root = _temp.gameObject;
+                    m_Root = _child.gameObject;
                 }
             }
             m_Collider = m_Root.GetComponentsInChildren<Collider>();
             m_Rig = m_Root.GetComponentsInChildren<Rigidbody>();
             m_MainCol = owner.GetComponent<CapsuleCollider>();
             m_MainRig = owner.GetComponent<Rigidbody>();
-            DoRagDoll(false);
         }
 
         public override void OnStateEnter()
         {
             owner.StopAllCoroutines();
-            DoRagDoll(true);
+            DoRagDoll();
         }
 
-        private void DoRagDoll(bool doRagDoll)
+        private void DoRagDoll()
         {
-            m_MainCol.enabled = !doRagDoll;
-            machine.animator.enabled = !doRagDoll;
+            m_MainCol.enabled = false;
+            machine.anim.enabled = false;
+            m_MainRig.isKinematic = true;
             foreach (var col in m_Rig)
             {
-                col.isKinematic = !doRagDoll;
+                col.isKinematic = false;
             }
             
-            m_MainRig.isKinematic = doRagDoll;
             foreach (var col in m_Collider)
             {
-                col.enabled = doRagDoll;
+                col.enabled = true;
             }
 
         }

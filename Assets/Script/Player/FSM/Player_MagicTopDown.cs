@@ -15,12 +15,12 @@ namespace Script.Player.FSM
 
         protected override void Init()
         {
-            SkillManager.AddSkill(typeof(Player_MagicTopDown), 10f);
+            _SkillManager.AddSkill(typeof(Player_MagicTopDown), 10f);
         }
 
         public override void OnStateEnter()
         {
-            machine.animator.SetTrigger(m_TopDownHash);
+            machine.anim.SetTrigger(m_TopDownHash);
             machine.cancel.Add(owner.StartCoroutine(SetEffect()));
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
         }
@@ -33,7 +33,6 @@ namespace Script.Player.FSM
             var pos = _EffectManager.playerSpawnPosUp;
             _EffectManager.GetEffect(EPrefabName.TopDownHand, leftHand.position, null, m_Return, null, leftHand);
             _EffectManager.GetEffect(EPrefabName.TopDownHand, rightHand.position, null, m_Return, null, rightHand);
-
             Physics.Raycast(pos.position, pos.up * -1, out var _hit);
             _EffectManager.GetEffect(EPrefabName.TopDown, _hit.point, null, m_Return, m_Delay);
         }

@@ -16,7 +16,7 @@ namespace Script.Player.FSM
 
         public override void OnStateEnter()
         {
-            machine.animator.SetTrigger(m_SlidingHash);
+            machine.anim.SetTrigger(m_SlidingHash);
             m_Rigidbody.velocity = owner.transform.forward * 7f;
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
         }

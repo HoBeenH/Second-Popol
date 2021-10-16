@@ -8,22 +8,24 @@ namespace Script.Dragon.FSM
         private readonly int m_MovementHash = Animator.StringToHash("Move");
         private float m_Dis;
 
-        protected override void Init()
-        {
-            m_Dis = Mathf.Pow(owner.nav.stoppingDistance, 2);
-        }
+        protected override void Init() => m_Dis = Mathf.Pow(owner.nav.stoppingDistance, 2);
 
         public override void OnStateUpdate()
         {
-            machine.animator.SetFloat(m_MovementHash, owner.nav.velocity.magnitude, 0.02f, Time.deltaTime);
+            machine.anim.SetFloat(m_MovementHash, owner.nav.desiredVelocity.magnitude, 0.02f, Time.deltaTime);
             owner.nav.SetDestination(_PlayerController.transform.position);
         }
 
         public override void OnStateChangePoint()
         {
-            if ((_PlayerController.transform.position - owner.transform.position).sqrMagnitude <= m_Dis)
+            if ((_PlayerController.transform.position - owner.transform.position).sqrMagnitude <= m_Dis &&
+                !_DragonPattern.nowDelay)
             {
-                machine.ChangeState(_DragonPattern.NextPattern());
+                var _nextState = _DragonPattern.NextPattern();
+                if (_nextState != null)
+                {
+                    machine.ChangeState(_nextState);
+                }
             }
         }
 
@@ -31,7 +33,7 @@ namespace Script.Dragon.FSM
         {
             owner.nav.ResetPath();
             owner.nav.velocity = Vector3.zero;
-            machine.animator.SetFloat(m_MovementHash, 0f);
+            machine.anim.SetFloat(m_MovementHash, 0f);
         }
     }
 }
