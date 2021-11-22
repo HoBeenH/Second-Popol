@@ -14,14 +14,11 @@ namespace Script.Dragon
             type = ESpawnType.Back;
         }
 
-        private void OnEnable()
-        {
-            StartCoroutine(nameof(BackSpawner));
-        }
+        private void OnEnable() => StartCoroutine(nameof(BackSpawner));
 
         private IEnumerator BackSpawner()
         {
-            var _pos = CreateUltimatePosJob.CreateRandomPos(type, size.x, size.y, loop, pivot);
+            var _pos = CreateRandomPos(type, size.x, size.y, loop, pivot);
             for (var i = 0; i < loop; i++)
             {
                 var _obj = _EffectManager.GetEffect(EPrefabName.Fire, _pos[i], m_BackReturn);

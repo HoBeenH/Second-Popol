@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using static Script.Facade;
 
 namespace Script.Player.FSM
@@ -10,7 +11,7 @@ namespace Script.Player.FSM
 
         public override void OnStateEnter()
         {
-            _EffectManager.EffectPlayerWeapon(true);
+            _EffectManager.TrailEffect(true);
             machine.anim.SetTrigger(m_AttackHash);
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(m_AttackLAnimHash)));
         }
@@ -21,13 +22,12 @@ namespace Script.Player.FSM
             {
                 machine.anim.SetTrigger(m_AttackHash);
             }
-            
         }
 
         public override void OnStateExit()
         {
+            _EffectManager.TrailEffect(false);
             machine.anim.ResetTrigger(m_AttackHash);
-            _EffectManager.EffectPlayerWeapon(false);
         }
     }
 }

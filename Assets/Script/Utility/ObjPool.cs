@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Script
@@ -64,17 +65,14 @@ namespace Script
         {
             public EPrefabName name;
             public GameObject prefabObj;
-            public int count;
+            public int cnt;
             public Queue<GameObject> objQueue = new Queue<GameObject>();
-            [HideInInspector] public Transform prefabParent;
+            [HideInInspector] public Transform parent;
         }
 
         #endregion
 
-        private void Awake()
-        {
-            CreatParent();
-        }
+        private void Awake() => CreatParent();
 
         private void CreatParent()
         {
@@ -83,7 +81,7 @@ namespace Script
             {
                 var _currentPrefabParent = new GameObject(_t.name.ToString());
                 _currentPrefabParent.transform.SetParent(_transform);
-                _t.prefabParent = _currentPrefabParent.transform;
+                _t.parent = _currentPrefabParent.transform;
                 EnqueueObj(_t);
             }
 
@@ -91,14 +89,14 @@ namespace Script
             {
                 var _currentPrefabParent = new GameObject(_t.name.ToString());
                 _currentPrefabParent.transform.SetParent(_transform);
-                _t.prefabParent = _currentPrefabParent.transform;
+                _t.parent = _currentPrefabParent.transform;
                 EnqueueObj(_t);
             }
         }
 
         private void EnqueueObj(Prefabs prefabName)
         {
-            for (var i = 0; i < prefabName.count; i++)
+            for (var i = 0; i < prefabName.cnt; i++)
             {
                 prefabName.objQueue.Enqueue(CreatNewObj(prefabName));
             }
@@ -106,35 +104,19 @@ namespace Script
 
         private GameObject CreatNewObj(Prefabs prefabName)
         {
-            var _obj = Instantiate(prefabName.prefabObj, prefabName.prefabParent);
+            var _obj = Instantiate(prefabName.prefabObj, prefabName.parent);
             _obj.SetActive(false);
             return _obj;
         }
 
-        private Prefabs FindObjName(EPrefabName prefabName)
-        {
-            foreach (var _t in m_PlayerPrefab)
-            {
-                if (_t.name == prefabName)
-                {
-                    return _t;
-                }
-            }
+        private Prefabs FindObjName(EPrefabName prefabName) => m_PlayerPrefab.FirstOrDefault(p => p.name == prefabName);
 
-            foreach (var _t in m_EnemyPrefab)
-            {
-                if (_t.name == prefabName)
-                {
-                    return _t;
-                }
-            }
-
-            return null;
-        }
+        private Prefabs FindEnemyObjName(EPrefabName prefabName) =>
+            m_EnemyPrefab.FirstOrDefault(p => p.name == prefabName);
 
         public GameObject GetObj(EPrefabName prefabName)
         {
-            var _currentPrefab = FindObjName(prefabName);
+            var _currentPrefab = FindObjName(prefabName) ?? FindEnemyObjName(prefabName);
             if (_currentPrefab.objQueue.Count > 0)
             {
                 var _obj = _currentPrefab.objQueue.Dequeue();
@@ -153,22 +135,17 @@ namespace Script
 
         private void ReTurnObj(GameObject returnObj, EPrefabName prefabName)
         {
-            var _currentPrefab = FindObjName(prefabName);
-            returnObj.transform.SetParent(_currentPrefab.prefabParent);
+            var _currentPrefab = FindObjName(prefabName) ?? FindEnemyObjName(prefabName);
+            returnObj.transform.SetParent(_currentPrefab.parent);
             returnObj.SetActive(false);
             _currentPrefab.objQueue.Enqueue(returnObj);
         }
 
-        public void ReTurnObj(GameObject returnObj, EPrefabName prefabName, WaitForSeconds time)
-        {
+        public void ReTurnObj(GameObject returnObj, EPrefabName prefabName, WaitForSeconds time) =>
             StartCoroutine(ReTurnDelay(returnObj, prefabName, time));
-        }
 
-        public void ReTurnObj(GameObject returnObj, EPrefabName prefabName, float time)
-        {
-            var _delayTime = new WaitForSeconds(time);
-            StartCoroutine(ReTurnDelay(returnObj, prefabName, _delayTime));
-        }
+        public void ReTurnObj(GameObject returnObj, EPrefabName prefabName, float time) =>
+            StartCoroutine(ReTurnDelay(returnObj, prefabName, new WaitForSeconds(time)));
 
         private IEnumerator ReTurnDelay(GameObject returnObj, EPrefabName prefabName, WaitForSeconds time)
         {

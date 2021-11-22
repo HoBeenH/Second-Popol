@@ -6,15 +6,9 @@ namespace Script.Player
 {
     public class Player_OverlapSkill : OverlapSkill
     {
-        private void Awake()
-        {
-            base.Init(1 << 11);
-        }
+        private void Awake() => base.Init(1 << 11);
 
-        private void OnEnable()
-        {
-            StartCoroutine(CheckOverlap());
-        }
+        private void OnEnable() => StartCoroutine(CheckOverlap());
 
         private IEnumerator CheckOverlap()
         {
@@ -26,7 +20,7 @@ namespace Script.Player
 
             if (Physics.OverlapSphereNonAlloc(transform.position, radius, result, layer) != 0)
             {
-                _DragonController.TakeDamage(_PlayerController.PlayerStat.damage);
+                _DragonController.TakeDamage(_PlayerController.Stat.damage);
             }
         }
     }

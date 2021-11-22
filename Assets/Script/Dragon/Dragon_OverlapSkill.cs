@@ -8,15 +8,9 @@ namespace Script.Dragon
     {
         [SerializeField] private bool hasDamage;
 
-        private void Awake()
-        {
-            base.Init(1 << 10);
-        }
+        private void Awake() => base.Init(1 << 10);
 
-        private void OnEnable()
-        {
-            StartCoroutine(CheckOverlap());
-        }
+        private void OnEnable() => StartCoroutine(CheckOverlap());
 
         private IEnumerator CheckOverlap()
         {
@@ -26,16 +20,17 @@ namespace Script.Dragon
                 source.GenerateImpulse();
             }
 
-            if (Physics.OverlapSphereNonAlloc(transform.position, radius, result, layer) != 0)
+            if (Physics.OverlapSphereNonAlloc(_DragonController.transform.position, radius, result, layer) != 0)
             {
                 if (hasDamage)
                 {
-                    _PlayerController.TakeDamage(_DragonController.DragonStat.damage,
-                        (_PlayerController.transform.position - transform.position).normalized);
+                    _PlayerController.TakeDamage(_DragonController.Stat.damage,
+                        (_PlayerController.transform.position - _DragonController.transform.position).normalized);
                 }
                 else
                 {
-                    _PlayerController.UseFallDown((_PlayerController.transform.position - transform.position).normalized,5f);
+                    _PlayerController.UseFallDown(
+                        (_PlayerController.transform.position - _DragonController.transform.position).normalized, 5f);
                 }
             }
         }

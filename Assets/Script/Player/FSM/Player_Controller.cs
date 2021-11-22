@@ -20,13 +20,13 @@ namespace Script.Player.FSM
         private StateMachine<Player_Controller> m_Machine;
         private Rigidbody m_Rig;
 
-        public PlayerStatus PlayerStat { get; private set; }
+        public PlayerStatus Stat { get; private set; }
         [HideInInspector] public EPlayerFlag playerFlag;
 
         private void Awake()
         {
             m_Rig = GetComponent<Rigidbody>();
-            PlayerStat = new PlayerStatus();
+            Stat = new PlayerStatus();
 
             m_Machine = new StateMachine<Player_Controller>(GetComponent<Animator>(), this, new Player_Movement());
             m_Machine.SetState(new Player_WeaponChange());
@@ -42,10 +42,13 @@ namespace Script.Player.FSM
             m_Machine.SetState(new Player_Dead());
 
             playerFlag |= EPlayerFlag.Sword;
-            Cursor.visible = false;
         }
 
-        private void Update() => m_Machine?.OnUpdate();
+        private void Update()
+        {
+            DeBugInPlay();
+            m_Machine?.OnUpdate();
+        }
 
         public void TakeDamage(int damage, Vector3 dir)
         {
@@ -56,10 +59,10 @@ namespace Script.Player.FSM
                 return;
             }
 
-            PlayerStat.health -= damage;
+            Stat.health -= damage;
             UseFallDown(dir, 5f);
 
-            if (PlayerStat.health <= 0)
+            if (Stat.health <= 0)
             {
                 m_Machine.ChangeState(typeof(Player_Dead));
             }
@@ -71,6 +74,20 @@ namespace Script.Player.FSM
                 return;
             m_Machine.ChangeState(typeof(Player_FallDown));
             m_Rig.AddForce(dir * force, ForceMode.Impulse);
+        }
+
+        public void DeBugInPlay()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                m_Machine.ChangeState(typeof(Player_Dead));
+            }
+
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                var _dir = transform.position - _DragonController.transform.position;
+                UseFallDown(_dir.normalized, 5f);
+            }
         }
     }
 }

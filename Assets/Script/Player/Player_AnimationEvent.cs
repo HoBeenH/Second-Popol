@@ -6,52 +6,44 @@ namespace Script.Player
 {
     public class Player_AnimationEvent : MonoBehaviour
     {
-        private readonly int m_NowWeapon = Animator.StringToHash("NowWeapon");
-        private Collider m_WeaponCollider;
-        [SerializeField] private GameObject m_ObjWeapon;
-        private Animator m_Animator;
+        private readonly int m_Hash = Animator.StringToHash("NowWeapon");
+        private Collider m_Col;
+        [SerializeField] private GameObject m_Obj;
+        private Animator m_Anim;
 
         #region Animation Event
 
         private void Awake()
         {
-            m_Animator = GetComponent<Animator>();
-            m_WeaponCollider = m_ObjWeapon.GetComponent<BoxCollider>();
+            m_Anim = GetComponent<Animator>();
+            m_Col = m_Obj.GetComponent<BoxCollider>();
         }
 
         public void WeaponAnimEvent()
         {
             if (_PlayerController.playerFlag.HasFlag(EPlayerFlag.Sword))
             {
-                m_ObjWeapon.SetActive(false);
+                m_Obj.SetActive(false);
                 _PlayerController.playerFlag |= EPlayerFlag.Magic;
                 _PlayerController.playerFlag &= ~EPlayerFlag.Sword;
-                m_Animator.SetBool(m_NowWeapon, false);
+                m_Anim.SetBool(m_Hash, false);
             }
             else if (_PlayerController.playerFlag.HasFlag(EPlayerFlag.Magic))
             {
-                m_ObjWeapon.SetActive(true);
+                m_Obj.SetActive(true);
                 _PlayerController.playerFlag |= EPlayerFlag.Sword;
                 _PlayerController.playerFlag &= ~EPlayerFlag.Magic;
-                m_Animator.SetBool(m_NowWeapon, true);
+                m_Anim.SetBool(m_Hash, true);
             }
         }
 
-        public void WeaponCollider(int zeroIsFalse)
-        {
-            switch (zeroIsFalse)
+        public void WeaponCollider(int zeroIsFalse) =>
+            m_Col.enabled = zeroIsFalse switch
             {
-                case 0:
-                    m_WeaponCollider.enabled = false;
-                    break;
-                case 1:
-                    m_WeaponCollider.enabled = true;
-                    break;
-                default:
-                    Debug.LogError($"{zeroIsFalse} Is Unknown Num");
-                    break;
-            }
-        }
+                0 => false,
+                1 => true,
+                _ => false
+            };
 
         #endregion
     }

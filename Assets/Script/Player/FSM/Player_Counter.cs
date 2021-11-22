@@ -12,23 +12,17 @@ namespace Script.Player.FSM
         public Player_Counter() : base("Base Layer.Skill.Parrying.WSkill") =>
             m_WSkillHash = Animator.StringToHash("WSkill");
 
-        protected override void Init()
-        {
-            m_Source = Camera.main.gameObject.GetComponent<CinemachineImpulseSource>();
-        }
+        protected override void Init() => m_Source = Camera.main.gameObject.GetComponent<CinemachineImpulseSource>();
 
         public override void OnStateEnter()
         {
             m_Source.GenerateImpulse();
             _EffectManager.EffectPlayerWeapon(true);
-            _DragonController.TakeDamage(owner.PlayerStat.damage);
+            _DragonController.TakeDamage(owner.Stat.damage);
             machine.anim.SetTrigger(m_WSkillHash);
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
         }
 
-        public override void OnStateExit()
-        {
-            _EffectManager.EffectPlayerWeapon(false);
-        }
+        public override void OnStateExit() => _EffectManager.EffectPlayerWeapon(false);
     }
 }

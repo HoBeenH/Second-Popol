@@ -22,15 +22,9 @@ namespace Script.Player.FSM
         private readonly Type m_ChangeWeapon = typeof(Player_WeaponChange);
         private readonly Type m_Sliding = typeof(Player_Sliding);
 
-        protected override void Init()
-        {
-            m_CamPos = Camera.main.transform;
-        }
+        protected override void Init() => m_CamPos = Camera.main.transform;
 
-        public override void OnStateEnter()
-        {
-            isMove = false;
-        }
+        public override void OnStateEnter() => isMove = false;
 
         public override void OnStateChangePoint()
         {
@@ -108,8 +102,8 @@ namespace Script.Player.FSM
 
             var _moveDIr = new Vector3(_x, 0f, _z).normalized;
             owner.transform.forward = Vector3.Lerp(owner.transform.forward, _lookForward,
-                owner.PlayerStat.rotSpeed * Time.deltaTime);
-            owner.transform.Translate(_moveDIr * (Time.deltaTime * (owner.PlayerStat.moveSpeed + m_RunSpeed)));
+                owner.Stat.rotSpeed * Time.deltaTime);
+            owner.transform.Translate(_moveDIr * (Time.deltaTime * (owner.Stat.moveSpeed + m_RunSpeed)));
         }
 
         public override void OnStateExit()

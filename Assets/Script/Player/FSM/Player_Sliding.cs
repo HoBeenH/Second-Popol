@@ -6,13 +6,10 @@ namespace Script.Player.FSM
     {
         private readonly int m_SlidingHash;
         private Rigidbody m_Rigidbody;
-        
+
         public Player_Sliding() : base("Base Layer.Skill.Sliding") => m_SlidingHash = Animator.StringToHash("Sliding");
 
-        protected override void Init()
-        {
-            m_Rigidbody = owner.GetComponent<Rigidbody>();
-        }
+        protected override void Init() => m_Rigidbody = owner.GetComponent<Rigidbody>();
 
         public override void OnStateEnter()
         {

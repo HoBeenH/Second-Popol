@@ -1,4 +1,5 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,11 +21,16 @@ namespace Script.Dragon.FSM
         [HideInInspector] public EDragonFlag stateFlag = EDragonFlag.Default;
         [HideInInspector] public LayerMask playerMask = 1 << 10;
         [HideInInspector] public NavMeshAgent nav;
-        public DragonStatus DragonStat { get; private set; }
+        public DragonStatus Stat { get; private set; }
 
         private void Awake()
         {
-            DragonStat = new DragonStatus();
+            Cam.Instance.end += Init;
+        }
+
+        public void Init()
+        {
+            Stat = new DragonStatus();
             nav = GetComponent<NavMeshAgent>();
             m_Machine = new StateMachine<Dragon_Controller>(GetComponent<Animator>(), this, new Dragon_Movement());
             m_Machine.SetState(new Dragon_Bite());
@@ -41,13 +47,21 @@ namespace Script.Dragon.FSM
 
         public void TakeDamage(int damage)
         {
-            DragonStat.health -= damage;
-            if (DragonStat.health <= 0f)
+            Stat.health -= damage;
+            if (Stat.health <= 0f)
             {
                 m_Machine.ChangeState(typeof(Dragon_Dead));
             }
         }
 
         public void Stun() => m_Machine.ChangeState(typeof(Dragon_Stun));
+
+        public void Debug()
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                m_Machine.ChangeState(typeof(Dragon_Dead));
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Script.Dragon;
 using UnityEngine;
+using XftWeapon;
 using static Script.Facade;
 
 namespace Script
@@ -14,6 +15,7 @@ namespace Script
         private readonly Queue<PSMeshRendererUpdater> m_WeaponEffectsPs = new Queue<PSMeshRendererUpdater>();
         private readonly Queue<GameObject> m_WeaponEffects = new Queue<GameObject>();
         private readonly WaitForSeconds m_ReturnDelay = new WaitForSeconds(3.0f);
+        [SerializeField] private XWeaponTrail weaponTrail;
 
         // 이펙트 스폰 위치
         [SerializeField] private Transform m_ObjWeapon;
@@ -35,6 +37,19 @@ namespace Script
             {
                 m_WeaponEffectsPs.Dequeue().IsActive = false;
                 _ObjPool.ReTurnObj(m_WeaponEffects.Dequeue(), EPrefabName.PlayerWeaponEffect, m_ReturnDelay);
+            }
+        }
+
+        public void TrailEffect(bool isActive)
+        {
+            switch (isActive)
+            {
+                case true:
+                    weaponTrail.gameObject.SetActive(true);
+                    break;
+                case false:
+                    weaponTrail.gameObject.SetActive(false);
+                    break;
             }
         }
 
@@ -108,51 +123,22 @@ namespace Script
 
         #region DragonEffect
 
-        private readonly Queue<PSMeshRendererUpdater> m_MeshPS = new Queue<PSMeshRendererUpdater>();
-        private readonly Queue<GameObject> m_MeshEffect = new Queue<GameObject>();
-        [SerializeField] private Dragon_BreathCollider dragonBreath;
-        [SerializeField] private GameObject backPos;
-        [SerializeField] private GameObject upPos;
+        private PSMeshRendererUpdater m_MeshPS;
+        [SerializeField] private GameObject ultBK;
+        [SerializeField] private GameObject ultUP;
 
         public void ActiveDragonMeshEffect(EPrefabName meshName)
         {
-            var obj = GetMeshEffect(meshName, _DragonController.transform.position, _DragonController.gameObject);
-            m_MeshEffect.Enqueue(obj.gameObject);
-            m_MeshPS.Enqueue(obj);
+            m_MeshPS = GetMeshEffect(meshName, _DragonController.transform.position, _DragonController.gameObject);
+            m_MeshPS.IsActive = true;
         }
 
-        public void DeActiveDragonMeshEffect()
-        {
-            m_MeshPS.Dequeue().IsActive = false;
-            m_MeshEffect.Dequeue();
-        }
-
-        public void DragonBreath(bool isActive, WaitForSeconds time = null)
-        {
-            if (time != null)
-            {
-                StartCoroutine(DragonDelayBreath(isActive, time));
-                return;
-            }
-
-            dragonBreath.SetEnable(isActive, 1);
-        }
-
-        public void SetActiveDragonFlyBreath(bool isActive)
-        {
-            dragonBreath.SetEnable(isActive, 2);
-        }
+        public void DeActiveDragonMeshEffect() => m_MeshPS.IsActive = false;
 
         public void SetActiveUltimate(bool isActive)
         {
-            upPos.SetActive(isActive);
-            backPos.SetActive(isActive);
-        }
-
-        private IEnumerator DragonDelayBreath(bool isActive, WaitForSeconds time)
-        {
-            yield return time;
-            dragonBreath.SetEnable(isActive, 1);
+            ultUP.SetActive(isActive);
+            ultBK.SetActive(isActive);
         }
 
         #endregion

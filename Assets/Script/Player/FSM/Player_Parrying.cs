@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static Script.Facade;
 
 namespace Script.Player.FSM
 {
@@ -14,11 +15,13 @@ namespace Script.Player.FSM
             owner.playerFlag |= EPlayerFlag.Parry;
             machine.anim.SetTrigger(m_ParryingHash);
             machine.cancel.Add(owner.StartCoroutine(machine.WaitForState(animToHash)));
+            _EffectManager.TrailEffect(true);
         }
 
-        public override void OnStateExit()
+        public override void OnStateExit() 
         {
             owner.playerFlag &= ~EPlayerFlag.Parry;
+            _EffectManager.TrailEffect(false);
         }
     }
 }

@@ -12,10 +12,8 @@ namespace Script.Player.FSM
 
         public override void OnStateEnter()
         {
-            foreach (var state in machine.cancel)
-            {
-                owner.StopCoroutine(state);
-            }
+            machine.cancel.ForEach(s => owner.StopCoroutine(s));
+
             // 누워있는상태에서는 FallDown 안되게 만듬
             owner.playerFlag |= EPlayerFlag.FallDown;
             var _transform = owner.transform;
@@ -34,9 +32,6 @@ namespace Script.Player.FSM
             }
         }
 
-        public override void OnStateExit()
-        {
-            owner.playerFlag &= ~EPlayerFlag.FallDown;
-        }
+        public override void OnStateExit() => owner.playerFlag &= ~EPlayerFlag.FallDown;
     }
 }

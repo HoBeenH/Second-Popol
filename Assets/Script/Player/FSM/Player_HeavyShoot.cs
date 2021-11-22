@@ -15,10 +15,7 @@ namespace Script.Player.FSM
         public Player_HeavyShoot() : base("Base Layer.Skill.Heavy Shoot") =>
             m_HeavyShootHash = Animator.StringToHash("Heavy Shoot");
 
-        protected override void Init()
-        {
-            _SkillManager.AddSkill(typeof(Player_HeavyShoot),15f);
-        }
+        protected override void Init() => _SkillManager.AddSkill(typeof(Player_HeavyShoot), 15f);
 
         public override void OnStateEnter()
         {

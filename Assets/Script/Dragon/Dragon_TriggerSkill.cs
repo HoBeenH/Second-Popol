@@ -25,7 +25,7 @@ namespace Script.Dragon
         {
             if (other.CompareTag("Player"))
             {
-                _PlayerController.TakeDamage(_DragonController.DragonStat.damage,
+                _PlayerController.TakeDamage(_DragonController.Stat.damage,
                     (_PlayerController.transform.position - transform.position).normalized);
 
                 HitTrigger();

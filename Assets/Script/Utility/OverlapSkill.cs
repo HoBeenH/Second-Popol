@@ -25,9 +25,6 @@ namespace Script
             layer = mask;
         }
 
-        private void OnDisable()
-        {
-            Array.Clear(result,0,1);
-        }
+        private void OnDisable() => Array.Clear(result, 0, 1);
     }
 }

@@ -20,10 +20,7 @@ namespace Script.Player.FSM
                 : owner.StartCoroutine(machine.WaitForState(m_Magic)));
         }
 
-        public override void OnStateExit()
-        {
-            machine.anim.SetLayerWeight(1, 0);
-        }
+        public override void OnStateExit() => machine.anim.SetLayerWeight(1, 0);
 
         public override void OnStateChangePoint()
         {

@@ -59,12 +59,10 @@ namespace Script.Dragon.FSM
             {
                 machine.anim.SetLayerWeight(1, 0.5f);
                 machine.anim.SetTrigger(m_BreathHash);
-                _EffectManager.SetActiveDragonFlyBreath(true);
             }
             else
             {
                 machine.anim.SetLayerWeight(1, 0);
-                _EffectManager.SetActiveDragonFlyBreath(false);
                 machine.anim.SetTrigger(m_FlyHash);
             }
         }

@@ -10,7 +10,7 @@ namespace Script
         [SerializeField] protected EPrefabName m_TriggerEffect;
         [SerializeField] protected float speed;
         private readonly WaitForSeconds m_HitDelay = new WaitForSeconds(2f);
-        private readonly WaitForSeconds m_Return= new WaitForSeconds(20f);
+        private readonly WaitForSeconds m_Return = new WaitForSeconds(20f);
         private Transform[] m_Tr;
         private Collider m_Col;
 
@@ -20,15 +20,9 @@ namespace Script
             m_Col = GetComponent<Collider>();
         }
 
-        private void OnEnable()
-        {
-            m_Col.enabled = true;
-        }
+        private void OnEnable() => m_Col.enabled = true;
 
-        private void OnDisable()
-        {
-            m_Col.enabled = false;
-        }
+        private void OnDisable() => m_Col.enabled = false;
 
         private void Update()
         {
@@ -55,17 +49,15 @@ namespace Script
             yield return m_HitDelay;
             this.gameObject.SetActive(false);
         }
-        
+
         private struct MoveJob : IJobParallelForTransform
         {
             public Vector3 moveDir;
             public float deltaTime;
             public float speed;
-            
-            public void Execute(int index, TransformAccess transform)
-            {
+
+            public void Execute(int index, TransformAccess transform) =>
                 transform.position += (moveDir * speed * deltaTime);
-            }
         }
     }
 }

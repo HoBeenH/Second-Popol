@@ -13,10 +13,7 @@ namespace Script.Player.FSM
         public Player_MagicTopDown() : base("Base Layer.Skill.Top Down") =>
             m_TopDownHash = Animator.StringToHash("Top Down");
 
-        protected override void Init()
-        {
-            _SkillManager.AddSkill(typeof(Player_MagicTopDown), 10f);
-        }
+        protected override void Init() => _SkillManager.AddSkill(typeof(Player_MagicTopDown), 10f);
 
         public override void OnStateEnter()
         {

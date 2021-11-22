@@ -21,16 +21,9 @@ namespace Script.Dragon.FSM
             SetEffect();
         }
 
-        public override void OnStateExit()
-        {
-            _EffectManager.DragonBreath(false);
-            owner.stateFlag &= ~EDragonFlag.CantParry;
-        }
+        public override void OnStateExit() => owner.stateFlag &= ~EDragonFlag.CantParry;
 
-        private void SetEffect()
-        {
-            _EffectManager.GetEffect(EPrefabName.BreathForce, owner.transform.position, null, m_ForceReturn, m_ForceDelay);
-            _EffectManager.DragonBreath(true, m_BreathDelay);
-        }
+        private void SetEffect() => _EffectManager.GetEffect(EPrefabName.BreathForce, owner.transform.position, 
+            null, m_ForceReturn, m_ForceDelay);
     }
 }

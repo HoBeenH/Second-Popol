@@ -16,14 +16,11 @@ namespace Script.Dragon
             type = ESpawnType.Down;
         }
 
-        private void OnEnable()
-        {
-            StartCoroutine(nameof(DownSpawner));
-        }
+        private void OnEnable() => StartCoroutine(nameof(DownSpawner));
 
         private IEnumerator DownSpawner()
         {
-            var _pos = CreateUltimatePosJob.CreateRandomPos(type, size.x, size.z, loop, pivot);
+            var _pos = CreateRandomPos(type, size.x, size.z, loop, pivot);
             for (var i = 0; i < loop; i++)
             {
                 _EffectManager.GetEffect(EPrefabName.FireDragon, _pos[i], null, m_DownReturn);

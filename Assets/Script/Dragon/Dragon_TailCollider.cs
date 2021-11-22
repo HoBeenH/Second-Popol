@@ -8,16 +8,13 @@ namespace Script.Dragon
     {
         public Collider[] m_Tails;
 
-        private void Awake()
-        {
-            m_Tails = GetComponentsInChildren<Collider>();
-        }
+        private void Awake() => m_Tails = GetComponentsInChildren<Collider>();
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                _PlayerController.TakeDamage(_DragonController.DragonStat.damage,
+                _PlayerController.TakeDamage(_DragonController.Stat.damage,
                     (other.transform.position - transform.position).normalized);
                 foreach (var tail in m_Tails)
                 {

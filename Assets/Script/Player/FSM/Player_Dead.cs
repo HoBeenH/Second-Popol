@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Sirenix.Utilities;
+using UnityEngine;
+using Random = Unity.Mathematics.Random;
 
 namespace Script.Player.FSM
 {
@@ -12,14 +14,13 @@ namespace Script.Player.FSM
 
         protected override void Init()
         {
-            var _find = owner.GetComponentsInChildren<Transform>();
-            foreach (var _child in _find)
+            owner.GetComponentsInChildren<Transform>().ForEach(t =>
             {
-                if (_child.name == "root")
+                if (t.name == "root")
                 {
-                    m_Root = _child.gameObject;
+                    m_Root = t.gameObject;
                 }
-            }
+            });
             m_Collider = m_Root.GetComponentsInChildren<Collider>();
             m_Rig = m_Root.GetComponentsInChildren<Rigidbody>();
             m_MainCol = owner.GetComponent<CapsuleCollider>();
@@ -37,16 +38,13 @@ namespace Script.Player.FSM
             m_MainCol.enabled = false;
             machine.anim.enabled = false;
             m_MainRig.isKinematic = true;
-            foreach (var col in m_Rig)
+            m_Rig.ForEach(r =>
             {
-                col.isKinematic = false;
-            }
-            
-            foreach (var col in m_Collider)
-            {
-                col.enabled = true;
-            }
+                r.isKinematic = false;
+                r.useGravity = true;
+            });
 
+            m_Collider.ForEach(c => c.isTrigger = false);
         }
     }
 }

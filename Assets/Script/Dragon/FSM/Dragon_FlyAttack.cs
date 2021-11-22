@@ -66,7 +66,7 @@ namespace Script.Dragon.FSM
 
             if (Physics.OverlapSphereNonAlloc(hit.point, RADIUS, m_Results, owner.playerMask) != 0)
             {
-                _PlayerController.TakeDamage(owner.DragonStat.damage,
+                _PlayerController.TakeDamage(owner.Stat.damage,
                     (_PlayerController.transform.position - m_DragonTr.position).normalized);
                 Array.Clear(m_Results, 0, 1);
             }
